@@ -11,6 +11,7 @@ import Cocoa
 class ViewController: NSViewController {
     @IBOutlet weak var filenameLabel: NSTextField!
     @IBOutlet weak var peopleCountLabel: NSTextField!
+    @IBOutlet weak var personSelectPopup: NSPopUpButton!
     
     var hasTree: Bool {
         get {
@@ -21,6 +22,8 @@ class ViewController: NSViewController {
             }
         }
     }
+    
+    var popupArray = [Person]()
     
     var tree = Tree() {
         didSet {
@@ -52,6 +55,10 @@ class ViewController: NSViewController {
     func updateViewFromTree() {
         self.filenameLabel.stringValue = "Family Tree"
         self.peopleCountLabel.stringValue = self.tree.description
+        self.personSelectPopup.addItemsWithTitles(self.tree.indexOfPeople)
+    }
+    
+    @IBAction func selectNewPerson(sender: AnyObject) {
     }
 }
 

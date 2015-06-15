@@ -25,8 +25,21 @@ extension String {
 
 ///Represents the entire tree
 class Tree: CustomStringConvertible {
+    ///List of Person objects in the tree
     var people = [Person]()
     
+    ///List of Person objects in ID:Description format
+    var indexOfPeople: [String] {
+        get {
+            var to_return = [String]()
+            for p in people {
+                to_return.append(p.description)
+            }
+            return to_return
+        }
+    }
+    
+    ///Get a person based on their ID
     func getPerson(id id: Int) -> Person? {
         for p in self.people {
             if p.INDI == id {
@@ -36,6 +49,7 @@ class Tree: CustomStringConvertible {
         return nil
     }
     
+    ///Get a person by their name, e.g. Kezia Lind, Kezia Sørbøe
     func getPerson(givenName firstName: String, familyName lastName: String) -> Person? {
         for p in self.people {
             if p.nameNow.givenName.lowercaseString == firstName.lowercaseString && p.nameNow.familyName.lowercaseString == lastName.lowercaseString {
@@ -48,6 +62,7 @@ class Tree: CustomStringConvertible {
         return nil
     }
     
+    ///Description of the tree
     var description: String {
         get {
             return "Tree with \(people.count) people"
