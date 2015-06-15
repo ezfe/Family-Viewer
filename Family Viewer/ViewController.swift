@@ -13,6 +13,12 @@ class ViewController: NSViewController {
     @IBOutlet weak var peopleCountLabel: NSTextField!
     @IBOutlet weak var personSelectPopup: NSPopUpButton!
     
+    override func viewDidLoad() {
+    
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
+        
+    }
+    
     var hasTree: Bool {
         get {
             if let _ = self.representedObject as? Tree {
@@ -25,30 +31,14 @@ class ViewController: NSViewController {
     
     var popupArray = [Person]()
     
-    var tree = Tree() {
-        didSet {
-            self.updateViewFromTree()
-        }
-    }
-    
-    
-    override func viewDidLoad() {
-        
-    }
-
-    override var representedObject: AnyObject? {
+    var tree: Tree {
         set(newValue) {
-            if let newTree = newValue as? Tree {
-                //Save new value if it is a Tree
-                self.tree = newTree
-            } else {
-                //Do nothing if new value isn't a Tree
-                return
-            }
+            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.tree = newValue
         }
         get {
-            //Return the tree as an AnyObject
-            return self.tree as AnyObject
+            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+            return appDelegate.tree
         }
     }
     
@@ -57,7 +47,11 @@ class ViewController: NSViewController {
         self.peopleCountLabel.stringValue = self.tree.description
         self.personSelectPopup.addItemsWithTitles(self.tree.indexOfPeople)
         
-        print(self.tree.dictionary.writeToFile("/Users/ezekielelin/Desktop/test.xml", atomically: true))
+//        print(self.tree.dictionary.writeToFile("/Users/ezekielelin/Desktop/test.xml",
+    }
+    
+    func treeDidUpdate() {
+        updateViewFromTree()
     }
     
     @IBAction func selectNewPerson(sender: AnyObject) {
