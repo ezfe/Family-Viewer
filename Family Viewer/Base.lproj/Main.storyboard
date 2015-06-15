@@ -673,22 +673,192 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField identifier="docLabel" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M2B-2x-S2n">
-                                <rect key="frame" x="18" y="233" width="37" height="17"/>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dDJ-AX-vnQ">
+                                <rect key="frame" x="20" y="228" width="129" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="129" id="S89-4d-6mc"/>
+                                    <constraint firstAttribute="height" constant="22" id="dNu-bc-GNX"/>
+                                </constraints>
                                 <animations/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="bEg-vZ-ks1">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="First Name (Kirsten)" drawsBackground="YES" id="8cW-He-T08">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dGK-MO-ckt">
+                                <rect key="frame" x="157" y="228" width="129" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="5EL-ZG-aBf"/>
+                                    <constraint firstAttribute="width" constant="129" id="c45-5x-w1o"/>
+                                </constraints>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Last Name (Elin)" drawsBackground="YES" id="jiR-0S-8OP">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V5f-98-hyL">
+                                <rect key="frame" x="294" y="226" width="44" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="Ras-oE-ft0"/>
+                                </constraints>
+                                <animations/>
+                                <buttonCell key="cell" type="roundTextured" title="View" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ARv-kM-zsu">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="updateButton:" target="5gI-5U-AMq" id="R7X-U3-Unh"/>
+                                </connections>
+                            </button>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pbH-SV-VbO">
+                                <rect key="frame" x="18" y="179" width="322" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="318" id="5ze-nV-4lB"/>
+                                    <constraint firstAttribute="height" constant="17" id="c5d-RQ-5fo"/>
+                                </constraints>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="%%HUSBAND NAME%%" id="rjO-2v-7DI">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UTZ-7r-Dox">
+                                <rect key="frame" x="18" y="154" width="322" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="5AV-Ol-ziO"/>
+                                    <constraint firstAttribute="width" constant="318" id="N3c-ZM-PuA"/>
+                                </constraints>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="%%WIFE NAME%%" id="Yiu-63-6ya">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xoY-pn-29i">
+                                <rect key="frame" x="18" y="20" width="322" height="126"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="318" id="gDn-yU-Q3P"/>
+                                    <constraint firstAttribute="height" constant="126" id="kTM-Zj-EGW"/>
+                                </constraints>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="%%CHILDREN NAMES%%" id="Na5-4f-6L2">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="x0A-7t-VDD">
+                                <rect key="frame" x="19" y="203" width="68" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="65" id="kE9-6o-DgQ"/>
+                                    <constraint firstAttribute="height" constant="16" id="suH-Fa-JVL"/>
+                                </constraints>
+                                <animations/>
+                                <buttonCell key="cell" type="radio" title="S" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="uJD-sz-8iV">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="spouseRadio:" target="5gI-5U-AMq" id="uWE-5o-9r8"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="VFs-ad-Vz9">
+                                <rect key="frame" x="92" y="203" width="54" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="HAI-6j-fCH"/>
+                                    <constraint firstAttribute="width" constant="51" id="UXg-7h-V9n"/>
+                                </constraints>
+                                <animations/>
+                                <buttonCell key="cell" type="radio" title="C" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="boe-hC-UIV">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="childRadio:" target="5gI-5U-AMq" id="2fy-pt-xvH"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UDe-A0-c77">
+                                <rect key="frame" x="18" y="179" width="237" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="byI-30-i1U"/>
+                                    <constraint firstAttribute="width" constant="233" id="wtg-0u-VdP"/>
+                                </constraints>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="No Result Found (or no query entered)" id="Lqh-al-g5W">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zk4-CV-njL">
+                                <rect key="frame" x="20" y="233" width="108" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="0DT-b8-7ax"/>
+                                    <constraint firstAttribute="width" constant="104" id="Knk-6f-ajQ"/>
+                                </constraints>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Empty document" id="cO0-r8-qoy">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="x0A-7t-VDD" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="0JG-ul-9bF"/>
+                            <constraint firstItem="zk4-CV-njL" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="22" id="20Z-wb-iae"/>
+                            <constraint firstItem="dDJ-AX-vnQ" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="20" id="2SH-Bl-ZyN"/>
+                            <constraint firstItem="dGK-MO-ckt" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="20" id="2Wm-Xq-ufk"/>
+                            <constraint firstItem="VFs-ad-Vz9" firstAttribute="top" secondItem="dDJ-AX-vnQ" secondAttribute="bottom" constant="8" id="39C-xw-cqY"/>
+                            <constraint firstItem="xoY-pn-29i" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="67F-WP-JIs"/>
+                            <constraint firstItem="dGK-MO-ckt" firstAttribute="leading" secondItem="dDJ-AX-vnQ" secondAttribute="trailing" constant="8" id="9Qh-3s-Zxn"/>
+                            <constraint firstItem="UTZ-7r-Dox" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="AZS-P1-tqu"/>
+                            <constraint firstItem="V5f-98-hyL" firstAttribute="leading" secondItem="dGK-MO-ckt" secondAttribute="trailing" constant="8" id="BbE-yd-3ac"/>
+                            <constraint firstItem="dDJ-AX-vnQ" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="HZj-xO-9ui"/>
+                            <constraint firstItem="xoY-pn-29i" firstAttribute="top" secondItem="UTZ-7r-Dox" secondAttribute="bottom" constant="8" id="JHo-nO-UaE"/>
+                            <constraint firstItem="UDe-A0-c77" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="LSW-q8-WoC"/>
+                            <constraint firstItem="V5f-98-hyL" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="20" id="NAR-xw-r4c"/>
+                            <constraint firstItem="zk4-CV-njL" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="20" id="OQO-Iz-vDg"/>
+                            <constraint firstItem="UTZ-7r-Dox" firstAttribute="top" secondItem="pbH-SV-VbO" secondAttribute="bottom" constant="8" id="SKE-sW-73A"/>
+                            <constraint firstItem="VFs-ad-Vz9" firstAttribute="leading" secondItem="x0A-7t-VDD" secondAttribute="trailing" constant="8" id="SlM-xR-dyl"/>
+                            <constraint firstItem="xoY-pn-29i" firstAttribute="top" secondItem="UTZ-7r-Dox" secondAttribute="bottom" constant="8" id="TuS-ee-N79"/>
+                            <constraint firstAttribute="trailing" secondItem="VFs-ad-Vz9" secondAttribute="trailing" constant="336" id="ZhX-oi-Adt"/>
+                            <constraint firstItem="x0A-7t-VDD" firstAttribute="top" secondItem="dDJ-AX-vnQ" secondAttribute="bottom" constant="8" id="bqE-jM-YuO"/>
+                            <constraint firstItem="UDe-A0-c77" firstAttribute="top" secondItem="x0A-7t-VDD" secondAttribute="bottom" constant="8" id="dTF-12-Owr"/>
+                            <constraint firstItem="VFs-ad-Vz9" firstAttribute="top" secondItem="dDJ-AX-vnQ" secondAttribute="bottom" constant="8" id="f0L-x7-z2N"/>
+                            <constraint firstItem="pbH-SV-VbO" firstAttribute="top" secondItem="x0A-7t-VDD" secondAttribute="bottom" constant="8" id="fO0-xv-sAg"/>
+                            <constraint firstAttribute="bottom" secondItem="xoY-pn-29i" secondAttribute="bottom" constant="20" id="jge-hx-Ryq"/>
+                            <constraint firstItem="VFs-ad-Vz9" firstAttribute="leading" secondItem="x0A-7t-VDD" secondAttribute="trailing" constant="8" id="llE-Xl-5Ad"/>
+                            <constraint firstItem="pbH-SV-VbO" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="p7B-sv-Yko"/>
+                            <constraint firstItem="pbH-SV-VbO" firstAttribute="top" secondItem="dGK-MO-ckt" secondAttribute="bottom" constant="32" id="sAv-cs-efF"/>
+                            <constraint firstItem="pbH-SV-VbO" firstAttribute="top" secondItem="VFs-ad-Vz9" secondAttribute="bottom" constant="8" id="xQ6-Ha-PfR"/>
+                        </constraints>
                         <animations/>
                     </view>
+                    <connections>
+                        <outlet property="childRadio" destination="VFs-ad-Vz9" id="az1-Y0-zr6"/>
+                        <outlet property="childrenLabel" destination="xoY-pn-29i" id="7qD-6J-RP3"/>
+                        <outlet property="firstNameField" destination="dDJ-AX-vnQ" id="0Aq-RI-ONs"/>
+                        <outlet property="husbandLabel" destination="pbH-SV-VbO" id="sES-64-tZy"/>
+                        <outlet property="lastNameField" destination="dGK-MO-ckt" id="wrg-M9-cB8"/>
+                        <outlet property="noDataLabel" destination="zk4-CV-njL" id="nQP-sQ-urB"/>
+                        <outlet property="notFoundLabel" destination="UDe-A0-c77" id="oql-fP-BxJ"/>
+                        <outlet property="spouseRadio" destination="x0A-7t-VDD" id="DOB-Bo-WU8"/>
+                        <outlet property="updateButton" destination="V5f-98-hyL" id="wdK-3P-Oa7"/>
+                        <outlet property="wifeLabel" destination="UTZ-7r-Dox" id="SOX-Gd-HoA"/>
+                    </connections>
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="190" y="665"/>
         </scene>
     </scenes>
 </document>

@@ -47,11 +47,16 @@ enum FamilyType {
 }
 
 ///Represents a family
-class Family {
+class Family: CustomStringConvertible {
+    ///INDI Code, not including preceding @F and trailing @
     var FAM: Int?
+    ///Husband in the family
     var husband: Person?
+    ///Wife in the family
     var wife: Person?
+    ///Children in the family
     var children = [Person]()
+    ///Family type (relationship between husband and wife)
     var type: FamilyType?
     
     init(gedcomEntity ge: [String], tree t: Tree) {
@@ -66,10 +71,22 @@ class Family {
                 self.wife = t.getPersonByID(id: wifeID)
             } else if row.rangeOfString("CHIL") != nil {
                 let childID = Int(row.stringByReplacingOccurrencesOfString("1 CHIL @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
-                self.children.append(t.getPersonByID(id: childID))
+                guard let child = t.getPersonByID(id: childID) else {
+                    continue
+                }
+                self.children.append(child)
             } else if row.rangeOfString("MARR") != nil {
                 self.type = FamilyType.Married
             }
+        }
+    }
+    
+    var description: String {
+        get {
+            guard let h = self.husband, w = self.wife else {
+                return "H: \(husband), W: \(wife), C: \(children)"
+            }
+            return "H: \(h), W: \(w), C: \(children)"
         }
     }
 }
@@ -153,9 +170,9 @@ class Person: CustomStringConvertible {
                 }
             }
         }
-        print(self)
     }
     
+    ///Description of person, e.g. Kirsten (Smith) Elin
     var description: String {
         get {
             if let givenFamilyName = self.givenFamilyName {
@@ -205,6 +222,5 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
             tree.families.append(f)
         }
     }
-    
     return tree
 }
