@@ -23,10 +23,12 @@ class ViewController: NSViewController {
                 representedObject = nil
                 return
             }
-            for f in tree.families {
-                print(f)
+            if let p = tree.getPerson(givenName: "Ezekiel", familyName: "Elin") {
+                print(p.allSiblings)
+                print(p.fullSiblings)
+            } else {
+                print("Couldn't find...")
             }
-            print(tree.people.count)
         }
     }
 }

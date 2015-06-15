@@ -27,9 +27,21 @@ extension String {
 class Tree {
     var people = [Person]()
     
-    func getPersonByID(id id: Int) -> Person? {
+    func getPerson(id id: Int) -> Person? {
         for p in self.people {
             if p.INDI == id {
+                return p
+            }
+        }
+        return nil
+    }
+    
+    func getPerson(givenName firstName: String, familyName lastName: String) -> Person? {
+        for p in self.people {
+            if p.nameNow.givenName.lowercaseString == firstName.lowercaseString && p.nameNow.familyName.lowercaseString == lastName.lowercaseString {
+                return p
+            }
+            if p.nameAtBirth.givenName.lowercaseString == firstName.lowercaseString && p.nameAtBirth.familyName.lowercaseString == lastName.lowercaseString {
                 return p
             }
         }
@@ -148,6 +160,16 @@ func convertFEDate(date d: String) -> Date {
 
 ///Represents a person in the family
 class Person: CustomStringConvertible {
+    ///Name String
+    var description: String {
+        get {
+            if self.nameAtBirth.familyName != self.nameNow.familyName {
+                return "\(self.nameNow.givenName) (\(self.nameAtBirth.familyName)) \(self.nameNow.familyName)"
+            } else {
+                return "\(self.nameNow.givenName) \(self.nameNow.familyName)"
+            }
+        }
+    }
     ///Name components
     var nameNow = NSPersonNameComponents()
     ///Maiden name
@@ -189,6 +211,39 @@ class Person: CustomStringConvertible {
             return to_return
         }
     }
+    ///List of siblings that share at least one parent (includes half siblings)
+    var allSiblings: [Person] {
+        get {
+            var to_return = [Person]()
+            for p in self.tree.people {
+                if p.INDI! == self.INDI! {
+                    continue
+                }
+                if p.parentA?.INDI! == self.parentA?.INDI || p.parentA?.INDI! == self.parentB?.INDI {
+                    to_return.append(p)
+                } else if p.parentB?.INDI! == self.parentA?.INDI || p.parentB?.INDI! == self.parentB?.INDI {
+                    to_return.append(p)
+                }
+            }
+            return to_return
+        }
+    }
+    ///List of siblings that share both parents
+    var fullSiblings: [Person] {
+        get {
+            var to_return = [Person]()
+            for p in self.tree.people {
+                if p.INDI! == self.INDI! {
+                    continue
+                }
+                if (p.parentA?.INDI! == self.parentA?.INDI || p.parentA?.INDI! == self.parentB?.INDI) && (p.parentB?.INDI! == self.parentA?.INDI || p.parentB?.INDI! == self.parentB?.INDI) {
+                    to_return.append(p)
+                }
+            }
+            return to_return
+        }
+    }
+
     
     init(gedcomEntity ge: [String], tree t: Tree) {
         self.tree = t
@@ -247,16 +302,11 @@ class Person: CustomStringConvertible {
                     self.sex = nil
                 }
             }
-        }
-    }
-    
-    ///Description of person, e.g. Kirsten (Smith) Elin
-    var description: String {
-        get {
-            if self.nameAtBirth.familyName != self.nameNow.familyName {
-                return "\(self.nameNow.givenName) (\(self.nameAtBirth.familyName)) \(self.nameNow.familyName)"
-            } else {
-                return "\(self.nameNow.givenName) \(self.nameNow.familyName)"
+            
+            if self.nameNow.givenName == "" && self.nameAtBirth.givenName != "" {
+                self.nameNow.givenName = self.nameAtBirth.givenName
+            } else if self.nameAtBirth.givenName == "" && self.nameNow.givenName != "" {
+                self.nameAtBirth.givenName = self.nameNow.givenName
             }
         }
     }
@@ -305,13 +355,13 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
             for row in ge {
                 if row.rangeOfString("HUSB") != nil {
                     let husbandID = Int(row.stringByReplacingOccurrencesOfString("1 HUSB @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
-                    husband = tree.getPersonByID(id: husbandID)
+                    husband = tree.getPerson(id: husbandID)
                 } else if row.rangeOfString("WIFE") != nil {
                     let wifeID = Int(row.stringByReplacingOccurrencesOfString("1 WIFE @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
-                    wife = tree.getPersonByID(id: wifeID)
+                    wife = tree.getPerson(id: wifeID)
                 } else if row.rangeOfString("CHIL") != nil {
                     let childID = Int(row.stringByReplacingOccurrencesOfString("1 CHIL @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
-                    guard let child = tree.getPersonByID(id: childID) else {
+                    guard let child = tree.getPerson(id: childID) else {
                         continue
                     }
                     children.append(child)
