@@ -26,6 +26,16 @@ extension String {
 ///Represents the entire tree
 class Tree {
     var people = [Person]()
+    var families = [Family]()
+    
+    func getPersonByID(id id: Int) -> Person? {
+        for p in self.people {
+            if p.INDI == id {
+                return p
+            }
+        }
+        return nil
+    }
 }
 
 enum Sex {
@@ -38,10 +48,30 @@ enum FamilyType {
 
 ///Represents a family
 class Family {
+    var FAM: Int?
     var husband: Person?
     var wife: Person?
     var children = [Person]()
     var type: FamilyType?
+    
+    init(gedcomEntity ge: [String], tree t: Tree) {
+        for row in ge {
+            if row.rangeOfString("FAM") != nil {
+                self.FAM = Int(row.stringByReplacingOccurrencesOfString("0 @F", withString: "").stringByReplacingOccurrencesOfString("@ FAM", withString: ""))!
+            } else if row.rangeOfString("HUSB") != nil {
+                let husbandID = Int(row.stringByReplacingOccurrencesOfString("1 HUSB @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
+                self.husband = t.getPersonByID(id: husbandID)
+            } else if row.rangeOfString("WIFE") != nil {
+                let wifeID = Int(row.stringByReplacingOccurrencesOfString("1 WIFE @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
+                self.wife = t.getPersonByID(id: wifeID)
+            } else if row.rangeOfString("CHIL") != nil {
+                let childID = Int(row.stringByReplacingOccurrencesOfString("1 CHIL @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
+                self.children.append(t.getPersonByID(id: childID))
+            } else if row.rangeOfString("MARR") != nil {
+                self.type = FamilyType.Married
+            }
+        }
+    }
 }
 
 ///Represents a person in the family
@@ -71,7 +101,6 @@ class Person: CustomStringConvertible {
         for (i,row) in ge.enumerate() {
             if row.rangeOfString("INDI") != nil {
                 self.INDI = Int(row.stringByReplacingOccurrencesOfString("0 @I", withString: "").stringByReplacingOccurrencesOfString("@ INDI", withString: ""))!
-                print(self.INDI!)
             } else if row.rangeOfString("NAME") != nil {
                 for (x,row) in ge.enumerate() where x > i {
                     if row[0] == "1" {
@@ -139,7 +168,7 @@ class Person: CustomStringConvertible {
 }
 
 func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
-    let family = Tree()
+    let tree = Tree()
     var rows = (inputData.componentsSeparatedByString("\n"))
     rows.removeLast()
     if (rows[0][0] != "0") {
@@ -167,9 +196,15 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
     for entity in firstLevelObjects {
         if entity[0].rangeOfString("INDI") != nil {
             let p = Person(gedcomEntity: entity)
-            family.people.append(p)
+            tree.people.append(p)
+        }
+    }
+    for entity in firstLevelObjects {
+        if entity[0].rangeOfString("FAM") != nil {
+            let f = Family(gedcomEntity: entity, tree: tree)
+            tree.families.append(f)
         }
     }
     
-    return family
+    return tree
 }
