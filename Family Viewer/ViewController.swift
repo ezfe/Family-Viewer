@@ -39,7 +39,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var viewParentB: NSButton!
     
     override func viewDidLoad() {
-    
+        noPersonSelected()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
         
     }
@@ -61,7 +61,7 @@ class ViewController: NSViewController {
         
         self.personSelectPopup.addItemsWithTitles(self.tree.indexOfPeople)
         
-        selectNewPerson(self)
+        selectChanged(self)
     }
     
     func treeDidUpdate() { updateViewFromTree() }
@@ -75,6 +75,7 @@ class ViewController: NSViewController {
 
     }
     
+    ///When nobody is selected... (doesn't change popup)
     func noPersonSelected() {
         nameLabel.hidden = true
         nameField.hidden = true
@@ -92,25 +93,10 @@ class ViewController: NSViewController {
         viewParentB.hidden = true
     }
     
+    ///Show Person ``person``
     func selectPerson(person p: Person) {
         personSelectPopup.selectItemWithTitle(p.description)
-    }
-    
-    @IBAction func viewParentA(sender: AnyObject) {
-        if let parentA = currentPerson()?.parentA {
-            selectPerson(person: parentA)
-            selectNewPerson(self)
-        }
-    }
-    
-    @IBAction func viewParentB(sender: AnyObject) {
-        if let parentB = currentPerson()?.parentB {
-            selectPerson(person: parentB)
-            selectNewPerson(self)
-        }
-    }
-    
-    @IBAction func selectNewPerson(sender: AnyObject) {
+        
         guard let person = currentPerson() else {
             noPersonSelected()
             return
@@ -146,6 +132,41 @@ class ViewController: NSViewController {
             removeParentB.hidden = true
             viewParentB.hidden = true
             parentBField.hidden = true
+        }
+    }
+    
+    @IBAction func viewParentA(sender: AnyObject) {
+        if let parentA = currentPerson()?.parentA {
+            selectPerson(person: parentA)
+        }
+    }
+    
+    @IBAction func viewParentB(sender: AnyObject) {
+        if let parentB = currentPerson()?.parentB {
+            selectPerson(person: parentB)
+        }
+    }
+    
+    @IBAction func removeParentA(sender: AnyObject) {
+        if let person = currentPerson() {
+            person.parentA = nil
+            treeDidUpdate()
+            selectPerson(person: person)
+        }
+    }
+    
+    @IBAction func removeParentB(sender: AnyObject) {
+        if let person = currentPerson() {
+            person.parentB = nil
+            treeDidUpdate()
+            selectPerson(person: person)
+        }
+    }
+
+    ///Called when the selection changes.
+    @IBAction func selectChanged(sender: AnyObject) {
+        if let person = currentPerson() {
+            selectPerson(person: person)
         }
     }
 }

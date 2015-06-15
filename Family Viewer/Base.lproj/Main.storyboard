@@ -201,7 +201,7 @@
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="selectNewPerson:" target="5gI-5U-AMq" id="74X-Ea-gc7"/>
+                                    <action selector="selectChanged:" target="5gI-5U-AMq" id="H2h-nM-iBd"/>
                                 </connections>
                             </popUpButton>
                             <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="vce-OI-QDS">
@@ -336,6 +336,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="removeParentB:" target="5gI-5U-AMq" id="THE-fg-MbV"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zua-ib-0nn">
                                 <rect key="frame" x="417" y="239" width="48" height="17"/>
@@ -348,6 +351,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="removeParentA:" target="5gI-5U-AMq" id="Wez-XQ-bHm"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vYg-FY-Dyp">
                                 <rect key="frame" x="369" y="239" width="40" height="17"/>
