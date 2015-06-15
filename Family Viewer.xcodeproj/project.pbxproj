@@ -298,6 +298,7 @@
 				6616712E1B2E64D100714530 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

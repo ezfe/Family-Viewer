@@ -26,7 +26,6 @@ extension String {
 ///Represents the entire tree
 class Tree {
     var people = [Person]()
-    var families = [Family]()
     
     func getPersonByID(id id: Int) -> Person? {
         for p in self.people {
@@ -140,52 +139,6 @@ struct Death {
     var date: Date = Date(day: nil, month: nil, year: nil)
     ///Place of death
     var location: Place = Place(road: nil, city: nil, state: nil, zip: nil, country: nil)
-}
-
-
-///Represents a family
-class Family: CustomStringConvertible {
-    ///INDI Code, not including preceding @F and trailing @
-    var FAM: Int?
-    ///Husband in the family
-    var husband: Person?
-    ///Wife in the family
-    var wife: Person?
-    ///Children in the family
-    var children = [Person]()
-    ///Family type (relationship between husband and wife)
-    var type: FamilyType?
-    
-    init(gedcomEntity ge: [String], tree t: Tree) {
-        for row in ge {
-            if row.rangeOfString("FAM") != nil {
-                self.FAM = Int(row.stringByReplacingOccurrencesOfString("0 @F", withString: "").stringByReplacingOccurrencesOfString("@ FAM", withString: ""))!
-            } else if row.rangeOfString("HUSB") != nil {
-                let husbandID = Int(row.stringByReplacingOccurrencesOfString("1 HUSB @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
-                self.husband = t.getPersonByID(id: husbandID)
-            } else if row.rangeOfString("WIFE") != nil {
-                let wifeID = Int(row.stringByReplacingOccurrencesOfString("1 WIFE @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
-                self.wife = t.getPersonByID(id: wifeID)
-            } else if row.rangeOfString("CHIL") != nil {
-                let childID = Int(row.stringByReplacingOccurrencesOfString("1 CHIL @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
-                guard let child = t.getPersonByID(id: childID) else {
-                    continue
-                }
-                self.children.append(child)
-            } else if row.rangeOfString("MARR") != nil {
-                self.type = FamilyType.Married
-            }
-        }
-    }
-    
-    var description: String {
-        get {
-            guard let h = self.husband, w = self.wife else {
-                return "H: \(husband), W: \(wife), C: \(children)"
-            }
-            return "H: \(h), W: \(w), C: \(children)"
-        }
-    }
 }
 
 ///Converts DD MMM YYYY to Date() object
@@ -343,8 +296,40 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
     }
     for entity in firstLevelObjects {
         if entity[0].rangeOfString("FAM") != nil {
-            let f = Family(gedcomEntity: entity, tree: tree)
-            tree.families.append(f)
+            
+            let ge = entity
+            var husband: Person?
+            var wife: Person?
+            var children = [Person]()
+            
+            for row in ge {
+                if row.rangeOfString("HUSB") != nil {
+                    let husbandID = Int(row.stringByReplacingOccurrencesOfString("1 HUSB @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
+                    husband = tree.getPersonByID(id: husbandID)
+                } else if row.rangeOfString("WIFE") != nil {
+                    let wifeID = Int(row.stringByReplacingOccurrencesOfString("1 WIFE @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
+                    wife = tree.getPersonByID(id: wifeID)
+                } else if row.rangeOfString("CHIL") != nil {
+                    let childID = Int(row.stringByReplacingOccurrencesOfString("1 CHIL @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
+                    guard let child = tree.getPersonByID(id: childID) else {
+                        continue
+                    }
+                    children.append(child)
+                }
+//                Type note used right now
+//                } else if row.rangeOfString("MARR") != nil {
+//                    self.type = FamilyType.Married
+//                }
+            }
+            
+            for child in children {
+                if let wife = wife {
+                    child.parentA = wife
+                }
+                if let husband = husband {
+                    child.parentB = husband
+                }
+            }
         }
     }
     return tree
