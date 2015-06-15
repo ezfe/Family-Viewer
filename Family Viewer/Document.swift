@@ -34,7 +34,17 @@ class Document: NSDocument {
     override func dataOfType(typeName: String) throws -> NSData {
         // Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
         // You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-        throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        
+        makeWindowControllers()
+        
+        guard let tree = self.windowControllers[0].contentViewController?.representedObject as? Tree  else {
+            throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        }
+        
+        let archiver = NSKeyedArchiver()
+        archiver.encodeObject(tree)
+//        NSData* data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        
     }
 
     override func readFromData(data: NSData, ofType typeName: String) throws {

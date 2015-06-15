@@ -68,10 +68,22 @@ class Tree: CustomStringConvertible {
             return "Tree with \(people.count) people"
         }
     }
+    
+    ///NSMutableArray representation
+    var dictionary: NSMutableArray {
+        get {
+            let dict = NSMutableArray()
+            for person in people {
+                dict.addObject(person.dictionary)
+            }
+            return dict
+        }
+    }
 }
 
-enum Sex {
-    case Male, Female
+enum Sex: String {
+    case Male = "Male"
+    case Female = "Female"
 }
 
 enum FamilyType {
@@ -150,6 +162,21 @@ struct Date {
     var day: Int? = nil
     var month: Month? = nil
     var year: Int? = nil
+    var dictionary: NSMutableDictionary {
+        get {
+            let dict = NSMutableDictionary()
+            if let day = day {
+                dict["day"] = day
+            }
+            if let month = month {
+                dict["day"] = month.rawValue
+            }
+            if let year = year {
+                dict["day"] = year
+            }
+            return dict
+        }
+    }
 }
 
 struct Place {
@@ -158,11 +185,40 @@ struct Place {
     var state: USState?
     var zip: String?
     var country: String?
+    var dictionary: NSMutableDictionary {
+        get {
+            let dict = NSMutableDictionary()
+            if let road = road {
+                dict["road"] = road
+            }
+            if let city = city {
+                dict["city"] = city
+            }
+            if let state = state {
+                dict["state"] = state.rawValue
+            }
+            if let zip = zip {
+                dict["zip"] = zip
+            }
+            if let country = country {
+                dict["country"] = country
+            }
+            return dict
+        }
+    }
 }
 
 struct Birth {
     var date: Date = Date(day: nil, month: nil, year: nil)
     var location: Place = Place(road: nil, city: nil, state: nil, zip: nil, country: nil)
+    var dictionary: NSMutableDictionary {
+        get {
+            let dict = NSMutableDictionary()
+            dict["date"] = date.dictionary
+            dict["location"] = location.dictionary
+            return dict
+        }
+    }
 }
 
 struct Death {
@@ -172,6 +228,16 @@ struct Death {
     var date: Date = Date(day: nil, month: nil, year: nil)
     ///Place of death
     var location: Place = Place(road: nil, city: nil, state: nil, zip: nil, country: nil)
+
+    var dictionary: NSMutableDictionary {
+        get {
+            let dict = NSMutableDictionary()
+            dict["date"] = date.dictionary
+            dict["location"] = location.dictionary
+            dict["hasDied"] = hasDied
+            return dict
+        }
+    }
 }
 
 ///Converts DD MMM YYYY to Date() object
@@ -329,6 +395,22 @@ class Person: CustomStringConvertible {
             } else if self.nameAtBirth.givenName == "" && self.nameNow.givenName != "" {
                 self.nameAtBirth.givenName = self.nameNow.givenName
             }
+        }
+    }
+    
+    ///Dictionary representation
+    var dictionary: NSMutableDictionary {
+        get {
+            let dict = NSMutableDictionary()
+
+            dict["nameNow"] = self.nameNow.dictionaryWithValuesForKeys(["givenName","familyName","middleName","namePrefix","nameSuffix","nickname"])
+            dict["nameAtBirth"] = self.nameAtBirth.dictionaryWithValuesForKeys(["givenName","familyName","middleName","namePrefix","nameSuffix","nickname"])
+            dict["INDI"] = self.INDI!
+            dict["birth"] = self.birth.dictionary
+            dict["death"] = self.death.dictionary
+            dict["sex"] = self.sex!.rawValue
+            
+            return dict
         }
     }
 }

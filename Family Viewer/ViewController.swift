@@ -56,9 +56,22 @@ class ViewController: NSViewController {
         self.filenameLabel.stringValue = "Family Tree"
         self.peopleCountLabel.stringValue = self.tree.description
         self.personSelectPopup.addItemsWithTitles(self.tree.indexOfPeople)
+        
+        print(self.tree.dictionary.writeToFile("/Users/ezekielelin/Desktop/test.xml", atomically: true))
     }
     
     @IBAction func selectNewPerson(sender: AnyObject) {
+        if self.personSelectPopup.indexOfSelectedItem == 0 {
+            return
+        }
+        let person = self.tree.people[self.personSelectPopup.indexOfSelectedItem - 1]
+        print(person.description)
+        print("\(person.parentA), \(person.parentB)")
+        print(person.children)
+        print(person.birth.date)
+        if !person.isAlive {
+            print(person.death.date)
+        }
     }
 }
 
