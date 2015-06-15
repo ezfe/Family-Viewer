@@ -673,17 +673,67 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APX-bJ-yhe">
-                                <rect key="frame" x="14" y="222" width="81" height="32"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Bmm-us-xma">
+                                <rect key="frame" x="18" y="231" width="444" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="19" id="jOv-63-6O6"/>
+                                </constraints>
                                 <animations/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="l9f-6J-C2L">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="%%FILENAME%%" id="nkt-b5-4bE">
+                                    <font key="font" metaFont="system" size="16"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QSG-Pe-oB4">
+                                <rect key="frame" x="18" y="206" width="78" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="n0p-PI-84D"/>
+                                </constraints>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="%n people..." id="DBG-aF-RfY">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rO4-Fe-H6b">
+                                <rect key="frame" x="18" y="174" width="137" height="26"/>
+                                <animations/>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="0L7-3J-pcJ">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="IUz-gs-VFe">
+                                        <items>
+                                            <menuItem title="Choose a person" state="on" enabled="NO" id="kTe-cy-Xef">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YpX-Ch-gb7">
+                                <rect key="frame" x="154" y="170" width="70" height="32"/>
+                                <animations/>
+                                <buttonCell key="cell" type="push" title="View" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ibq-jY-CKQ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="Bmm-us-xma" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="20" id="1Pe-x3-9PR"/>
+                            <constraint firstItem="QSG-Pe-oB4" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="Gqk-Oy-icB"/>
+                            <constraint firstItem="QSG-Pe-oB4" firstAttribute="top" secondItem="Bmm-us-xma" secondAttribute="bottom" constant="8" id="pKR-Pf-NKX"/>
+                            <constraint firstItem="Bmm-us-xma" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="x1y-xZ-65l"/>
+                            <constraint firstAttribute="trailing" secondItem="Bmm-us-xma" secondAttribute="trailing" constant="20" id="xQH-v6-kFX"/>
+                        </constraints>
                         <animations/>
                     </view>
+                    <connections>
+                        <outlet property="filenameLabel" destination="Bmm-us-xma" id="JLW-q6-U0E"/>
+                        <outlet property="peopleCountLabel" destination="QSG-Pe-oB4" id="aDh-rI-SPw"/>
+                    </connections>
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

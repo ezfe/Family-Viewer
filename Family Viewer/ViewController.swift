@@ -9,27 +9,49 @@
 import Cocoa
 
 class ViewController: NSViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        guard let _ = representedObject as? Tree else {
-            return
+    @IBOutlet weak var filenameLabel: NSTextField!
+    @IBOutlet weak var peopleCountLabel: NSTextField!
+    
+    var hasTree: Bool {
+        get {
+            if let _ = self.representedObject as? Tree {
+                return true
+            } else {
+                return false
+            }
         }
-        // Do any additional setup after loading the view.
+    }
+    
+    var tree = Tree() {
+        didSet {
+            self.updateViewFromTree()
+        }
+    }
+    
+    
+    override func viewDidLoad() {
+        
     }
 
     override var representedObject: AnyObject? {
-        didSet {
-            guard let tree = representedObject as? Tree else {
-                representedObject = nil
+        set(newValue) {
+            if let newTree = newValue as? Tree {
+                //Save new value if it is a Tree
+                self.tree = newTree
+            } else {
+                //Do nothing if new value isn't a Tree
                 return
             }
-            if let p = tree.getPerson(givenName: "Ezekiel", familyName: "Elin") {
-                print(p.allSiblings)
-                print(p.fullSiblings)
-            } else {
-                print("Couldn't find...")
-            }
         }
+        get {
+            //Return the tree as an AnyObject
+            return self.tree as AnyObject
+        }
+    }
+    
+    func updateViewFromTree() {
+        self.filenameLabel.stringValue = "Family Tree"
+        self.peopleCountLabel.stringValue = self.tree.description
     }
 }
 

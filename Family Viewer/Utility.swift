@@ -24,7 +24,7 @@ extension String {
 }
 
 ///Represents the entire tree
-class Tree {
+class Tree: CustomStringConvertible {
     var people = [Person]()
     
     func getPerson(id id: Int) -> Person? {
@@ -46,6 +46,12 @@ class Tree {
             }
         }
         return nil
+    }
+    
+    var description: String {
+        get {
+            return "Tree with \(people.count) people"
+        }
     }
 }
 
