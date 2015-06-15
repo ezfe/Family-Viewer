@@ -218,8 +218,27 @@ class Person: CustomStringConvertible {
     var death = Death()
     ///Sex
     var sex: Sex?
+    ///Parent A (Usually Mother)
+    var parentA: Person?
+    ///Parent B (Usually Father)
+    var parentB: Person?
+    ///Tree that this person exists in
+    var tree: Tree
+    ///List of children
+    var children: [Person] {
+        get {
+            var to_return = [Person]()
+            for p in self.tree.people {
+                if p.parentA?.INDI! == self.INDI! || p.parentB?.INDI! == self.INDI! {
+                    to_return.append(p)
+                }
+            }
+            return to_return
+        }
+    }
     
-    init(gedcomEntity ge: [String]) {
+    init(gedcomEntity ge: [String], tree t: Tree) {
+        self.tree = t
         for (i,row) in ge.enumerate() {
             if row.rangeOfString("INDI") != nil {
                 self.INDI = Int(row.stringByReplacingOccurrencesOfString("0 @I", withString: "").stringByReplacingOccurrencesOfString("@ INDI", withString: ""))!
@@ -318,7 +337,7 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
     
     for entity in firstLevelObjects {
         if entity[0].rangeOfString("INDI") != nil {
-            let p = Person(gedcomEntity: entity)
+            let p = Person(gedcomEntity: entity, tree: tree)
             tree.people.append(p)
         }
     }
