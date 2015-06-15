@@ -39,12 +39,109 @@ class Tree {
 }
 
 enum Sex {
-    case Male, Female, Unknown
+    case Male, Female
 }
 
 enum FamilyType {
     case Married, Engaged, Relationship, Seperated, Divorced, Annulled
 }
+
+enum Month: Int {
+    case January = 1
+    case February = 2
+    case March = 3
+    case April = 4
+    case May = 5
+    case June = 6
+    case July = 7
+    case August = 8
+    case September = 9
+    case October = 10
+    case November = 11
+    case December = 12
+}
+
+enum USState: String {
+    case Alabama = "Alabama"
+    case Alaska = "Alaska"
+    case Arizona = "Arizona"
+    case Arkansas = "Arkansas"
+    case California = "California"
+    case Colorado = "Colorado"
+    case Connecticut = "Connecticut"
+    case Delaware = "Delaware"
+    case Florida = "Florida"
+    case Georgia = "Georgia"
+    case Hawaii = "Hawaii"
+    case Idaho = "Idaho"
+    case Illinois = "Illinois"
+    case Indiana = "Indiana"
+    case Iowa = "Iowa"
+    case Kansas = "Kansas"
+    case Kentucky = "Kentucky"
+    case Louisiana = "Louisiana"
+    case Maine = "Maine"
+    case Maryland = "Maryland"
+    case Massachusetts = "Massachusetts"
+    case Michigan = "Michigan"
+    case Minnesota = "Minnesota"
+    case Mississippi = "Mississippi"
+    case Missouri = "Missouri"
+    case Montana = "Montana"
+    case Nebraska = "Nebraska"
+    case Nevada = "Nevada"
+    case New_Hampshire = "New Hampshire"
+    case New_Jersey = "New Jersey"
+    case New_Mexico = "New Mexico"
+    case New_York = "New York"
+    case North_Carolina = "North Carolina"
+    case North_Dakota = "North Dakota"
+    case Ohio = "Ohio"
+    case Oklahoma = "Oklahoma"
+    case Oregon = "Oregon"
+    case Pennsylvania = "Pennsylvania"
+    case Rhode_Island = "Rhode Island"
+    case South_Carolina = "South Carolina"
+    case South_Dakota = "South Dakota"
+    case Tennessee = "Tennessee"
+    case Texas = "Texas"
+    case Utah = "Utah"
+    case Vermont = "Vermont"
+    case Virginia = "Virginia"
+    case Washington = "Washington"
+    case West_Virginia = "West Virginia"
+    case Wisconsin = "Wisconsin"
+    case Wyoming = "Wyoming"
+}
+
+struct Date {
+    var day: Int? = nil
+    var month: Month? = nil
+    var year: Int? = nil
+}
+
+struct Place {
+    var road: String?
+    var city: String?
+    var state: USState?
+    var zip: String?
+    var country: String?
+}
+
+struct Birth {
+    var date: Date = Date(day: nil, month: nil, year: nil)
+    var location: Place = Place(road: nil, city: nil, state: nil, zip: nil, country: nil)
+}
+
+struct Death {
+    ///Has died
+    var hasDied = false
+    ///Date of death
+    var date: Date = Date(day: nil, month: nil, year: nil)
+    ///Place of death
+    var location: Place = Place(road: nil, city: nil, state: nil, zip: nil, country: nil)
+}
+
 
 ///Represents a family
 class Family: CustomStringConvertible {
@@ -91,30 +188,38 @@ class Family: CustomStringConvertible {
     }
 }
 
+///Converts DD MMM YYYY to Date() object
+func convertFEDate(date d: String) -> Date {
+    return Date(day: nil, month: nil, year: nil)
+}
+
 ///Represents a person in the family
 class Person: CustomStringConvertible {
     ///Name components
-    var name: NSPersonNameComponents
+    var nameNow = NSPersonNameComponents()
     ///Maiden name
-    var givenFamilyName: String?
+    var nameAtBirth = NSPersonNameComponents()
     ///INDI Code, not including preceding @I and trailing @
     var INDI: Int?
-    ///Day Born
-    var birthDay: String?
-    ///Birth Location
-    var birthLocation: String?
-    ///Alive
-    var isAlive: Bool = true
-    ///Day Died
-    var deathDay: String?
-    ///Death Location
-    var deathLocation: String?
+    ///Birth
+    var birth = Birth()
+    ///Is ``self`` alive
+    var isAlive: Bool {
+        get {
+            //Gets the value from the death object
+            return !self.death.hasDied
+        }
+        set (isAlive) {
+            //Stores the value in the death object
+            self.death.hasDied = !isAlive
+        }
+    }
+    ///Death
+    var death = Death()
     ///Sex
-    var sex: Sex = Sex.Unknown
+    var sex: Sex?
     
     init(gedcomEntity ge: [String]) {
-        self.name = NSPersonNameComponents()
-        
         for (i,row) in ge.enumerate() {
             if row.rangeOfString("INDI") != nil {
                 self.INDI = Int(row.stringByReplacingOccurrencesOfString("0 @I", withString: "").stringByReplacingOccurrencesOfString("@ INDI", withString: ""))!
@@ -124,15 +229,13 @@ class Person: CustomStringConvertible {
                         break
                     }
                     if row.rangeOfString("GIVN") != nil {
-                        self.name.givenName = row.stringByReplacingOccurrencesOfString("2 GIVN ", withString: "")
+                        let givenName = row.stringByReplacingOccurrencesOfString("2 GIVN ", withString: "")
+                        self.nameAtBirth.givenName = givenName
                     } else if row.rangeOfString("_MARNM") != nil {
-                        self.name.familyName = row.stringByReplacingOccurrencesOfString("2 _MARNM ", withString: "")
+                        self.nameNow.familyName = row.stringByReplacingOccurrencesOfString("2 _MARNM ", withString: "")
                     } else if row.rangeOfString("SURN") != nil {
-                        self.givenFamilyName = row.stringByReplacingOccurrencesOfString("2 SURN ", withString: "")
+                        self.nameAtBirth.familyName = row.stringByReplacingOccurrencesOfString("2 SURN ", withString: "")
                     }
-                }
-                if self.givenFamilyName == self.name.familyName {
-                    self.givenFamilyName = nil
                 }
             } else if row.rangeOfString("BIRT") != nil {
                 for (x,row) in ge.enumerate() where x > i {
@@ -141,9 +244,11 @@ class Person: CustomStringConvertible {
                     }
                     if row.rangeOfString("DATE") != nil {
                         let dateString = row.stringByReplacingOccurrencesOfString("2 DATE ", withString: "")
-                        self.birthDay = dateString
+                        self.birth.date = convertFEDate(date: dateString)
                     } else if row.rangeOfString("PLAC") != nil {
-                        self.birthLocation = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
+//                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
+//                        Don't parse location for now, just have that entered later in UI
+                        
                     }
                 }
             } else if row.rangeOfString("DEAT Y") != nil {
@@ -154,19 +259,20 @@ class Person: CustomStringConvertible {
                     }
                     if row.rangeOfString("DATE") != nil {
                         let dateString = row.stringByReplacingOccurrencesOfString("2 DATE ", withString: "")
-                        self.deathDay = dateString
+                        self.death.date = convertFEDate(date: dateString)
                     } else if row.rangeOfString("PLAC") != nil {
-                        self.deathLocation = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
+//                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
+//                        Don't parse location for now, just have that entered later in UI
                     }
                 }
             } else if row.rangeOfString("SEX") != nil {
                 switch row.stringByReplacingOccurrencesOfString("1 SEX ", withString: "") {
                 case "M":
-                    self.sex = .Male
+                    self.sex = Sex.Male
                 case "F":
-                    self.sex = .Female
+                    self.sex = Sex.Female
                 default:
-                    self.sex = .Unknown
+                    self.sex = nil
                 }
             }
         }
@@ -175,10 +281,10 @@ class Person: CustomStringConvertible {
     ///Description of person, e.g. Kirsten (Smith) Elin
     var description: String {
         get {
-            if let givenFamilyName = self.givenFamilyName {
-                return "\(self.name.givenName) (\(givenFamilyName)) \(self.name.familyName)"
+            if self.nameAtBirth.familyName != self.nameNow.familyName {
+                return "\(self.nameNow.givenName) (\(self.nameAtBirth.familyName)) \(self.nameNow.familyName)"
             } else {
-                return "\(self.name.givenName) \(self.name.familyName)"
+                return "\(self.nameNow.givenName) \(self.nameNow.familyName)"
             }
         }
     }

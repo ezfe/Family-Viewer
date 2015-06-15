@@ -45,7 +45,7 @@ class ViewController: NSViewController {
         print(t)
         var family: Family? = nil
         for p in t.people {
-            if p.name.givenName == firstNameField.stringValue && p.name.familyName == lastNameField.stringValue {
+            if p.nameNow.givenName == firstNameField.stringValue && p.nameNow.familyName == lastNameField.stringValue {
                 for f in t.families {
                     if spouseRadio.stringValue == "1" && (f.husband?.INDI == p.INDI || f.wife?.INDI == p.INDI) {
                         family = f
