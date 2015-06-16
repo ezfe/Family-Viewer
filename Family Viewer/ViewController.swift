@@ -208,15 +208,19 @@ class ViewController: NSViewController {
     
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
         if let sender = sender as? NSButton {
-            guard let destination = segue.destinationController as? AddParentViewController, cPerson = self.currentPerson() else {
+            if let destination = segue.destinationController as? AddParentViewController, cPerson = self.currentPerson() {
+                destination.tree = self.tree
+                destination.parentTo = cPerson
+                if sender.identifier == "addParentA" {
+                    destination.A_B = "A"
+                } else if sender.identifier == "addParentB" {
+                    destination.A_B = "B"
+                }
                 return
             }
-            destination.tree = self.tree
-            destination.parentTo = cPerson
-            if sender.identifier == "addParentA" {
-                destination.A_B = "A"
-            } else if sender.identifier == "addParentB" {
-                destination.A_B = "B"
+            if let destination = segue.destinationController as? EditNameViewController, cPerson = self.currentPerson() {
+                destination.person = cPerson
+                return
             }
         }
     }

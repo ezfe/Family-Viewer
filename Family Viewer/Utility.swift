@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 extension String {
     
@@ -20,6 +21,21 @@ extension String {
     
     subscript (r: Range<Int>) -> String {
         return substringWithRange(Range(start: advance(startIndex, r.startIndex), end: advance(startIndex, r.endIndex)))
+    }
+}
+
+extension NSButton {
+    var isChecked: Bool {
+        get {
+            return (self.stringValue == "1")
+        }
+        set {
+            if newValue {
+                self.stringValue = "1"
+            } else {
+                self.stringValue = "0"
+            }
+        }
     }
 }
 

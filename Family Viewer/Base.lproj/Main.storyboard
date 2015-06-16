@@ -378,7 +378,7 @@
                                     <action selector="viewParentA:" target="5gI-5U-AMq" id="RUk-4K-QQG"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N6D-cN-Ic7">
+                            <button identifier="editName" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N6D-cN-Ic7">
                                 <rect key="frame" x="431" y="264" width="34" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="TvO-DA-Hbu"/>
@@ -468,21 +468,21 @@
             <objects>
                 <viewController id="Gjf-5R-amz" customClass="EditNameViewController" customModule="Family_Viewer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Gce-co-hM4">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="231"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="5ZB-PC-a8A">
-                                <rect key="frame" x="13" y="10" width="424" height="284"/>
+                                <rect key="frame" x="13" y="10" width="424" height="215"/>
                                 <animations/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="At Birth" identifier="1" id="bgn-YV-By3">
                                         <view key="view" id="A73-PH-6XI">
-                                            <rect key="frame" x="10" y="33" width="404" height="238"/>
+                                            <rect key="frame" x="10" y="33" width="404" height="169"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QTz-sC-Q6R">
-                                                    <rect key="frame" x="15" y="211" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="142" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="fUP-3q-1xz"/>
                                                         <constraint firstAttribute="width" constant="85" id="k6E-aa-H3q"/>
@@ -495,7 +495,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cmn-Og-9HK">
-                                                    <rect key="frame" x="15" y="186" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="117" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="85" id="8i2-Sa-Q0T"/>
                                                         <constraint firstAttribute="height" constant="17" id="sm6-fT-vna"/>
@@ -508,7 +508,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2OQ-vV-SRe">
-                                                    <rect key="frame" x="15" y="161" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="92" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="85" id="9PG-sd-Wd6"/>
                                                         <constraint firstAttribute="height" constant="17" id="FXI-tn-Sax"/>
@@ -521,7 +521,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ykT-s9-Eth">
-                                                    <rect key="frame" x="15" y="136" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="67" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="85" id="JwV-ZT-y1g"/>
                                                         <constraint firstAttribute="height" constant="17" id="MLp-Et-bFM"/>
@@ -534,7 +534,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wLl-6h-gZy">
-                                                    <rect key="frame" x="15" y="111" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="42" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="70J-UD-x1j"/>
                                                         <constraint firstAttribute="width" constant="85" id="bsg-l0-TMT"/>
@@ -547,7 +547,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QAA-cl-Yfj">
-                                                    <rect key="frame" x="110" y="208" width="277" height="22"/>
+                                                    <rect key="frame" x="110" y="139" width="277" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="x4k-hP-RvI"/>
                                                     </constraints>
@@ -562,7 +562,7 @@
                                                     </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CPj-16-OG9">
-                                                    <rect key="frame" x="110" y="183" width="277" height="22"/>
+                                                    <rect key="frame" x="110" y="114" width="277" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="Kgq-U0-Flk"/>
                                                     </constraints>
@@ -577,7 +577,7 @@
                                                     </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IBV-J3-bNw">
-                                                    <rect key="frame" x="110" y="158" width="277" height="22"/>
+                                                    <rect key="frame" x="110" y="89" width="277" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="bhs-tV-7m3"/>
                                                     </constraints>
@@ -592,7 +592,7 @@
                                                     </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XFD-JO-G3O">
-                                                    <rect key="frame" x="110" y="133" width="277" height="22"/>
+                                                    <rect key="frame" x="110" y="64" width="277" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="OoL-z5-Lcm"/>
                                                     </constraints>
@@ -607,7 +607,7 @@
                                                     </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tOf-sQ-Pli">
-                                                    <rect key="frame" x="110" y="108" width="277" height="22"/>
+                                                    <rect key="frame" x="110" y="39" width="277" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="9xZ-sB-zjI"/>
                                                     </constraints>
@@ -622,7 +622,7 @@
                                                     </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wFc-by-btD">
-                                                    <rect key="frame" x="110" y="83" width="277" height="22"/>
+                                                    <rect key="frame" x="110" y="14" width="277" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="zzc-Sn-IHb"/>
                                                     </constraints>
@@ -637,7 +637,7 @@
                                                     </connections>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0z1-4D-snT">
-                                                    <rect key="frame" x="15" y="86" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="17" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="6tc-aG-wB1"/>
                                                         <constraint firstAttribute="width" constant="85" id="mHe-tu-Ags"/>
@@ -687,11 +687,11 @@
                                     </tabViewItem>
                                     <tabViewItem label="Present (After Marriage)" identifier="2" id="VOY-VC-o4Z">
                                         <view key="view" id="yie-vD-wNg">
-                                            <rect key="frame" x="10" y="33" width="404" height="238"/>
+                                            <rect key="frame" x="10" y="33" width="404" height="169"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9ef-xn-Sr8">
-                                                    <rect key="frame" x="15" y="211" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="142" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="85" id="BKj-we-96h"/>
                                                         <constraint firstAttribute="height" constant="17" id="cbt-jT-yqj"/>
@@ -704,7 +704,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iSw-pi-h90">
-                                                    <rect key="frame" x="15" y="186" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="117" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="85" id="5Ll-kd-850"/>
                                                         <constraint firstAttribute="height" constant="17" id="gZb-20-oMW"/>
@@ -717,7 +717,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wMa-cd-IF1">
-                                                    <rect key="frame" x="15" y="161" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="92" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="plT-kl-GNT"/>
                                                         <constraint firstAttribute="width" constant="85" id="viv-Aw-CC0"/>
@@ -730,7 +730,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yWL-Bi-uod">
-                                                    <rect key="frame" x="15" y="136" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="67" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="85" id="DSD-aD-VSK"/>
                                                         <constraint firstAttribute="height" constant="17" id="k7F-nk-djO"/>
@@ -743,7 +743,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mT3-wI-d6f">
-                                                    <rect key="frame" x="15" y="111" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="42" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="85" id="qgD-Id-bbL"/>
                                                         <constraint firstAttribute="height" constant="17" id="zzg-Sq-Pk8"/>
@@ -756,7 +756,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IoX-2V-aqo">
-                                                    <rect key="frame" x="136" y="208" width="251" height="22"/>
+                                                    <rect key="frame" x="136" y="139" width="251" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="Ndt-6e-giJ"/>
                                                     </constraints>
@@ -766,9 +766,12 @@
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
+                                                    <connections>
+                                                        <action selector="updateSecondFields:" target="Gjf-5R-amz" id="pph-QX-M3Q"/>
+                                                    </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i0N-uz-gEY">
-                                                    <rect key="frame" x="136" y="183" width="251" height="22"/>
+                                                    <rect key="frame" x="136" y="114" width="251" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="uTS-6V-73l"/>
                                                     </constraints>
@@ -778,9 +781,12 @@
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
+                                                    <connections>
+                                                        <action selector="updateSecondFields:" target="Gjf-5R-amz" id="qF9-ns-gVX"/>
+                                                    </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Vb-tw-qE2">
-                                                    <rect key="frame" x="136" y="158" width="251" height="22"/>
+                                                    <rect key="frame" x="136" y="89" width="251" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="fUe-1N-ohg"/>
                                                     </constraints>
@@ -790,9 +796,12 @@
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
+                                                    <connections>
+                                                        <action selector="updateSecondFields:" target="Gjf-5R-amz" id="oBZ-oC-f93"/>
+                                                    </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W7o-Ik-zcT">
-                                                    <rect key="frame" x="136" y="133" width="251" height="22"/>
+                                                    <rect key="frame" x="136" y="64" width="251" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="u0s-F1-yVl"/>
                                                     </constraints>
@@ -802,9 +811,12 @@
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
+                                                    <connections>
+                                                        <action selector="updateSecondFields:" target="Gjf-5R-amz" id="Cps-T1-JwP"/>
+                                                    </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kvT-uE-WYv">
-                                                    <rect key="frame" x="136" y="108" width="251" height="22"/>
+                                                    <rect key="frame" x="136" y="39" width="251" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="0kJ-x8-6qf"/>
                                                     </constraints>
@@ -814,9 +826,12 @@
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
+                                                    <connections>
+                                                        <action selector="updateSecondFields:" target="Gjf-5R-amz" id="t1m-BL-4Th"/>
+                                                    </connections>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G9p-7W-Ug1">
-                                                    <rect key="frame" x="136" y="83" width="251" height="22"/>
+                                                    <rect key="frame" x="136" y="14" width="251" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="lBX-PN-t7W"/>
                                                     </constraints>
@@ -826,9 +841,12 @@
                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
+                                                    <connections>
+                                                        <action selector="updateSecondFields:" target="Gjf-5R-amz" id="r7E-AX-6FD"/>
+                                                    </connections>
                                                 </textField>
                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="88S-we-Dtx">
-                                                    <rect key="frame" x="108" y="210" width="22" height="18"/>
+                                                    <rect key="frame" x="108" y="141" width="22" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="18" id="XFy-Ez-yuw"/>
                                                         <constraint firstAttribute="height" constant="14" id="bGS-A8-dDV"/>
@@ -843,7 +861,7 @@
                                                     </connections>
                                                 </button>
                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="aDd-DW-Wrf">
-                                                    <rect key="frame" x="108" y="185" width="22" height="18"/>
+                                                    <rect key="frame" x="108" y="116" width="22" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="18" id="12j-Qc-LIZ"/>
                                                         <constraint firstAttribute="height" constant="14" id="Gpp-V5-5Kd"/>
@@ -858,7 +876,7 @@
                                                     </connections>
                                                 </button>
                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="00S-EP-06v">
-                                                    <rect key="frame" x="108" y="160" width="22" height="18"/>
+                                                    <rect key="frame" x="108" y="91" width="22" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="18" id="7ft-Uj-UJ4"/>
                                                         <constraint firstAttribute="height" constant="14" id="fb6-MF-gOX"/>
@@ -873,7 +891,7 @@
                                                     </connections>
                                                 </button>
                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="SXR-yW-0C2">
-                                                    <rect key="frame" x="108" y="135" width="22" height="18"/>
+                                                    <rect key="frame" x="108" y="66" width="22" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="18" id="bwf-8y-EBv"/>
                                                         <constraint firstAttribute="height" constant="14" id="fYr-ho-HaY"/>
@@ -888,7 +906,7 @@
                                                     </connections>
                                                 </button>
                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="3Bs-bi-Na4">
-                                                    <rect key="frame" x="108" y="110" width="22" height="18"/>
+                                                    <rect key="frame" x="108" y="41" width="22" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="14" id="0JO-So-1K8"/>
                                                         <constraint firstAttribute="width" constant="18" id="Jf0-4p-ovC"/>
@@ -903,7 +921,7 @@
                                                     </connections>
                                                 </button>
                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="ATv-KE-vhZ">
-                                                    <rect key="frame" x="108" y="85" width="22" height="18"/>
+                                                    <rect key="frame" x="108" y="16" width="22" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="18" id="4ZM-eG-cga"/>
                                                         <constraint firstAttribute="height" constant="14" id="mze-Uw-QTZ"/>
@@ -918,7 +936,7 @@
                                                     </connections>
                                                 </button>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q38-VE-clZ">
-                                                    <rect key="frame" x="15" y="86" width="89" height="17"/>
+                                                    <rect key="frame" x="15" y="17" width="89" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="20s-1J-v4H"/>
                                                         <constraint firstAttribute="width" constant="85" id="ORo-ep-c9C"/>
@@ -1001,6 +1019,7 @@
                         <outlet property="secondGivenNameField" destination="i0N-uz-gEY" id="9UR-CB-4El"/>
                         <outlet property="secondMiddleNameEnalbed" destination="00S-EP-06v" id="lc2-oh-Ez8"/>
                         <outlet property="secondMiddleNameField" destination="8Vb-tw-qE2" id="Du9-yf-KEp"/>
+                        <outlet property="secondNickNameEnabled" destination="ATv-KE-vhZ" id="MD4-Lh-mnO"/>
                         <outlet property="secondNickNameField" destination="G9p-7W-Ug1" id="I5F-kd-x5U"/>
                         <outlet property="secondNicknameEnabled" destination="ATv-KE-vhZ" id="PMA-XK-eAh"/>
                         <outlet property="secondPrefixEnabled" destination="88S-we-Dtx" id="XjK-vr-Vcm"/>
@@ -1012,7 +1031,7 @@
                 </viewController>
                 <customObject id="Sjn-5x-PZS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="740" y="721"/>
+            <point key="canvasLocation" x="740" y="686.5"/>
         </scene>
         <!--Add Parent View Controller-->
         <scene sceneID="1SQ-Zx-m2b">
