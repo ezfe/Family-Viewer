@@ -16,7 +16,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let defaults = NSUserDefaults.standardUserDefaults()
         if let filePath = defaults.stringForKey("filePath") {
             print("Reading from path...")
-            readGEDFile(NSURL(string: filePath)!)
+            let fm = NSFileManager()
+            if fm.fileExistsAtPath(NSURL(string: filePath)!.path!) {
+                if filePath.rangeOfString(".ged") != nil {
+                    readGEDFile(NSURL(string: filePath)!)
+                } else {
+                    readXMLFile(NSURL(string: filePath)!)
+                }
+            } else {
+                print("Hmm...couldn't find \(NSURL(string: filePath)!.path!)")
+                defaults.removeObjectForKey("filePath")
+            }
         } else {
             print("Unable to read from path...")
         }
@@ -40,6 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fileDialog.canChooseDirectories = false
         fileDialog.canChooseFiles = true
         fileDialog.resolvesAliases = true
+        fileDialog.allowedFileTypes = ["ged"]
         fileDialog.runModal()
         if let fileURL = fileDialog.URL {
             let defaults = NSUserDefaults.standardUserDefaults()
@@ -64,10 +75,47 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    func readXMLFile(url: NSURL) {
+        let path = url.path!
+        let dict = NSArray(contentsOfFile: path)
+        if let dict = dict {
+            self.tree = Tree(array: dict)
+        } else {
+            print("Error reading from path (\(path))")
+        }
+    }
+    
     @IBAction func openXMLFile(sender: AnyObject) {
+        let fileDialog = NSOpenPanel()
+        
+        fileDialog.prompt = "Open XML File"
+        fileDialog.allowsMultipleSelection = false
+        fileDialog.canChooseDirectories = false
+        fileDialog.canChooseFiles = true
+        fileDialog.resolvesAliases = true
+        fileDialog.allowedFileTypes = ["xml"]
+        fileDialog.runModal()
+        if let fileURL = fileDialog.URL {
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setObject(fileURL.absoluteString, forKey: "filePath")
+            
+            print("Stored defaults as \(fileURL.absoluteString)")
+            
+            readXMLFile(fileURL)
+        } else {
+            print("No path, not importing anything")
+        }
     }
     
     @IBAction func saveFile(sender: AnyObject) {
+        let fileDialog = NSSavePanel()
+        fileDialog.allowedFileTypes = ["xml"]
+        fileDialog.runModal()
+        if let filePath = fileDialog.URL?.path {
+            tree.dictionary.writeToFile(filePath, atomically: true)
+        } else {
+            print("No path, not importing anything")
+        }
     }
 }
 

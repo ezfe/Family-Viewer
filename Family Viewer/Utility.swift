@@ -121,6 +121,27 @@ class Tree: CustomStringConvertible {
             }
         }
     }
+    
+    init() {
+        
+    }
+    
+    init(array arr: NSArray) {
+        for pDict in arr {
+            let p = Person(tree: self)
+            if let INDICode = pDict["INDI"] as? Int {
+                p.INDI = INDICode
+            } else {
+                p.INDI = self.getUniqueINDI()
+            }
+            
+            if let birthDict = pDict["birth"] as? NSDictionary {
+                
+            } else {
+                p.birth = Birth(date: Date(day: nil, month: nil, year: nil), location: <#T##Place#>)
+            }
+        }
+    }
 }
 
 enum Sex: String {
