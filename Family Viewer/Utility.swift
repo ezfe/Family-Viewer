@@ -122,9 +122,7 @@ class Tree: CustomStringConvertible {
         }
     }
     
-    init() {
-        
-    }
+    init() {} //dunno if i need this
     
     init(array arr: NSArray) {
         for pDict in arr {
@@ -132,7 +130,7 @@ class Tree: CustomStringConvertible {
             if let INDICode = pDict["INDI"] as? Int {
                 p.INDI = INDICode
             } else {
-                p.INDI = self.getUniqueINDI()
+                assert(false,"Missing INDI code, not importing")
             }
 
             if let birthDict = pDict["birth"] as? NSDictionary {
@@ -140,25 +138,65 @@ class Tree: CustomStringConvertible {
                     // TODO finish date importing
                 }
                 if let location = birthDict["location"] as? String {
-                    print("Imported date")
+                    print("Imported birth location")
                     p.birth.location = location
                 } else {
-                    print("Couldn't import date. Here's the dictionary")
+                    print("Couldn't import birth locatoin. Here's the dictionary")
                     print(birthDict)
                 }
             }
             
-            p.death
-            if let birthDict = pDict["birth"] as? NSDictionary {
-                if let _ = birthDict["date"] as? NSDictionary {
+            if let deathDict = pDict["death"] as? NSDictionary {
+                if let _ = deathDict["date"] as? NSDictionary {
                     // TODO finish date importing
                 }
-                if let location = birthDict["location"] as? String {
-                    print("Imported date")
-                    p.birth.location = location
+                if let location = deathDict["location"] as? String {
+                    print("Imported death location")
+                    p.death.location = location
                 } else {
-                    print("Couldn't import date. Here's the dictionary")
-                    print(birthDict)
+                    print("Couldn't import death location. Here's the dictionary")
+                    print(deathDict)
+                }
+                if let hasDied = deathDict["hasDied"] as? Bool {
+                    print("Imported hasDied attribute")
+                    p.isAlive = !hasDied
+                }
+            }
+            
+            if let nameAtBirthDict = pDict["nameAtBirth"] as? NSDictionary {
+                p.nameAtBirth.setValuesForKeysWithDictionary(nameAtBirthDict as! [String : AnyObject])
+                print("Imported name at birth")
+            }
+            
+            if let nameNowDict = pDict["nameNow"] as? NSDictionary {
+                p.nameNow.setValuesForKeysWithDictionary(nameNowDict as! [String : AnyObject])
+                print("Imported name now")
+            }
+            
+            if let sexString = pDict["sex"] as? String {
+                if sexString == "Male" {
+                    p.sex = Sex.Male
+                } else if sexString == "Female" {
+                    p.sex = Sex.Female
+                }
+            }
+            
+            self.people.append(p)
+        }
+        //Second loop to add parents
+        for pDict in arr {
+            if let INDICode = pDict["INDI"] as? Int, let p = self.getPerson(id: INDICode) {
+                if let pAINDI = pDict["parentA"] as? Int {
+                    print("Imported Parent A")
+                    p.parentA = self.getPerson(id: pAINDI)
+                } else {
+                    print(pDict)
+                }
+                if let pBINDI = pDict["parentB"] as? Int {
+                    print("Imported Parent B")
+                    p.parentB = self.getPerson(id: pBINDI)
+                } else {
+                    print(pDict)
                 }
             }
         }
@@ -415,6 +453,12 @@ class Person: CustomStringConvertible {
             dict["birth"] = self.birth.dictionary
             dict["death"] = self.death.dictionary
             dict["sex"] = self.sex!.rawValue
+            if let pA = self.parentA {
+                dict["parentA"] = pA.INDI!
+            }
+            if let pB = self.parentB {
+                dict["parentB"] = pB.INDI!
+            }
             
             return dict
         }

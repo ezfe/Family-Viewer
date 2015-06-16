@@ -53,11 +53,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fileDialog.allowedFileTypes = ["ged"]
         fileDialog.runModal()
         if let fileURL = fileDialog.URL {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setObject(fileURL.absoluteString, forKey: "filePath")
+//            let defaults = NSUserDefaults.standardUserDefaults()
+//            defaults.setObject(fileURL.absoluteString, forKey: "filePath")
             
-            print("Stored defaults")
-            print(defaults.stringForKey("filePath"))
+            print("Didn't store default, because GEDCOM files shouldn't be saved")
+//            print(defaults.stringForKey("filePath"))
             
             readGEDFile(fileURL)
         } else {
