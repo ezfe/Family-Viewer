@@ -26,7 +26,11 @@ extension String {
 ///Represents the entire tree
 class Tree: CustomStringConvertible {
     ///List of Person objects in the tree
-    var people = [Person]()
+    var people = [Person]() {
+        didSet {
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self)
+        }
+    }
     
     ///List of Person objects in ID:Description format
     var indexOfPeople: [String] {
@@ -77,6 +81,28 @@ class Tree: CustomStringConvertible {
                 dict.addObject(person.dictionary)
             }
             return dict
+        }
+    }
+    
+    ///Returns a safe INDI code to use for a new object in this tree
+    func getUniqueINDI() -> Int {
+        var INDIGen = 1
+        for p in self.people {
+            if p.INDI! >= INDIGen {
+                INDIGen = p.INDI!
+            }
+        }
+        return ++INDIGen
+    }
+    
+    func cleanupINDICodes() {
+        for (i,p) in people.enumerate() {
+            for (x,p2) in people.enumerate() where x != i {
+                if p.INDI! == p2.INDI! {
+                    p2.INDI = self.getUniqueINDI()
+                    print("Assigned new INDI (\(p2.INDI!)) to \(p2.description)")
+                }
+            }
         }
     }
 }

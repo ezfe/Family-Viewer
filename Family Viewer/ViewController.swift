@@ -41,9 +41,9 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         noPersonSelected()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
-        
     }
     
+    ///The tree
     var tree: Tree {
         set(newValue) {
             let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
@@ -55,6 +55,7 @@ class ViewController: NSViewController {
         }
     }
     
+    ///Update the view based on the tree
     func updateViewFromTree() {
         let cPerson: Person?
         if let cP = currentPerson() {
@@ -79,8 +80,13 @@ class ViewController: NSViewController {
         }
     }
     
-    func treeDidUpdate() { updateViewFromTree() }
+    ///Tree changed
+    func treeDidUpdate() {
+        tree.cleanupINDICodes()
+        updateViewFromTree()
+    }
     
+    ///Get the currently selected Person (or nil)
     func currentPerson() -> Person? {
         if self.personSelectPopup.indexOfSelectedItem == 0 {
             return nil
@@ -165,7 +171,7 @@ class ViewController: NSViewController {
     @IBAction func removeParentA(sender: AnyObject) {
         if let person = currentPerson() {
             person.parentA = nil
-            treeDidUpdate()
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
             selectPerson(person: person)
         }
     }
@@ -173,7 +179,7 @@ class ViewController: NSViewController {
     @IBAction func removeParentB(sender: AnyObject) {
         if let person = currentPerson() {
             person.parentB = nil
-            treeDidUpdate()
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
             selectPerson(person: person)
         }
     }
