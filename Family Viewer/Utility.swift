@@ -134,11 +134,32 @@ class Tree: CustomStringConvertible {
             } else {
                 p.INDI = self.getUniqueINDI()
             }
-            
+
             if let birthDict = pDict["birth"] as? NSDictionary {
-                
-            } else {
-                p.birth = Birth(date: Date(day: nil, month: nil, year: nil), location: <#T##Place#>)
+                if let _ = birthDict["date"] as? NSDictionary {
+                    // TODO finish date importing
+                }
+                if let location = birthDict["location"] as? String {
+                    print("Imported date")
+                    p.birth.location = location
+                } else {
+                    print("Couldn't import date. Here's the dictionary")
+                    print(birthDict)
+                }
+            }
+            
+            p.death
+            if let birthDict = pDict["birth"] as? NSDictionary {
+                if let _ = birthDict["date"] as? NSDictionary {
+                    // TODO finish date importing
+                }
+                if let location = birthDict["location"] as? String {
+                    print("Imported date")
+                    p.birth.location = location
+                } else {
+                    print("Couldn't import date. Here's the dictionary")
+                    print(birthDict)
+                }
             }
         }
     }
@@ -168,59 +189,6 @@ enum Month: Int {
     case December = 12
 }
 
-enum USState: String {
-    case Alabama = "Alabama"
-    case Alaska = "Alaska"
-    case Arizona = "Arizona"
-    case Arkansas = "Arkansas"
-    case California = "California"
-    case Colorado = "Colorado"
-    case Connecticut = "Connecticut"
-    case Delaware = "Delaware"
-    case Florida = "Florida"
-    case Georgia = "Georgia"
-    case Hawaii = "Hawaii"
-    case Idaho = "Idaho"
-    case Illinois = "Illinois"
-    case Indiana = "Indiana"
-    case Iowa = "Iowa"
-    case Kansas = "Kansas"
-    case Kentucky = "Kentucky"
-    case Louisiana = "Louisiana"
-    case Maine = "Maine"
-    case Maryland = "Maryland"
-    case Massachusetts = "Massachusetts"
-    case Michigan = "Michigan"
-    case Minnesota = "Minnesota"
-    case Mississippi = "Mississippi"
-    case Missouri = "Missouri"
-    case Montana = "Montana"
-    case Nebraska = "Nebraska"
-    case Nevada = "Nevada"
-    case New_Hampshire = "New Hampshire"
-    case New_Jersey = "New Jersey"
-    case New_Mexico = "New Mexico"
-    case New_York = "New York"
-    case North_Carolina = "North Carolina"
-    case North_Dakota = "North Dakota"
-    case Ohio = "Ohio"
-    case Oklahoma = "Oklahoma"
-    case Oregon = "Oregon"
-    case Pennsylvania = "Pennsylvania"
-    case Rhode_Island = "Rhode Island"
-    case South_Carolina = "South Carolina"
-    case South_Dakota = "South Dakota"
-    case Tennessee = "Tennessee"
-    case Texas = "Texas"
-    case Utah = "Utah"
-    case Vermont = "Vermont"
-    case Virginia = "Virginia"
-    case Washington = "Washington"
-    case West_Virginia = "West Virginia"
-    case Wisconsin = "Wisconsin"
-    case Wyoming = "Wyoming"
-}
-
 struct Date {
     var day: Int? = nil
     var month: Month? = nil
@@ -242,43 +210,14 @@ struct Date {
     }
 }
 
-struct Place {
-    var road: String?
-    var city: String?
-    var state: USState?
-    var zip: String?
-    var country: String?
-    var dictionary: NSMutableDictionary {
-        get {
-            let dict = NSMutableDictionary()
-            if let road = road {
-                dict["road"] = road
-            }
-            if let city = city {
-                dict["city"] = city
-            }
-            if let state = state {
-                dict["state"] = state.rawValue
-            }
-            if let zip = zip {
-                dict["zip"] = zip
-            }
-            if let country = country {
-                dict["country"] = country
-            }
-            return dict
-        }
-    }
-}
-
 struct Birth {
     var date: Date = Date(day: nil, month: nil, year: nil)
-    var location: Place = Place(road: nil, city: nil, state: nil, zip: nil, country: nil)
+    var location: String = ""
     var dictionary: NSMutableDictionary {
         get {
             let dict = NSMutableDictionary()
             dict["date"] = date.dictionary
-            dict["location"] = location.dictionary
+            dict["location"] = location
             return dict
         }
     }
@@ -290,13 +229,13 @@ struct Death {
     ///Date of death
     var date: Date = Date(day: nil, month: nil, year: nil)
     ///Place of death
-    var location: Place = Place(road: nil, city: nil, state: nil, zip: nil, country: nil)
-
+    var location: String = ""
+    
     var dictionary: NSMutableDictionary {
         get {
             let dict = NSMutableDictionary()
             dict["date"] = date.dictionary
-            dict["location"] = location.dictionary
+            dict["location"] = location
             dict["hasDied"] = hasDied
             return dict
         }
