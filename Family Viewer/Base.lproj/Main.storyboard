@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A179w" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Jdn-rn-sH9">
     <dependencies>
         <deployment identifier="macosx"/>
+        <development version="7000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
     </dependencies>
     <scenes>
@@ -301,29 +302,37 @@
                                     <action selector="viewParentB:" target="5gI-5U-AMq" id="Fxz-iY-iB0"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TAX-Sh-WKB">
-                                <rect key="frame" x="90" y="239" width="36" height="17"/>
+                            <button identifier="addParentA" hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TAX-Sh-WKB">
+                                <rect key="frame" x="90" y="239" width="88" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="36" id="afq-Ne-rGF"/>
+                                    <constraint firstAttribute="width" constant="88" id="afq-Ne-rGF"/>
                                     <constraint firstAttribute="height" constant="16" id="eqe-Fy-rzb"/>
                                 </constraints>
                                 <animations/>
-                                <buttonCell key="cell" type="inline" title="Link" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="4mK-9c-Pzm">
+                                <buttonCell key="cell" type="inline" title="Select Parent" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="4mK-9c-Pzm">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="addParentA:" target="5gI-5U-AMq" id="giG-ke-69B"/>
+                                    <segue destination="ea0-fj-XRt" kind="popover" popoverAnchorView="TAX-Sh-WKB" popoverBehavior="t" preferredEdge="maxY" id="TOX-Xk-FQV"/>
+                                </connections>
                             </button>
-                            <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xBZ-Ds-qAz">
-                                <rect key="frame" x="90" y="214" width="36" height="17"/>
+                            <button identifier="addParentB" hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xBZ-Ds-qAz">
+                                <rect key="frame" x="90" y="214" width="88" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="2VV-Lz-GBh"/>
-                                    <constraint firstAttribute="width" constant="36" id="kyt-8L-G6e"/>
+                                    <constraint firstAttribute="width" constant="88" id="kyt-8L-G6e"/>
                                 </constraints>
                                 <animations/>
-                                <buttonCell key="cell" type="inline" title="Link" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="yws-m1-oiF">
+                                <buttonCell key="cell" type="inline" title="Select Parent" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="yws-m1-oiF">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="addParentB:" target="5gI-5U-AMq" id="cRQ-2v-e5j"/>
+                                    <segue destination="ea0-fj-XRt" kind="popover" popoverAnchorView="xBZ-Ds-qAz" popoverBehavior="t" preferredEdge="maxY" id="VWv-bQ-AOY"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wkn-SQ-DPV">
                                 <rect key="frame" x="417" y="214" width="48" height="17"/>
@@ -414,7 +423,7 @@
                     </view>
                     <connections>
                         <outlet property="addParentA" destination="TAX-Sh-WKB" id="Tft-H0-PyZ"/>
-                        <outlet property="addParentB" destination="xBZ-Ds-qAz" id="KH6-KD-wW1"/>
+                        <outlet property="addParentB" destination="xBZ-Ds-qAz" id="53B-fU-kNY"/>
                         <outlet property="filenameLabel" destination="Bmm-us-xma" id="2dd-nO-iCr"/>
                         <outlet property="nameField" destination="QzX-zh-spg" id="d1L-K3-LiB"/>
                         <outlet property="nameLabel" destination="qvK-PP-kOE" id="Ipb-vZ-fDw"/>
@@ -434,5 +443,64 @@
             </objects>
             <point key="canvasLocation" x="187" y="731"/>
         </scene>
+        <!--Add Parent View Controller-->
+        <scene sceneID="1SQ-Zx-m2b">
+            <objects>
+                <viewController id="ea0-fj-XRt" customClass="AddParentViewController" customModule="Family_Viewer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="aLg-S4-0Bj">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="61"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oFQ-zW-o2X">
+                                <rect key="frame" x="18" y="17" width="315" height="26"/>
+                                <animations/>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="hhy-tg-jxg">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="uY2-cw-YqP">
+                                        <items>
+                                            <menuItem title="Choose a person" id="hH2-39-gHb"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wi5-TY-AHy">
+                                <rect key="frame" x="332" y="13" width="104" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="92" id="Kr2-eA-dgc"/>
+                                    <constraint firstAttribute="height" constant="21" id="coI-7m-tcW"/>
+                                </constraints>
+                                <animations/>
+                                <buttonCell key="cell" type="push" title="Set Parent" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Gmn-48-Ccn">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setParent:" target="ea0-fj-XRt" id="YJQ-QZ-CYy"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Wi5-TY-AHy" firstAttribute="leading" secondItem="oFQ-zW-o2X" secondAttribute="trailing" constant="8" id="0Ep-vw-LB3"/>
+                            <constraint firstItem="Wi5-TY-AHy" firstAttribute="top" secondItem="aLg-S4-0Bj" secondAttribute="top" constant="20" id="3KR-Bv-evu"/>
+                            <constraint firstItem="oFQ-zW-o2X" firstAttribute="leading" secondItem="aLg-S4-0Bj" secondAttribute="leading" constant="20" id="4zS-EB-TI3"/>
+                            <constraint firstAttribute="trailing" secondItem="Wi5-TY-AHy" secondAttribute="trailing" constant="20" id="Cj5-u8-H4N"/>
+                            <constraint firstAttribute="bottom" secondItem="Wi5-TY-AHy" secondAttribute="bottom" constant="20" id="ERB-hn-9iK"/>
+                            <constraint firstAttribute="bottom" secondItem="oFQ-zW-o2X" secondAttribute="bottom" constant="20" id="nfG-w3-jXF"/>
+                            <constraint firstItem="oFQ-zW-o2X" firstAttribute="top" secondItem="aLg-S4-0Bj" secondAttribute="top" constant="20" id="z5L-3m-6j8"/>
+                        </constraints>
+                        <animations/>
+                    </view>
+                    <connections>
+                        <outlet property="popupChooser" destination="oFQ-zW-o2X" id="ukA-au-aBj"/>
+                    </connections>
+                </viewController>
+                <customObject id="5IL-ia-HLN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="187" y="1144.5"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="TOX-Xk-FQV"/>
+    </inferredMetricsTieBreakers>
 </document>

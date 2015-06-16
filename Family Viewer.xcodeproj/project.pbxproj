@@ -12,6 +12,7 @@
 		661671251B2E64D100714530 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 661671241B2E64D100714530 /* Assets.xcassets */; };
 		661671281B2E64D100714530 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 661671261B2E64D100714530 /* Main.storyboard */; };
 		661671311B2E6DC800714530 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661671301B2E6DC800714530 /* Utility.swift */; };
+		66791C171B2F83D400FF03E9 /* AddParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66791C161B2F83D400FF03E9 /* AddParentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		661671271B2E64D100714530 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		661671291B2E64D100714530 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		661671301B2E6DC800714530 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		66791C161B2F83D400FF03E9 /* AddParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddParentViewController.swift; path = ../AddParentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				6616711E1B2E64D100714530 /* AppDelegate.swift */,
 				661671201B2E64D100714530 /* ViewController.swift */,
 				661671301B2E6DC800714530 /* Utility.swift */,
+				66791C161B2F83D400FF03E9 /* AddParentViewController.swift */,
 				661671241B2E64D100714530 /* Assets.xcassets */,
 				661671261B2E64D100714530 /* Main.storyboard */,
 				661671291B2E64D100714530 /* Info.plist */,
@@ -153,6 +156,7 @@
 			files = (
 				661671311B2E6DC800714530 /* Utility.swift in Sources */,
 				661671211B2E64D100714530 /* ViewController.swift in Sources */,
+				66791C171B2F83D400FF03E9 /* AddParentViewController.swift in Sources */,
 				6616711F1B2E64D100714530 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

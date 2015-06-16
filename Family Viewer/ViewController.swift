@@ -56,12 +56,27 @@ class ViewController: NSViewController {
     }
     
     func updateViewFromTree() {
+        let cPerson: Person?
+        if let cP = currentPerson() {
+            cPerson = cP
+        } else {
+            cPerson = nil
+        }
+        
         self.filenameLabel.stringValue = "Family Tree"
         self.peopleCountLabel.stringValue = self.tree.description
         
+        self.personSelectPopup.removeAllItems()
+        self.personSelectPopup.addItemWithTitle("Choose a person")
+        self.personSelectPopup.itemAtIndex(0)?.enabled = false
         self.personSelectPopup.addItemsWithTitles(self.tree.indexOfPeople)
         
-        selectChanged(self)
+        if let cPerson = cPerson {
+            self.selectPerson(person: cPerson)
+        } else {
+            self.personSelectPopup.selectItemAtIndex(0)
+            self.selectChanged(self)
+        }
     }
     
     func treeDidUpdate() { updateViewFromTree() }
@@ -167,6 +182,21 @@ class ViewController: NSViewController {
     @IBAction func selectChanged(sender: AnyObject) {
         if let person = currentPerson() {
             selectPerson(person: person)
+        }
+    }
+    
+    override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
+        if let sender = sender as? NSButton {
+            guard let destination = segue.destinationController as? AddParentViewController, cPerson = self.currentPerson() else {
+                return
+            }
+            destination.tree = self.tree
+            destination.parentTo = cPerson
+            if sender.identifier == "addParentA" {
+                destination.A_B = "A"
+            } else if sender.identifier == "addParentB" {
+                destination.A_B = "B"
+            }
         }
     }
 }
