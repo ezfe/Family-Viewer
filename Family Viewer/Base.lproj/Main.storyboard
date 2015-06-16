@@ -1021,7 +1021,6 @@
                         <outlet property="secondMiddleNameField" destination="8Vb-tw-qE2" id="Du9-yf-KEp"/>
                         <outlet property="secondNickNameEnabled" destination="ATv-KE-vhZ" id="MD4-Lh-mnO"/>
                         <outlet property="secondNickNameField" destination="G9p-7W-Ug1" id="I5F-kd-x5U"/>
-                        <outlet property="secondNicknameEnabled" destination="ATv-KE-vhZ" id="PMA-XK-eAh"/>
                         <outlet property="secondPrefixEnabled" destination="88S-we-Dtx" id="XjK-vr-Vcm"/>
                         <outlet property="secondPrefixField" destination="IoX-2V-aqo" id="LTg-Sj-4ej"/>
                         <outlet property="secondSuffixEnabled" destination="3Bs-bi-Na4" id="Lt1-Vm-vg5"/>
@@ -1031,7 +1030,7 @@
                 </viewController>
                 <customObject id="Sjn-5x-PZS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="740" y="686.5"/>
+            <point key="canvasLocation" x="759" y="1229.5"/>
         </scene>
         <!--Add Parent View Controller-->
         <scene sceneID="1SQ-Zx-m2b">
