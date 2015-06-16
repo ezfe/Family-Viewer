@@ -37,10 +37,14 @@ class ViewController: NSViewController {
     @IBOutlet weak var viewParentA: NSButton!
     ///View Parent B
     @IBOutlet weak var viewParentB: NSButton!
+    ///Edit name
+    @IBOutlet weak var editName: NSButton!
     
     override func viewDidLoad() {
         noPersonSelected()
+                
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addedParent:", name: "com.ezekielelin.addedParent", object: nil)
     }
     
     ///The tree
@@ -48,6 +52,7 @@ class ViewController: NSViewController {
         set(newValue) {
             let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
             appDelegate.tree = newValue
+
         }
         get {
             let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
@@ -100,6 +105,7 @@ class ViewController: NSViewController {
     func noPersonSelected() {
         nameLabel.hidden = true
         nameField.hidden = true
+        editName.hidden = true
         
         parentALabel.hidden = true
         parentAField.hidden = true
@@ -125,6 +131,7 @@ class ViewController: NSViewController {
         
         nameLabel.hidden = false
         nameField.hidden = false
+        editName.hidden = false
         nameField.stringValue = person.description
         
         parentALabel.hidden = false
@@ -183,12 +190,20 @@ class ViewController: NSViewController {
             selectPerson(person: person)
         }
     }
+    
+    @IBAction func editName(sender: AnyObject) {
+        print("NO")
+    }
 
     ///Called when the selection changes.
     @IBAction func selectChanged(sender: AnyObject) {
         if let person = currentPerson() {
             selectPerson(person: person)
         }
+    }
+    
+    func addedParent(notification: NSNotification) {
+        selectPerson(person: notification.userInfo!["newPerson"] as! Person)
     }
     
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {

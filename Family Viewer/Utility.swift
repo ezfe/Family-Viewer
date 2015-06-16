@@ -357,6 +357,10 @@ class Person: CustomStringConvertible {
         }
     }
 
+    init(tree t: Tree) {
+        self.tree = t
+        self.INDI = tree.getUniqueINDI()
+    }
     
     init(gedcomEntity ge: [String], tree t: Tree) {
         self.tree = t

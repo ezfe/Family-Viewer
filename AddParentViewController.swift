@@ -38,4 +38,19 @@ class AddParentViewController: NSViewController {
         self.dismissController(self)
     }
     
+    @IBAction func createNewPerson(sender: AnyObject) {
+        guard let parentTo = parentTo else {
+            return
+        }
+        let newPerson = Person(tree: self.tree)
+        tree.people.append(newPerson)
+        if self.A_B == "A" {
+            parentTo.parentA = newPerson
+        } else if self.A_B == "B" {
+            parentTo.parentB = newPerson
+        }
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil, userInfo: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addedParent", object: nil, userInfo: ["newPerson":newPerson,"parentTo":parentTo,"A_B": A_B])
+        self.dismissController(self)
+    }
 }
