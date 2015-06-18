@@ -48,6 +48,9 @@ class Tree: CustomStringConvertible {
         }
     }
     
+    ///Name of the tree
+    var treeName = "Family Tree"
+    
     ///List of Person objects in ID:Description format
     var indexOfPeople: [String] {
         get {
@@ -90,12 +93,18 @@ class Tree: CustomStringConvertible {
     }
     
     ///NSMutableArray representation
-    var dictionary: NSMutableArray {
+    var dictionary: NSMutableDictionary {
         get {
-            let dict = NSMutableArray()
+            let dict = NSMutableDictionary()
+            let arr = NSMutableArray()
             for person in people {
-                dict.addObject(person.dictionary)
+                print("Added \(person.INDI!) to the array")
+                arr.addObject(person.dictionary)
             }
+            dict["people"] = arr
+            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+            dict["version"] = appDelegate.formatVersion
+            dict["name"] = self.treeName
             return dict
         }
     }
@@ -124,7 +133,24 @@ class Tree: CustomStringConvertible {
     
     init() {} //dunno if i need this
     
-    init(array arr: NSArray) {
+    init(dictionary dict: NSDictionary) {
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let currentFormat = appDelegate.formatVersion
+        guard let dictFormat = dict["version"] as? Int else {
+            assert(false,"Dictionary doesn't have version tag")
+        }
+        
+        if dictFormat < currentFormat {
+            assert(false,"Dictionary is old, cannot open")
+        } else if dictFormat > currentFormat {
+            assert(false,"Dictionary is (too) new, won't open")
+        }
+        
+        if let treeName = dict["name"] as? String {
+            self.treeName = treeName
+        }
+        
+        let arr = dict["people"] as! NSArray
         for pDict in arr {
             let p = Person(tree: self)
             if let INDICode = pDict["INDI"] as? Int {
@@ -187,16 +213,16 @@ class Tree: CustomStringConvertible {
         for pDict in arr {
             if let INDICode = pDict["INDI"] as? Int, let p = self.getPerson(id: INDICode) {
                 if let pAINDI = pDict["parentA"] as? Int {
-                    print("Imported Parent A")
+                    print("Imported Parent A (\(pAINDI) for \(p.INDI!))")
                     p.parentA = self.getPerson(id: pAINDI)
                 } else {
-                    print(pDict)
+                    print("No parent found for \(p.INDI!)")
                 }
                 if let pBINDI = pDict["parentB"] as? Int {
-                    print("Imported Parent B")
+                    print("Imported Parent B (\(pBINDI) for \(p.INDI!))")
                     p.parentB = self.getPerson(id: pBINDI)
                 } else {
-                    print(pDict)
+                    print("No parent found for \(p.INDI!)")
                 }
             }
         }

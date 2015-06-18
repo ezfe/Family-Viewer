@@ -10,35 +10,51 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+    
+    /**
+    Version to save in the file
+    1: Current version as of Build 333
+    */
+    let formatVersion = 1
+    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
         
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let filePath = defaults.stringForKey("filePath") {
-            print("Reading from path...")
-            let fm = NSFileManager()
-            if fm.fileExistsAtPath(NSURL(string: filePath)!.path!) {
-                if filePath.rangeOfString(".ged") != nil {
-                    readGEDFile(NSURL(string: filePath)!)
-                } else {
-                    readXMLFile(NSURL(string: filePath)!)
-                }
-            } else {
-                print("Hmm...couldn't find \(NSURL(string: filePath)!.path!)")
-                defaults.removeObjectForKey("filePath")
-            }
-        } else {
-            print("Unable to read from path...")
-        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "openLastFile", name: "com.ezekielelin.openLastFile", object: nil)
     }
     
     func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
     }
     
+    var hasTree = false
+    
     var tree = Tree() {
         didSet {
+            assert(self.hasTree, "hasTree is false, yet self.tree was set?")
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+        }
+    }
+    
+    func openLastFile() {
+        print("Received notification to open last file...")
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let filePath = defaults.stringForKey("filePath") {
+            print("Reading from path...")
+            let fm = NSFileManager()
+            if fm.fileExistsAtPath(filePath) {
+                if filePath.rangeOfString(".ged") != nil {
+                    readGEDFile(filePath)
+                } else {
+                    readXMLFile(filePath)
+                }
+            } else {
+                print("Hmm...couldn't find \(filePath)")
+                defaults.removeObjectForKey("filePath")
+                NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.updatedDefaults_FilePath", object: nil)
+            }
+        } else {
+            print("Unable to read from path...")
         }
     }
     
@@ -52,12 +68,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fileDialog.resolvesAliases = true
         fileDialog.allowedFileTypes = ["ged"]
         fileDialog.runModal()
-        if let fileURL = fileDialog.URL {
-//            let defaults = NSUserDefaults.standardUserDefaults()
-//            defaults.setObject(fileURL.absoluteString, forKey: "filePath")
+        if let fileURL = fileDialog.URL?.path {
+            //            let defaults = NSUserDefaults.standardUserDefaults()
+            //            defaults.setObject(fileURL.path!, forKey: "filePath")
             
             print("Didn't store default, because GEDCOM files shouldn't be saved")
-//            print(defaults.stringForKey("filePath"))
+            //            print(defaults.stringForKey("filePath"))
             
             readGEDFile(fileURL)
         } else {
@@ -65,21 +81,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func readGEDFile(path: NSURL) {
-        let stringData = try! NSString(contentsOfURL: path, encoding: NSUTF8StringEncoding)
+    func readGEDFile(path: String) {
+        let stringData = try! NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding)
         let t = GEDCOMToFamilyObject(gedcomString: stringData as String)
         if t.people.count > 0 {
+            self.hasTree = true
             self.tree = t
         } else {
             print("No people in tree, ignoring")
         }
     }
     
-    func readXMLFile(url: NSURL) {
-        let path = url.path!
-        let dict = NSArray(contentsOfFile: path)
-        if let dict = dict {
-            self.tree = Tree(array: dict)
+    func readXMLFile(path: String) {
+        let dict = NSDictionary(contentsOfFile: path)
+        if let dict = dict, treeVersion = dict["version"] as? Int {
+            if treeVersion > 0 {
+                self.hasTree = true
+                self.tree = Tree(dictionary: dict)
+            } else {
+                assert(false,"Version wasn't greater than 0")
+            }
         } else {
             print("Error reading from path (\(path))")
         }
@@ -95,13 +116,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fileDialog.resolvesAliases = true
         fileDialog.allowedFileTypes = ["xml"]
         fileDialog.runModal()
-        if let fileURL = fileDialog.URL {
+        if let path = fileDialog.URL?.path {
             let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setObject(fileURL.absoluteString, forKey: "filePath")
+            defaults.setObject(path, forKey: "filePath")
             
-            print("Stored defaults as \(fileURL.absoluteString)")
+            print("Stored defaults as \(path)")
             
-            readXMLFile(fileURL)
+            readXMLFile(path)
         } else {
             print("No path, not importing anything")
         }
@@ -112,6 +133,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         fileDialog.allowedFileTypes = ["xml"]
         fileDialog.runModal()
         if let filePath = fileDialog.URL?.path {
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setObject(filePath, forKey: "filePath")
+            
             tree.dictionary.writeToFile(filePath, atomically: true)
         } else {
             print("No path, not importing anything")

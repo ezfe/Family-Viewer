@@ -12,6 +12,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var filenameLabel: NSTextField!
     @IBOutlet weak var peopleCountLabel: NSTextField!
     @IBOutlet weak var personSelectPopup: NSPopUpButton!
+    @IBOutlet weak var openLastFileButton: NSButton!
     
     ///Label for the name ("Name:")
     @IBOutlet weak var nameLabel: NSTextField!
@@ -39,12 +40,41 @@ class ViewController: NSViewController {
     @IBOutlet weak var viewParentB: NSButton!
     ///Edit name
     @IBOutlet weak var editName: NSButton!
+    @IBOutlet weak var horizontalBar: NSBox!
     
     override func viewDidLoad() {
-        noPersonSelected()
-                
+        updateViewNoTree()
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addedParent:", name: "com.ezekielelin.addedParent", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
+    }
+    
+    @IBAction func openLastFile(sender: AnyObject) {
+        print("Posting notification to open last file")
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.openLastFile", object: self)
+    }
+    
+    func updatedDefaultsFilePath() {
+        updateViewNoTree()
+    }
+    
+    func updateViewNoTree() {
+        self.peopleCountLabel.hidden = true
+        self.openLastFileButton.hidden = false
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let filePath = defaults.stringForKey("filePath") {
+            self.openLastFileButton.title = "Open \(filePath.lastPathComponent)"
+        } else {
+            self.openLastFileButton.hidden = true
+            self.peopleCountLabel.hidden = false
+            self.peopleCountLabel.stringValue = "Use File > Open..."
+        }
+        self.personSelectPopup.hidden = true
+        self.horizontalBar.hidden = true
+        
+        noPersonSelected()
     }
     
     ///The tree
@@ -69,8 +99,13 @@ class ViewController: NSViewController {
             cPerson = nil
         }
         
-        self.filenameLabel.stringValue = "Family Tree"
+        self.filenameLabel.stringValue = tree.treeName 
         self.peopleCountLabel.stringValue = self.tree.description
+        self.openLastFileButton.hidden = true
+        self.peopleCountLabel.hidden = false
+        self.personSelectPopup.hidden = false
+        self.horizontalBar.hidden = false
+
         
         self.personSelectPopup.removeAllItems()
         self.personSelectPopup.addItemWithTitle("Choose a person")
