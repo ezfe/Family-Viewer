@@ -20,6 +20,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
         
+        let defaults = NSUserDefaults.standardUserDefaults()
+        var showAlert = true
+        if defaults.boolForKey("betaAlertShown") {
+            showAlert = false
+        }
+        if showAlert {
+            let alert = NSAlert()
+            alert.messageText = "Notice!"
+            alert.informativeText = "This is a beta build. Saved files may not be compatible with future versions, data loss may occur."
+            alert.runModal()
+        }
+        defaults.setBool(true, forKey: "betaAlertShown")
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "openLastFile", name: "com.ezekielelin.openLastFile", object: nil)
     }
     
