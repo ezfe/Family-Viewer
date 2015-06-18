@@ -138,6 +138,7 @@ class Tree: CustomStringConvertible {
         let currentFormat = appDelegate.formatVersion
         guard let dictFormat = dict["version"] as? Int else {
             assert(false,"Dictionary doesn't have version tag")
+            return
         }
         
         if dictFormat < currentFormat {

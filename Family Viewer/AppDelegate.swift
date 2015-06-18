@@ -30,6 +30,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             alert.messageText = "Notice!"
             alert.informativeText = "This is a beta build. Saved files may not be compatible with future versions, data loss may occur."
             alert.runModal()
+            let alert2 = NSAlert()
+            alert2.messageText = "Also..."
+            alert2.informativeText = "These are the only alerts in the entire app. If you press a button and nothing happens, check the Console"
+            alert2.runModal()
         }
         defaults.setBool(true, forKey: "betaAlertShown")
         
