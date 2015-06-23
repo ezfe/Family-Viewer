@@ -40,6 +40,15 @@ class ViewController: NSViewController {
     @IBOutlet weak var viewParentB: NSButton!
     ///Edit name
     @IBOutlet weak var editName: NSButton!
+    ///Label for birth ("Birth:")
+    @IBOutlet weak var birthLabel: NSTextField!
+    ///Label for birth date
+    @IBOutlet weak var birthDateLabel: NSTextField!
+    ///Label for birth location
+    @IBOutlet weak var birthLocationLabel: NSTextField!
+    ///Edit birth
+    @IBOutlet weak var editBirthButton: NSButton!
+    
     @IBOutlet weak var horizontalBar: NSBox!
     
     override func viewDidLoad() {
@@ -142,6 +151,11 @@ class ViewController: NSViewController {
         nameField.hidden = true
         editName.hidden = true
         
+        birthLabel.hidden = true
+        birthLocationLabel.hidden = true
+        birthDateLabel.hidden = true
+        editBirthButton.hidden = true
+        
         parentALabel.hidden = true
         parentAField.hidden = true
         removeParentA.hidden = true
@@ -169,10 +183,6 @@ class ViewController: NSViewController {
         editName.hidden = false
         nameField.stringValue = person.description
         
-        print("dates----")
-        print(person.birth.date)
-        print(person.death.date)
-        
         parentALabel.hidden = false
         if let parentA = person.parentA {
             addParentA.hidden = true
@@ -199,6 +209,23 @@ class ViewController: NSViewController {
             removeParentB.hidden = true
             viewParentB.hidden = true
             parentBField.hidden = true
+        }
+        
+        birthLabel.hidden = false
+        birthLocationLabel.hidden = false
+        birthDateLabel.hidden = false
+        editBirthButton.hidden = false
+        
+        if person.birth.date.isSet() {
+            birthDateLabel.stringValue = person.birth.date.description
+        } else {
+            birthDateLabel.stringValue = "No Date Set"
+        }
+        
+        if person.birth.location == "" {
+            birthLocationLabel.stringValue = "No Location Set"
+        } else {
+            birthLocationLabel.stringValue = person.birth.location
         }
     }
     

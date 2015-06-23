@@ -161,8 +161,16 @@ class Tree: CustomStringConvertible {
             }
 
             if let birthDict = pDict["birth"] as? NSDictionary {
-                if let _ = birthDict["date"] as? NSDictionary {
-                    // TODO finish date importing
+                if let dateDict = birthDict["date"] as? NSDictionary {
+                    if let day = dateDict["day"] as? Int {
+                        p.birth.date.day = day
+                    }
+                    if let monthString = dateDict["month"] as? String {
+                        p.birth.date.month = monthFromRaw(month: monthString)
+                    }
+                    if let year = dateDict["year"] as? Int {
+                        p.birth.date.year = year
+                    }
                 }
                 if let location = birthDict["location"] as? String {
                     print("Imported birth location")
@@ -174,8 +182,16 @@ class Tree: CustomStringConvertible {
             }
             
             if let deathDict = pDict["death"] as? NSDictionary {
-                if let _ = deathDict["date"] as? NSDictionary {
-                    // TODO finish date importing
+                if let dateDict = deathDict["date"] as? NSDictionary {
+                    if let day = dateDict["day"] as? Int {
+                        p.death.date.day = day
+                    }
+                    if let monthString = dateDict["month"] as? String {
+                        p.death.date.month = monthFromRaw(month: monthString)
+                    }
+                    if let year = dateDict["year"] as? Int {
+                        p.death.date.year = year
+                    }
                 }
                 if let location = deathDict["location"] as? String {
                     print("Imported death location")
@@ -266,13 +282,20 @@ struct Date: CustomStringConvertible {
                 dict["day"] = day
             }
             if let month = month {
-                dict["day"] = month.rawValue
+                dict["month"] = month.rawValue
             }
             if let year = year {
-                dict["day"] = year
+                dict["year"] = year
             }
             return dict
         }
+    }
+    
+    func isSet() -> Bool {
+        if self.day == nil && self.month == nil && self.year == nil {
+            return false
+        }
+        return true
     }
     
     var description: String {
@@ -323,7 +346,7 @@ struct Death {
     }
 }
 
-func monthFromString(month mo: String) -> Month? {
+func monthFromFEString(month mo: String) -> Month? {
     switch mo {
     case "JAN":
         return Month.January
@@ -353,6 +376,36 @@ func monthFromString(month mo: String) -> Month? {
         return nil
     }
 }
+func monthFromRaw(month mo: String) -> Month? {
+    switch mo {
+    case "January":
+        return Month.January
+    case "February":
+        return Month.February
+    case "February":
+        return Month.February
+    case "April":
+        return Month.April
+    case "May":
+        return Month.May
+    case "June":
+        return Month.June
+    case "July":
+        return Month.July
+    case "August":
+        return Month.August
+    case "September":
+        return Month.September
+    case "October":
+        return Month.October
+    case "November":
+        return Month.November
+    case "December":
+        return Month.December
+    default:
+        return nil
+    }
+}
 
 ///Converts DD MMM YYYY to Date() object
 func convertFEDate(date d: String) -> Date {
@@ -360,12 +413,12 @@ func convertFEDate(date d: String) -> Date {
         let day = Int(d[0..<1])
         let monthString = d[2...4]
         let year = Int(d[6...9])
-        return Date(day: day, month: monthFromString(month: monthString), year: year)
+        return Date(day: day, month: monthFromFEString(month: monthString), year: year)
     } else if d.characters.count == 11 {
         let day = Int(d[0..<2])
         let monthString = d[3...5]
         let year = Int(d[7...10])
-        return Date(day: day, month: monthFromString(month: monthString), year: year)
+        return Date(day: day, month: monthFromFEString(month: monthString), year: year)
     }
     return Date(day: nil, month: nil, year: nil)
 }

@@ -405,6 +405,41 @@
                                     <action selector="openLastFile:" target="5gI-5U-AMq" id="khM-I1-N5T"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a3r-Ri-Nyi">
+                                <rect key="frame" x="18" y="190" width="64" height="17"/>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Birth:" id="1iK-IV-Boy">
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ml9-31-LSY">
+                                <rect key="frame" x="90" y="190" width="335" height="17"/>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="ZSJ-PY-oaQ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Ea-Ja-0HA">
+                                <rect key="frame" x="431" y="189" width="34" height="17"/>
+                                <animations/>
+                                <buttonCell key="cell" type="inline" title="Edit" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="Io4-Sm-3QN">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystemBold"/>
+                                </buttonCell>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nVM-si-TbL">
+                                <rect key="frame" x="90" y="165" width="335" height="17"/>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="ld0-Qc-IEW">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Bmm-us-xma" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="20" id="1Pe-x3-9PR"/>
@@ -454,6 +489,10 @@
                     <connections>
                         <outlet property="addParentA" destination="TAX-Sh-WKB" id="Tft-H0-PyZ"/>
                         <outlet property="addParentB" destination="xBZ-Ds-qAz" id="53B-fU-kNY"/>
+                        <outlet property="birthDateLabel" destination="ml9-31-LSY" id="i03-67-oC2"/>
+                        <outlet property="birthLabel" destination="a3r-Ri-Nyi" id="g6D-K0-b4J"/>
+                        <outlet property="birthLocationLabel" destination="nVM-si-TbL" id="aWZ-Ol-oqe"/>
+                        <outlet property="editBirthButton" destination="0Ea-Ja-0HA" id="Izj-MN-Dmf"/>
                         <outlet property="editName" destination="N6D-cN-Ic7" id="Nuj-Ur-EoG"/>
                         <outlet property="filenameLabel" destination="Bmm-us-xma" id="2dd-nO-iCr"/>
                         <outlet property="horizontalBar" destination="vce-OI-QDS" id="LIa-PL-rbw"/>
