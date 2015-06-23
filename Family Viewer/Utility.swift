@@ -239,25 +239,26 @@ enum FamilyType {
     case Married, Engaged, Relationship, Seperated, Divorced, Annulled
 }
 
-enum Month: Int {
-    case January = 1
-    case February = 2
-    case March = 3
-    case April = 4
-    case May = 5
-    case June = 6
-    case July = 7
-    case August = 8
-    case September = 9
-    case October = 10
-    case November = 11
-    case December = 12
+enum Month: String {
+    case January = "January"
+    case February = "February"
+    case March = "March"
+    case April = "April"
+    case May = "May"
+    case June = "June"
+    case July = "July"
+    case August = "August"
+    case September = "September"
+    case October = "October"
+    case November = "November"
+    case December = "December"
 }
 
-struct Date {
+struct Date: CustomStringConvertible {
     var day: Int? = nil
     var month: Month? = nil
     var year: Int? = nil
+    
     var dictionary: NSMutableDictionary {
         get {
             let dict = NSMutableDictionary()
@@ -271,6 +272,21 @@ struct Date {
                 dict["day"] = year
             }
             return dict
+        }
+    }
+    
+    var description: String {
+        get {
+            if let day = self.day, month = self.month, year = self.year {
+                return "\(month.rawValue) \(day), \(year)"
+            }
+            if let month = self.month, year = self.year {
+                return "\(month.rawValue) \(year)"
+            }
+            if let year = self.year {
+                return "\(year)"
+            }
+            return "\(month) \(day), \(year)"
         }
     }
 }
@@ -307,8 +323,50 @@ struct Death {
     }
 }
 
+func monthFromString(month mo: String) -> Month? {
+    switch mo {
+    case "JAN":
+        return Month.January
+    case "FEB":
+        return Month.February
+    case "MAR":
+        return Month.March
+    case "APR":
+        return Month.April
+    case "MAY":
+        return Month.May
+    case "JUN":
+        return Month.June
+    case "JUL":
+        return Month.July
+    case "AUG":
+        return Month.August
+    case "SEP":
+        return Month.September
+    case "OCT":
+        return Month.October
+    case "NOV":
+        return Month.November
+    case "DEC":
+        return Month.December
+    default:
+        return nil
+    }
+}
+
 ///Converts DD MMM YYYY to Date() object
 func convertFEDate(date d: String) -> Date {
+    if d.characters.count == 10 {
+        let day = Int(d[0..<1])
+        let monthString = d[2...4]
+        let year = Int(d[6...9])
+        return Date(day: day, month: monthFromString(month: monthString), year: year)
+    } else if d.characters.count == 11 {
+        let day = Int(d[0..<2])
+        let monthString = d[3...5]
+        let year = Int(d[7...10])
+        return Date(day: day, month: monthFromString(month: monthString), year: year)
+    }
     return Date(day: nil, month: nil, year: nil)
 }
 

@@ -169,6 +169,10 @@ class ViewController: NSViewController {
         editName.hidden = false
         nameField.stringValue = person.description
         
+        print("dates----")
+        print(person.birth.date)
+        print(person.death.date)
+        
         parentALabel.hidden = false
         if let parentA = person.parentA {
             addParentA.hidden = true
