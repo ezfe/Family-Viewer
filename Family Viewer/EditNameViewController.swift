@@ -108,7 +108,7 @@ class EditNameViewController: NSViewController {
         if !secondSuffixEnabled.isChecked {
             secondSuffixField.stringValue = suffixAtBirthField.stringValue
         }
-        if !secondPrefixEnabled.isChecked {
+        if !secondNickNameEnabled.isChecked {
             secondNickNameField.stringValue = nicknameAtBirthField.stringValue
         }
         
@@ -146,7 +146,7 @@ class EditNameViewController: NSViewController {
             } else {
                 person.nameNow.nameSuffix = nil
             }
-            if self.secondNickNameField.stringValue == "" && self.secondNickNameEnabled.isChecked {
+            if self.secondNickNameEnabled.isChecked {
                 person.nameNow.nickname = self.secondNickNameField.stringValue
             } else {
                 person.nameNow.nickname = nil
