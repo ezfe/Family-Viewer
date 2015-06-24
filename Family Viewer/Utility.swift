@@ -39,6 +39,56 @@ extension NSButton {
     }
 }
 
+extension NSPersonNameComponents {
+    var dictionary: NSDictionary {
+        get {
+            let dict = NSMutableDictionary()
+            
+            dict["namePrefix"] = (self.namePrefix == nil ? "##nil##" : self.namePrefix!)
+            dict["givenName"] = (self.givenName == nil ? "##nil##" : self.givenName!)
+            dict["middleName"] = (self.middleName == nil ? "##nil##" : self.middleName!)
+            dict["familyName"] = (self.familyName == nil ? "##nil##" : self.familyName!)
+            dict["nameSuffix"] = (self.nameSuffix == nil ? "##nil##" : self.nameSuffix!)
+            dict["nickname"] = (self.nickname == nil ? "##nil##" : self.nickname!)
+            
+            return dict
+        }
+    }
+    
+    func setupFromDict(dictionary dict: NSDictionary) {
+        if let namePrefix = dict["namePrefix"] as? String where namePrefix != "##nil##" {
+            self.namePrefix = namePrefix
+        } else {
+            self.namePrefix = nil
+        }
+        if let givenName = dict["givenName"] as? String where givenName != "##nil##" {
+            self.givenName = givenName
+        } else {
+            self.givenName = nil
+        }
+        if let middleName = dict["middleName"] as? String where middleName != "##nil##" {
+            self.middleName = middleName
+        } else {
+            self.middleName = nil
+        }
+        if let familyName = dict["familyName"] as? String where familyName != "##nil##" {
+            self.familyName = familyName
+        } else {
+            self.familyName = nil
+        }
+        if let nameSuffix = dict["nameSuffix"] as? String where nameSuffix != "##nil##" {
+            self.nameSuffix = nameSuffix
+        } else {
+            self.nameSuffix = nil
+        }
+        if let nickname = dict["nickname"] as? String where nickname != "##nil##" {
+            self.nickname = nickname
+        } else {
+            self.nickname = nil
+        }
+    }
+}
+
 ///Represents the entire tree
 class Tree: CustomStringConvertible {
     ///List of Person objects in the tree
@@ -207,12 +257,12 @@ class Tree: CustomStringConvertible {
             }
             
             if let nameAtBirthDict = pDict["nameAtBirth"] as? NSDictionary {
-                p.nameAtBirth.setValuesForKeysWithDictionary(nameAtBirthDict as! [String : AnyObject])
+                p.nameAtBirth.setupFromDict(dictionary: nameAtBirthDict)
                 print("Imported name at birth")
             }
             
             if let nameNowDict = pDict["nameNow"] as? NSDictionary {
-                p.nameNow.setValuesForKeysWithDictionary(nameNowDict as! [String : AnyObject])
+                p.nameNow.setupFromDict(dictionary: nameNowDict)
                 print("Imported name now")
             }
             
@@ -605,8 +655,8 @@ class Person: CustomStringConvertible {
         get {
             let dict = NSMutableDictionary()
 
-            dict["nameNow"] = self.nameNow.dictionaryWithValuesForKeys(["givenName","familyName","middleName","namePrefix","nameSuffix","nickname"])
-            dict["nameAtBirth"] = self.nameAtBirth.dictionaryWithValuesForKeys(["givenName","familyName","middleName","namePrefix","nameSuffix","nickname"])
+            dict["nameNow"] = self.nameNow.dictionary
+            dict["nameAtBirth"] = self.nameAtBirth.dictionary
             dict["INDI"] = self.INDI!
             dict["birth"] = self.birth.dictionary
             dict["death"] = self.death.dictionary

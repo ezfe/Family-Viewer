@@ -158,6 +158,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let fm = NSFileManager()
             if !fm.fileExistsAtPath(filePath) {
                 print("File wasn't written for unknown reason")
+                print(tree.dictionary)
             }
         } else {
             print("No path, not importing anything")
