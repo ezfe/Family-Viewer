@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A179w" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Jdn-rn-sH9">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8121.20" systemVersion="15A204h" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Jdn-rn-sH9">
     <dependencies>
         <deployment identifier="macosx"/>
         <development version="7000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.20"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -430,6 +430,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
+                                <connections>
+                                    <segue destination="6TP-j7-g8D" kind="popover" popoverAnchorView="0Ea-Ja-0HA" popoverBehavior="t" preferredEdge="maxY" id="voP-ta-A4w"/>
+                                </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nVM-si-TbL">
                                 <rect key="frame" x="90" y="165" width="335" height="17"/>
@@ -514,6 +517,88 @@
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="187" y="731"/>
+        </scene>
+        <!--Birthday View Controller-->
+        <scene sceneID="8I6-t6-qc5">
+            <objects>
+                <viewController id="6TP-j7-g8D" customClass="BirthdayViewController" customModule="Family_Viewer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="Q0V-MY-KGL">
+                        <rect key="frame" x="0.0" y="0.0" width="221" height="94"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KHF-hR-a3f">
+                                <rect key="frame" x="20" y="20" width="181" height="22"/>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Location" drawsBackground="YES" id="xwN-G6-JVi">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HnX-XK-eTc">
+                                <rect key="frame" x="159" y="52" width="42" height="22"/>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="YYYY" drawsBackground="YES" id="QIU-eW-bvx">
+                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" allowsFloats="NO" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Bg0-dO-MSM">
+                                        <real key="minimum" value="1"/>
+                                        <real key="maximum" value="3000"/>
+                                    </numberFormatter>
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0PM-Bj-BZe">
+                                <rect key="frame" x="20" y="52" width="27" height="22"/>
+                                <animations/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="DD" drawsBackground="YES" id="VUv-lE-nGY">
+                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="lSN-NC-au8"/>
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="update:" target="6TP-j7-g8D" id="3Wi-t0-biA"/>
+                                </connections>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sni-hy-CiY">
+                                <rect key="frame" x="53" y="49" width="101" height="26"/>
+                                <animations/>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="Ez6-92-JeP">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="9WH-zR-3Kg">
+                                        <items>
+                                            <menuItem title="--" state="on" id="F03-PE-np6"/>
+                                            <menuItem title="January" id="KiI-rp-uup"/>
+                                            <menuItem title="February" id="Wja-hK-HFS"/>
+                                            <menuItem title="March" id="Nrw-wd-3jB"/>
+                                            <menuItem title="April" id="r1B-aF-Mg1"/>
+                                            <menuItem title="May" id="LED-QT-zxR"/>
+                                            <menuItem title="June" id="UHH-R4-kzi"/>
+                                            <menuItem title="July" id="gbG-7t-Hxw"/>
+                                            <menuItem title="August" id="Rx3-DZ-JsS"/>
+                                            <menuItem title="September" id="dUJ-fl-NNh"/>
+                                            <menuItem title="October" id="A1W-zQ-EfB"/>
+                                            <menuItem title="November" id="9r0-fM-SAF"/>
+                                            <menuItem title="December" id="BoU-YV-6b8"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                        </subviews>
+                        <animations/>
+                    </view>
+                    <connections>
+                        <outlet property="datePicker" destination="0PM-Bj-BZe" id="UMc-OZ-7BD"/>
+                        <outlet property="locationStringPicker" destination="KHF-hR-a3f" id="qMu-KH-waf"/>
+                        <outlet property="monthPicker" destination="Sni-hy-CiY" id="HmO-38-XQl"/>
+                        <outlet property="yearPicker" destination="HnX-XK-eTc" id="yw2-wk-blB"/>
+                    </connections>
+                </viewController>
+                <customObject id="WKj-l1-gIS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="651.5" y="613"/>
         </scene>
         <!--Edit Name View Controller-->
         <scene sceneID="Aik-6e-hhP">
@@ -1069,7 +1154,7 @@
                         <outlet property="secondFamilyNameField" destination="W7o-Ik-zcT" id="F23-Ua-6L4"/>
                         <outlet property="secondGivenNameEnabled" destination="aDd-DW-Wrf" id="kJZ-75-EgR"/>
                         <outlet property="secondGivenNameField" destination="i0N-uz-gEY" id="9UR-CB-4El"/>
-                        <outlet property="secondMiddleNameEnalbed" destination="00S-EP-06v" id="lc2-oh-Ez8"/>
+                        <outlet property="secondMiddleNameEnabled" destination="00S-EP-06v" id="tCs-Kr-z3q"/>
                         <outlet property="secondMiddleNameField" destination="8Vb-tw-qE2" id="Du9-yf-KEp"/>
                         <outlet property="secondNickNameEnabled" destination="ATv-KE-vhZ" id="MD4-Lh-mnO"/>
                         <outlet property="secondNickNameField" destination="G9p-7W-Ug1" id="I5F-kd-x5U"/>

@@ -75,11 +75,11 @@ class Tree: CustomStringConvertible {
     ///Get a person by their name, e.g. Kezia Lind, Kezia Sørbøe
     func getPerson(givenName firstName: String, familyName lastName: String) -> Person? {
         for p in self.people {
-            if p.nameNow.givenName.lowercaseString == firstName.lowercaseString && p.nameNow.familyName.lowercaseString == lastName.lowercaseString {
+            if let givenNameNow = p.nameNow.givenName, familyNameNow = p.nameNow.familyName where givenNameNow.lowercaseString == firstName.lowercaseString && familyNameNow.lowercaseString == lastName.lowercaseString {
                 return p
             }
-            if p.nameAtBirth.givenName.lowercaseString == firstName.lowercaseString && p.nameAtBirth.familyName.lowercaseString == lastName.lowercaseString {
-                return p
+            if let givenNameNow = p.nameAtBirth.givenName, familyNameNow = p.nameAtBirth.familyName where givenNameNow.lowercaseString == firstName.lowercaseString && familyNameNow.lowercaseString == lastName.lowercaseString {
+                    return p
             }
         }
         return nil
@@ -382,8 +382,8 @@ func monthFromRaw(month mo: String) -> Month? {
         return Month.January
     case "February":
         return Month.February
-    case "February":
-        return Month.February
+    case "March":
+        return Month.March
     case "April":
         return Month.April
     case "May":
@@ -428,17 +428,37 @@ class Person: CustomStringConvertible {
     ///Name String
     var description: String {
         get {
-            if self.nameAtBirth.familyName != self.nameNow.familyName {
-                return "\(self.nameNow.givenName) (\(self.nameAtBirth.familyName)) \(self.nameNow.familyName)"
-            } else {
-                return "\(self.nameNow.givenName) \(self.nameNow.familyName)"
-            }
+            let name = self.getNameNow()
+            return "\(name.givenName!) \(name.familyName!)"
         }
     }
     ///Name components
     var nameNow = NSPersonNameComponents()
     ///Maiden name
     var nameAtBirth = NSPersonNameComponents()
+    ///Get a NSPersonNameComponents for their current name, filling in blanks with nameAtBirth
+    func getNameNow() -> NSPersonNameComponents {
+        let nameNow = self.nameNow
+        if nameNow.namePrefix == nil {
+            nameNow.namePrefix = nameAtBirth.namePrefix
+        }
+        if nameNow.givenName == nil {
+            nameNow.givenName = nameAtBirth.givenName
+        }
+        if nameNow.middleName == nil {
+            nameNow.middleName = nameAtBirth.middleName
+        }
+        if nameNow.familyName == nil {
+            nameNow.familyName = nameAtBirth.familyName
+        }
+        if nameNow.namePrefix == nil {
+            nameNow.namePrefix = nameAtBirth.namePrefix
+        }
+        if nameNow.nickname == nil {
+            nameNow.nickname = nameAtBirth.nickname
+        }
+        return nameNow
+    }
     ///INDI Code, not including preceding @I and trailing @
     var INDI: Int?
     ///Birth

@@ -19,7 +19,7 @@ class EditNameViewController: NSViewController {
     
     @IBOutlet weak var secondPrefixEnabled: NSButton!
     @IBOutlet weak var secondGivenNameEnabled: NSButton!
-    @IBOutlet weak var secondMiddleNameEnalbed: NSButton!
+    @IBOutlet weak var secondMiddleNameEnabled: NSButton!
     @IBOutlet weak var secondFamilyNameEnabled: NSButton!
     @IBOutlet weak var secondSuffixEnabled: NSButton!
     @IBOutlet weak var secondNickNameEnabled: NSButton!
@@ -40,67 +40,55 @@ class EditNameViewController: NSViewController {
             return
         }
         
-        if person.nameAtBirth.namePrefix != "##blank##" {
-            self.prefixAtBirthField.stringValue = person.nameAtBirth.namePrefix
+        if let namePrefix = person.nameAtBirth.namePrefix {
+            self.prefixAtBirthField.stringValue = namePrefix
         }
-        if person.nameAtBirth.givenName != "##blank##" {
-            self.givenNameAtBirthField.stringValue = person.nameAtBirth.givenName
+        if let givenName = person.nameAtBirth.givenName {
+            self.givenNameAtBirthField.stringValue = givenName
         }
-        if person.nameAtBirth.middleName != "##blank##" {
-            self.middleNameAtBirthField.stringValue = person.nameAtBirth.middleName
+        if let middleName = person.nameAtBirth.middleName {
+            self.middleNameAtBirthField.stringValue = middleName
         }
-        if person.nameAtBirth.familyName != "##blank##" {
-            self.familyNameAtBirthField.stringValue = person.nameAtBirth.familyName
+        if let familyName = person.nameAtBirth.familyName {
+            self.familyNameAtBirthField.stringValue = familyName
         }
-        if person.nameAtBirth.nameSuffix != "##blank##" {
-            self.suffixAtBirthField.stringValue = person.nameAtBirth.nameSuffix
+        if let nameSuffix = person.nameAtBirth.nameSuffix {
+            self.suffixAtBirthField.stringValue = nameSuffix
         }
-        if person.nameAtBirth.nickname != "##blank##" {
-            self.nicknameAtBirthField.stringValue = person.nameAtBirth.nickname
+        if let nickname = person.nameAtBirth.nickname {
+            self.nicknameAtBirthField.stringValue = nickname
         }
         
-        if person.nameNow.namePrefix != "" && person.nameNow.namePrefix != person.nameAtBirth.namePrefix {
+        if let namePrefix = person.nameNow.namePrefix where person.nameNow.namePrefix != person.nameAtBirth.namePrefix {
             self.secondPrefixEnabled.isChecked = true
-            if person.nameNow.namePrefix != "##blank##" {
-                self.secondPrefixField.stringValue = person.nameNow.namePrefix
-            }
+            self.secondPrefixField.stringValue = namePrefix
         }
-        if person.nameNow.givenName != "" && person.nameNow.givenName != person.nameAtBirth.givenName {
+        if let givenName = person.nameNow.givenName where person.nameNow.givenName != person.nameAtBirth.givenName {
             self.secondGivenNameEnabled.isChecked = true
-            if person.nameNow.givenName != "##blank##" {
-                self.secondGivenNameField.stringValue = person.nameNow.givenName
-            }
+            self.secondGivenNameField.stringValue = givenName
         }
-        if person.nameNow.middleName != "" && person.nameNow.middleName != person.nameAtBirth.middleName {
-            self.secondMiddleNameEnalbed.isChecked = true
-            if person.nameNow.middleName != "##blank##" {
-                self.secondMiddleNameField.stringValue = person.nameNow.middleName
-            }
+        if let middleName = person.nameNow.middleName where person.nameNow.middleName != person.nameAtBirth.middleName {
+            self.secondMiddleNameEnabled.isChecked = true
+            self.secondMiddleNameField.stringValue = middleName
         }
-        if person.nameNow.familyName != "" && person.nameNow.familyName != person.nameAtBirth.familyName {
+        if let familyName = person.nameNow.familyName where person.nameNow.familyName != person.nameAtBirth.familyName {
             self.secondFamilyNameEnabled.isChecked = true
-            if person.nameNow.familyName != "##blank##" {
-                self.secondFamilyNameField.stringValue = person.nameNow.familyName
-            }
+            self.secondFamilyNameField.stringValue = familyName
         }
-        if person.nameNow.nameSuffix != "" && person.nameNow.nameSuffix != person.nameAtBirth.nameSuffix {
+        if let nameSuffix = person.nameNow.nameSuffix where person.nameNow.nameSuffix != person.nameAtBirth.nameSuffix {
             self.secondSuffixEnabled.isChecked = true
-            if person.nameNow.nameSuffix != "##blank##" {
-                self.secondSuffixField.stringValue = person.nameNow.nameSuffix
-            }
+            self.secondSuffixField.stringValue = nameSuffix
         }
-        if person.nameNow.nickname != "" && person.nameNow.nickname != person.nameAtBirth.nickname {
+        if let nickname = person.nameNow.nickname where person.nameNow.nickname != person.nameAtBirth.nickname {
             self.secondNickNameEnabled.isChecked = true
-            if person.nameNow.nickname != "##blank##" {
-                self.secondNickNameField.stringValue = person.nameNow.nickname
-            }
+            self.secondNickNameField.stringValue = nickname
         }
     }
     
     @IBAction func updateSecondFields(sender: AnyObject) {
         secondPrefixField.enabled = secondPrefixEnabled.isChecked
         secondGivenNameField.enabled = secondGivenNameEnabled.isChecked
-        secondMiddleNameField.enabled = secondMiddleNameEnalbed.isChecked
+        secondMiddleNameField.enabled = secondMiddleNameEnabled.isChecked
         secondFamilyNameField.enabled = secondFamilyNameEnabled.isChecked
         secondSuffixField.enabled = secondSuffixEnabled.isChecked
         secondNickNameField.enabled = secondNickNameEnabled.isChecked
@@ -111,7 +99,7 @@ class EditNameViewController: NSViewController {
         if !secondGivenNameEnabled.isChecked {
             secondGivenNameField.stringValue = givenNameAtBirthField.stringValue
         }
-        if !secondMiddleNameEnalbed.isChecked {
+        if !secondMiddleNameEnabled.isChecked {
             secondMiddleNameField.stringValue = middleNameAtBirthField.stringValue
         }
         if !secondFamilyNameEnabled.isChecked {
@@ -125,66 +113,43 @@ class EditNameViewController: NSViewController {
         }
         
         if let person = person {
-            if self.prefixAtBirthField.stringValue == "" {
-                person.nameAtBirth.namePrefix = "##blank##"
+            person.nameAtBirth.namePrefix = (self.prefixAtBirthField.stringValue == "" ? nil : self.prefixAtBirthField.stringValue)
+            person.nameAtBirth.givenName = (self.givenNameAtBirthField.stringValue == "" ? nil : self.givenNameAtBirthField.stringValue)
+            person.nameAtBirth.middleName = (self.middleNameAtBirthField.stringValue == "" ? nil : self.middleNameAtBirthField.stringValue)
+            person.nameAtBirth.familyName = (self.familyNameAtBirthField.stringValue == "" ? nil : self.familyNameAtBirthField.stringValue)
+            person.nameAtBirth.nameSuffix = (self.suffixAtBirthField.stringValue == "" ? nil : self.suffixAtBirthField.stringValue)
+            person.nameAtBirth.nickname = (self.nicknameAtBirthField.stringValue == "" ? nil : nicknameAtBirthField.stringValue)
+            
+            if self.secondPrefixEnabled.isChecked {
+                person.nameNow.namePrefix = self.secondPrefixField.stringValue
             } else {
-                person.nameAtBirth.namePrefix = self.prefixAtBirthField.stringValue
+                person.nameNow.namePrefix = nil
             }
-            if self.givenNameAtBirthField.stringValue == "" {
-                person.nameAtBirth.givenName = "##blank##"
+            if self.secondGivenNameEnabled.isChecked {
+                person.nameNow.givenName = self.secondGivenNameField.stringValue
             } else {
-                person.nameAtBirth.givenName = self.givenNameAtBirthField.stringValue
+                person.nameNow.givenName = nil
             }
-            if self.middleNameAtBirthField.stringValue == "" {
-                person.nameAtBirth.middleName = "##blank##"
+            if self.secondMiddleNameEnabled.isChecked {
+                person.nameNow.middleName = self.secondMiddleNameField.stringValue
             } else {
-                person.nameAtBirth.middleName = self.middleNameAtBirthField.stringValue
-            }
-            if self.familyNameAtBirthField.stringValue == "" {
-                person.nameAtBirth.familyName = "##blank##"
-            } else {
-                person.nameAtBirth.familyName = self.familyNameAtBirthField.stringValue
-            }
-            if self.suffixAtBirthField.stringValue == "" {
-                person.nameAtBirth.nameSuffix = "##blank##"
-            } else {
-                person.nameAtBirth.nameSuffix = self.suffixAtBirthField.stringValue
-            }
-            if self.nicknameAtBirthField.stringValue == "" {
-                person.nameAtBirth.nickname = "##blank##"
-            } else {
-                person.nameAtBirth.nickname = self.nicknameAtBirthField.stringValue
+                person.nameNow.middleName = nil
             }
             
-            if self.secondPrefixField.stringValue == "" && self.secondPrefixEnabled.isChecked {
-                person.nameNow.namePrefix = "##blank##"
-            } else {
-                person.nameNow.namePrefix = self.secondPrefixField.stringValue
-            }
-            if self.secondGivenNameField.stringValue == "" && self.secondGivenNameEnabled.isChecked {
-                person.nameNow.givenName = "##blank##"
-            } else {
-                person.nameNow.givenName = self.secondGivenNameField.stringValue
-            }
-            if self.secondMiddleNameField.stringValue == "" && self.secondMiddleNameEnalbed.isChecked {
-                person.nameNow.middleName = "##blank##"
-            } else {
-                person.nameNow.middleName = self.secondMiddleNameField.stringValue
-            }
-            if self.secondFamilyNameField.stringValue == "" && self.secondFamilyNameEnabled.isChecked {
-                person.nameNow.familyName = "##blank##"
-            } else {
+            if self.secondFamilyNameEnabled.isChecked {
                 person.nameNow.familyName = self.secondFamilyNameField.stringValue
-            }
-            if self.secondSuffixField.stringValue == "" && self.secondSuffixEnabled.isChecked {
-                person.nameNow.nameSuffix = "##blank##"
             } else {
+                person.nameNow.familyName = nil
+            }
+            if self.secondSuffixEnabled.isChecked {
                 person.nameNow.nameSuffix = self.secondSuffixField.stringValue
+            } else {
+                person.nameNow.nameSuffix = nil
             }
             if self.secondNickNameField.stringValue == "" && self.secondNickNameEnabled.isChecked {
-                person.nameNow.nickname = "##blank##"
-            } else {
                 person.nameNow.nickname = self.secondNickNameField.stringValue
+            } else {
+                person.nameNow.nickname = nil
             }
             
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)

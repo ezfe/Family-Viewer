@@ -288,6 +288,10 @@ class ViewController: NSViewController {
                 destination.person = cPerson
                 return
             }
+            if let destination = segue.destinationController as? BirthdayViewController, cPerson = self.currentPerson() {
+                destination.person = cPerson
+                return
+            }
         }
     }
 }
