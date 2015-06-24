@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     /**
     Version to save in the file
-    1: Current version as of Build 333
+    1: Current version as of Build 445
     */
     let formatVersion = 1
     
