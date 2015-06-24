@@ -550,6 +550,9 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <action selector="update:" target="6TP-j7-g8D" id="H6v-6U-Omg"/>
+                                </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0PM-Bj-BZe">
                                 <rect key="frame" x="20" y="52" width="27" height="22"/>
@@ -575,7 +578,7 @@
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="9WH-zR-3Kg">
                                         <items>
-                                            <menuItem title="--" state="on" id="F03-PE-np6"/>
+                                            <menuItem title="--" id="F03-PE-np6"/>
                                             <menuItem title="January" id="KiI-rp-uup"/>
                                             <menuItem title="February" id="Wja-hK-HFS"/>
                                             <menuItem title="March" id="Nrw-wd-3jB"/>
@@ -591,6 +594,9 @@
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
+                                <connections>
+                                    <action selector="update:" target="6TP-j7-g8D" id="EHA-A3-yYa"/>
+                                </connections>
                             </popUpButton>
                         </subviews>
                         <animations/>
