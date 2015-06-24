@@ -67,6 +67,8 @@ class BirthdayViewController: NSViewController {
             yearPicker.stringValue = ""
         }
         
+        person.birth.location = self.locationStringPicker.stringValue
+        
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
     }
 }

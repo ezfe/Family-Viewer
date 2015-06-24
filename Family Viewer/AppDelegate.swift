@@ -154,6 +154,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             defaults.setObject(filePath, forKey: "filePath")
             
             tree.dictionary.writeToFile(filePath, atomically: true)
+            
+            let fm = NSFileManager()
+            if !fm.fileExistsAtPath(filePath) {
+                print("File wasn't written for unknown reason")
+            }
         } else {
             print("No path, not importing anything")
         }
