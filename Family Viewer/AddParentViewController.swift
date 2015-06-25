@@ -29,6 +29,13 @@ class AddParentViewController: NSViewController {
             return
         }
         let parent = self.tree.people[self.popupChooser.indexOfSelectedItem - 1]
+        
+        if parent.parentA! == parentTo || parent.parentB! == parentTo {
+            //TODO: Proper alert here
+            print("Cannot set parent to child")
+            return
+        }
+        
         if self.A_B == "A" {
             parentTo.parentA = parent
         } else if self.A_B == "B" {

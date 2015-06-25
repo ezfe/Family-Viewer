@@ -14,6 +14,8 @@ class ViewController: NSViewController {
     @IBOutlet weak var personSelectPopup: NSPopUpButton!
     @IBOutlet weak var openLastFileButton: NSButton!
     
+    ///Button to add a person
+    @IBOutlet weak var addPerson: NSButton!
     ///Label for the name ("Name:")
     @IBOutlet weak var nameLabel: NSTextField!
     ///Label that shows the name
@@ -270,6 +272,13 @@ class ViewController: NSViewController {
     
     func addedParent(notification: NSNotification) {
         selectPerson(person: notification.userInfo!["newPerson"] as! Person)
+    }
+    
+    @IBAction func addPerson(sender: AnyObject) {
+        let p = Person(tree: self.tree)
+        self.tree.people.append(p)
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+        selectPerson(person: p)
     }
     
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {

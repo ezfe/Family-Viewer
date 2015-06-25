@@ -9,6 +9,12 @@
 import Foundation
 import Cocoa
 
+//MARK: App-wide functions and extensions
+
+func == (left: Person, right: Person) -> Bool {
+    return left.INDI! == right.INDI!
+}
+T
 extension String {
     
     subscript (i: Int) -> Character {
@@ -39,55 +45,7 @@ extension NSButton {
     }
 }
 
-extension NSPersonNameComponents {
-    var dictionary: NSDictionary {
-        get {
-            let dict = NSMutableDictionary()
-            
-            dict["namePrefix"] = (self.namePrefix == nil ? "##nil##" : self.namePrefix!)
-            dict["givenName"] = (self.givenName == nil ? "##nil##" : self.givenName!)
-            dict["middleName"] = (self.middleName == nil ? "##nil##" : self.middleName!)
-            dict["familyName"] = (self.familyName == nil ? "##nil##" : self.familyName!)
-            dict["nameSuffix"] = (self.nameSuffix == nil ? "##nil##" : self.nameSuffix!)
-            dict["nickname"] = (self.nickname == nil ? "##nil##" : self.nickname!)
-            
-            return dict
-        }
-    }
-    
-    func setupFromDict(dictionary dict: NSDictionary) {
-        if let namePrefix = dict["namePrefix"] as? String where namePrefix != "##nil##" {
-            self.namePrefix = namePrefix
-        } else {
-            self.namePrefix = nil
-        }
-        if let givenName = dict["givenName"] as? String where givenName != "##nil##" {
-            self.givenName = givenName
-        } else {
-            self.givenName = nil
-        }
-        if let middleName = dict["middleName"] as? String where middleName != "##nil##" {
-            self.middleName = middleName
-        } else {
-            self.middleName = nil
-        }
-        if let familyName = dict["familyName"] as? String where familyName != "##nil##" {
-            self.familyName = familyName
-        } else {
-            self.familyName = nil
-        }
-        if let nameSuffix = dict["nameSuffix"] as? String where nameSuffix != "##nil##" {
-            self.nameSuffix = nameSuffix
-        } else {
-            self.nameSuffix = nil
-        }
-        if let nickname = dict["nickname"] as? String where nickname != "##nil##" {
-            self.nickname = nickname
-        } else {
-            self.nickname = nil
-        }
-    }
-}
+//MARK: - Tree
 
 ///Represents the entire tree
 class Tree: CustomStringConvertible {
@@ -170,10 +128,11 @@ class Tree: CustomStringConvertible {
         return ++INDIGen
     }
     
+    ///Deletes duplicate INDI codes and assigns missing ones.
     func cleanupINDICodes() {
         for (i,p) in people.enumerate() {
             for (x,p2) in people.enumerate() where x != i {
-                if p.INDI! == p2.INDI! {
+                if p == p2 {
                     p2.INDI = self.getUniqueINDI()
                     print("Assigned new INDI (\(p2.INDI!)) to \(p2.description)")
                 }
@@ -187,13 +146,16 @@ class Tree: CustomStringConvertible {
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         let currentFormat = appDelegate.formatVersion
         guard let dictFormat = dict["version"] as? Int else {
+            //TODO: Make it not crash
             assert(false,"Dictionary doesn't have version tag")
             return
         }
         
         if dictFormat < currentFormat {
+            //TODO: Make it not crash
             assert(false,"Dictionary is old, cannot open")
         } else if dictFormat > currentFormat {
+            //TODO: Make it not crash
             assert(false,"Dictionary is (too) new, won't open")
         }
         
@@ -207,6 +169,7 @@ class Tree: CustomStringConvertible {
             if let INDICode = pDict["INDI"] as? Int {
                 p.INDI = INDICode
             } else {
+                //TODO: Make it not crash, just cancel import
                 assert(false,"Missing INDI code, not importing")
             }
 
@@ -226,7 +189,7 @@ class Tree: CustomStringConvertible {
                     print("Imported birth location")
                     p.birth.location = location
                 } else {
-                    print("Couldn't import birth locatoin. Here's the dictionary")
+                    print("Couldn't import birth location. Here's the dictionary")
                     print(birthDict)
                 }
             }
@@ -305,6 +268,263 @@ enum FamilyType {
     case Married, Engaged, Relationship, Seperated, Divorced, Annulled
 }
 
+//MARK: - Person
+///Represents a person in the family
+class Person: CustomStringConvertible {
+    ///Name String
+    var description: String {
+        get {
+            let name = self.getNameNow()
+            if let givenName = name.givenName, familyName = name.familyName {
+                return "\(givenName) \(familyName)"
+            } else {
+                return "Person \(self.INDI!)"
+            }
+        }
+    }
+    ///Name components
+    var nameNow = NSPersonNameComponents()
+    ///Maiden name
+    var nameAtBirth = NSPersonNameComponents()
+    ///Get a NSPersonNameComponents for their current name, filling in blanks with nameAtBirth
+    func getNameNow() -> NSPersonNameComponents {
+        let nameNow = self.nameNow
+        if nameNow.namePrefix == nil {
+            nameNow.namePrefix = nameAtBirth.namePrefix
+        }
+        if nameNow.givenName == nil {
+            nameNow.givenName = nameAtBirth.givenName
+        }
+        if nameNow.middleName == nil {
+            nameNow.middleName = nameAtBirth.middleName
+        }
+        if nameNow.familyName == nil {
+            nameNow.familyName = nameAtBirth.familyName
+        }
+        if nameNow.namePrefix == nil {
+            nameNow.namePrefix = nameAtBirth.namePrefix
+        }
+        if nameNow.nickname == nil {
+            nameNow.nickname = nameAtBirth.nickname
+        }
+        return nameNow
+    }
+    ///INDI Code, not including preceding @I and trailing @
+    var INDI: Int?
+    ///Birth
+    var birth = Birth()
+    ///Is ``self`` alive
+    var isAlive: Bool {
+        get {
+            //Gets the value from the death object
+            return !self.death.hasDied
+        }
+        set (isAlive) {
+            //Stores the value in the death object
+            self.death.hasDied = !isAlive
+        }
+    }
+    ///Death
+    var death = Death()
+    ///Sex
+    var sex: Sex?
+    ///Parent A (Usually Mother)
+    var parentA: Person?
+    ///Parent B (Usually Father)
+    var parentB: Person?
+    ///Tree that this person exists in
+    var tree: Tree
+    ///List of children
+    var children: [Person] {
+        get {
+            var to_return = [Person]()
+            for p in self.tree.people {
+                if p.parentA! == self || p.parentB! == self {
+                    to_return.append(p)
+                }
+            }
+            return to_return
+        }
+    }
+    ///List of siblings that share at least one parent (includes half siblings)
+    var allSiblings: [Person] {
+        get {
+            var to_return = [Person]()
+            for p in self.tree.people {
+                if p == self {
+                    continue
+                }
+                if p.parentA! == self.parentA! || p.parentA! == self.parentB! {
+                    to_return.append(p)
+                } else if p.parentB! == self.parentA! || p.parentB! == self.parentB! {
+                    to_return.append(p)
+                }
+            }
+            return to_return
+        }
+    }
+    ///List of siblings that share both parents
+    var fullSiblings: [Person] {
+        get {
+            var to_return = [Person]()
+            for p in self.tree.people {
+                if p == self {
+                    continue
+                }
+                if (p.parentA! == self.parentA! || p.parentA! == self.parentB!) && (p.parentB! == self.parentA! || p.parentB! == self.parentB!) {
+                    to_return.append(p)
+                }
+            }
+            return to_return
+        }
+    }
+    
+    init(tree t: Tree) {
+        self.tree = t
+        self.INDI = tree.getUniqueINDI()
+    }
+    
+    init(gedcomEntity ge: [String], tree t: Tree) {
+        self.tree = t
+        for (i,row) in ge.enumerate() {
+            if row.rangeOfString("INDI") != nil {
+                self.INDI = Int(row.stringByReplacingOccurrencesOfString("0 @I", withString: "").stringByReplacingOccurrencesOfString("@ INDI", withString: ""))!
+            } else if row.rangeOfString("NAME") != nil {
+                for (x,row) in ge.enumerate() where x > i {
+                    if row[0] == "1" {
+                        break
+                    }
+                    if row.rangeOfString("GIVN") != nil {
+                        let givenName = row.stringByReplacingOccurrencesOfString("2 GIVN ", withString: "")
+                        self.nameAtBirth.givenName = givenName
+                    } else if row.rangeOfString("_MARNM") != nil {
+                        self.nameNow.familyName = row.stringByReplacingOccurrencesOfString("2 _MARNM ", withString: "")
+                    } else if row.rangeOfString("SURN") != nil {
+                        self.nameAtBirth.familyName = row.stringByReplacingOccurrencesOfString("2 SURN ", withString: "")
+                    }
+                }
+            } else if row.rangeOfString("BIRT") != nil {
+                for (x,row) in ge.enumerate() where x > i {
+                    if row[0] == "1" {
+                        break
+                    }
+                    if row.rangeOfString("DATE") != nil {
+                        let dateString = row.stringByReplacingOccurrencesOfString("2 DATE ", withString: "")
+                        self.birth.date = convertFEDate(date: dateString)
+                    } else if row.rangeOfString("PLAC") != nil {
+                        //                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
+                        //                        Don't parse location for now, just have that entered later in UI
+                        
+                    }
+                }
+            } else if row.rangeOfString("DEAT Y") != nil {
+                self.isAlive = false
+                for (x,row) in ge.enumerate() where x > i {
+                    if row[0] == "1" {
+                        break
+                    }
+                    if row.rangeOfString("DATE") != nil {
+                        let dateString = row.stringByReplacingOccurrencesOfString("2 DATE ", withString: "")
+                        self.death.date = convertFEDate(date: dateString)
+                    } else if row.rangeOfString("PLAC") != nil {
+                        //                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
+                        //                        Don't parse location for now, just have that entered later in UI
+                    }
+                }
+            } else if row.rangeOfString("SEX") != nil {
+                switch row.stringByReplacingOccurrencesOfString("1 SEX ", withString: "") {
+                case "M":
+                    self.sex = Sex.Male
+                case "F":
+                    self.sex = Sex.Female
+                default:
+                    self.sex = nil
+                }
+            }
+            
+            if self.nameNow.givenName == "" && self.nameAtBirth.givenName != "" {
+                self.nameNow.givenName = self.nameAtBirth.givenName
+            } else if self.nameAtBirth.givenName == "" && self.nameNow.givenName != "" {
+                self.nameAtBirth.givenName = self.nameNow.givenName
+            }
+        }
+    }
+    
+    ///Dictionary representation
+    var dictionary: NSMutableDictionary {
+        get {
+            let dict = NSMutableDictionary()
+            
+            dict["nameNow"] = self.nameNow.dictionary
+            dict["nameAtBirth"] = self.nameAtBirth.dictionary
+            dict["INDI"] = self.INDI!
+            dict["birth"] = self.birth.dictionary
+            dict["death"] = self.death.dictionary
+            dict["sex"] = self.sex!.rawValue
+            if let pA = self.parentA {
+                dict["parentA"] = pA.INDI!
+            }
+            if let pB = self.parentB {
+                dict["parentB"] = pB.INDI!
+            }
+            
+            return dict
+        }
+    }
+}
+
+extension NSPersonNameComponents {
+    var dictionary: NSDictionary {
+        get {
+            let dict = NSMutableDictionary()
+            
+            dict["namePrefix"] = (self.namePrefix == nil ? "##nil##" : self.namePrefix!)
+            dict["givenName"] = (self.givenName == nil ? "##nil##" : self.givenName!)
+            dict["middleName"] = (self.middleName == nil ? "##nil##" : self.middleName!)
+            dict["familyName"] = (self.familyName == nil ? "##nil##" : self.familyName!)
+            dict["nameSuffix"] = (self.nameSuffix == nil ? "##nil##" : self.nameSuffix!)
+            dict["nickname"] = (self.nickname == nil ? "##nil##" : self.nickname!)
+            
+            return dict
+        }
+    }
+    
+    func setupFromDict(dictionary dict: NSDictionary) {
+        if let namePrefix = dict["namePrefix"] as? String where namePrefix != "##nil##" {
+            self.namePrefix = namePrefix
+        } else {
+            self.namePrefix = nil
+        }
+        if let givenName = dict["givenName"] as? String where givenName != "##nil##" {
+            self.givenName = givenName
+        } else {
+            self.givenName = nil
+        }
+        if let middleName = dict["middleName"] as? String where middleName != "##nil##" {
+            self.middleName = middleName
+        } else {
+            self.middleName = nil
+        }
+        if let familyName = dict["familyName"] as? String where familyName != "##nil##" {
+            self.familyName = familyName
+        } else {
+            self.familyName = nil
+        }
+        if let nameSuffix = dict["nameSuffix"] as? String where nameSuffix != "##nil##" {
+            self.nameSuffix = nameSuffix
+        } else {
+            self.nameSuffix = nil
+        }
+        if let nickname = dict["nickname"] as? String where nickname != "##nil##" {
+            self.nickname = nickname
+        } else {
+            self.nickname = nil
+        }
+    }
+}
+
+//MARK: - Dates
+
 enum Month: String {
     case January = "January"
     case February = "February"
@@ -360,38 +580,6 @@ struct Date: CustomStringConvertible {
                 return "\(year)"
             }
             return "\(month) \(day), \(year)"
-        }
-    }
-}
-
-struct Birth {
-    var date: Date = Date(day: nil, month: nil, year: nil)
-    var location: String = ""
-    var dictionary: NSMutableDictionary {
-        get {
-            let dict = NSMutableDictionary()
-            dict["date"] = date.dictionary
-            dict["location"] = location
-            return dict
-        }
-    }
-}
-
-struct Death {
-    ///Has died
-    var hasDied = false
-    ///Date of death
-    var date: Date = Date(day: nil, month: nil, year: nil)
-    ///Place of death
-    var location: String = ""
-    
-    var dictionary: NSMutableDictionary {
-        get {
-            let dict = NSMutableDictionary()
-            dict["date"] = date.dictionary
-            dict["location"] = location
-            dict["hasDied"] = hasDied
-            return dict
         }
     }
 }
@@ -456,7 +644,6 @@ func monthFromRaw(month mo: String) -> Month? {
         return nil
     }
 }
-
 ///Converts DD MMM YYYY to Date() object
 func convertFEDate(date d: String) -> Date {
     if d.characters.count == 10 {
@@ -473,215 +660,53 @@ func convertFEDate(date d: String) -> Date {
     return Date(day: nil, month: nil, year: nil)
 }
 
-///Represents a person in the family
-class Person: CustomStringConvertible {
-    ///Name String
-    var description: String {
-        get {
-            let name = self.getNameNow()
-            return "\(name.givenName!) \(name.familyName!)"
-        }
-    }
-    ///Name components
-    var nameNow = NSPersonNameComponents()
-    ///Maiden name
-    var nameAtBirth = NSPersonNameComponents()
-    ///Get a NSPersonNameComponents for their current name, filling in blanks with nameAtBirth
-    func getNameNow() -> NSPersonNameComponents {
-        let nameNow = self.nameNow
-        if nameNow.namePrefix == nil {
-            nameNow.namePrefix = nameAtBirth.namePrefix
-        }
-        if nameNow.givenName == nil {
-            nameNow.givenName = nameAtBirth.givenName
-        }
-        if nameNow.middleName == nil {
-            nameNow.middleName = nameAtBirth.middleName
-        }
-        if nameNow.familyName == nil {
-            nameNow.familyName = nameAtBirth.familyName
-        }
-        if nameNow.namePrefix == nil {
-            nameNow.namePrefix = nameAtBirth.namePrefix
-        }
-        if nameNow.nickname == nil {
-            nameNow.nickname = nameAtBirth.nickname
-        }
-        return nameNow
-    }
-    ///INDI Code, not including preceding @I and trailing @
-    var INDI: Int?
-    ///Birth
-    var birth = Birth()
-    ///Is ``self`` alive
-    var isAlive: Bool {
-        get {
-            //Gets the value from the death object
-            return !self.death.hasDied
-        }
-        set (isAlive) {
-            //Stores the value in the death object
-            self.death.hasDied = !isAlive
-        }
-    }
-    ///Death
-    var death = Death()
-    ///Sex
-    var sex: Sex?
-    ///Parent A (Usually Mother)
-    var parentA: Person?
-    ///Parent B (Usually Father)
-    var parentB: Person?
-    ///Tree that this person exists in
-    var tree: Tree
-    ///List of children
-    var children: [Person] {
-        get {
-            var to_return = [Person]()
-            for p in self.tree.people {
-                if p.parentA?.INDI! == self.INDI! || p.parentB?.INDI! == self.INDI! {
-                    to_return.append(p)
-                }
-            }
-            return to_return
-        }
-    }
-    ///List of siblings that share at least one parent (includes half siblings)
-    var allSiblings: [Person] {
-        get {
-            var to_return = [Person]()
-            for p in self.tree.people {
-                if p.INDI! == self.INDI! {
-                    continue
-                }
-                if p.parentA?.INDI! == self.parentA?.INDI || p.parentA?.INDI! == self.parentB?.INDI {
-                    to_return.append(p)
-                } else if p.parentB?.INDI! == self.parentA?.INDI || p.parentB?.INDI! == self.parentB?.INDI {
-                    to_return.append(p)
-                }
-            }
-            return to_return
-        }
-    }
-    ///List of siblings that share both parents
-    var fullSiblings: [Person] {
-        get {
-            var to_return = [Person]()
-            for p in self.tree.people {
-                if p.INDI! == self.INDI! {
-                    continue
-                }
-                if (p.parentA?.INDI! == self.parentA?.INDI || p.parentA?.INDI! == self.parentB?.INDI) && (p.parentB?.INDI! == self.parentA?.INDI || p.parentB?.INDI! == self.parentB?.INDI) {
-                    to_return.append(p)
-                }
-            }
-            return to_return
-        }
-    }
+//MARK: Birth and Death
 
-    init(tree t: Tree) {
-        self.tree = t
-        self.INDI = tree.getUniqueINDI()
-    }
-    
-    init(gedcomEntity ge: [String], tree t: Tree) {
-        self.tree = t
-        for (i,row) in ge.enumerate() {
-            if row.rangeOfString("INDI") != nil {
-                self.INDI = Int(row.stringByReplacingOccurrencesOfString("0 @I", withString: "").stringByReplacingOccurrencesOfString("@ INDI", withString: ""))!
-            } else if row.rangeOfString("NAME") != nil {
-                for (x,row) in ge.enumerate() where x > i {
-                    if row[0] == "1" {
-                        break
-                    }
-                    if row.rangeOfString("GIVN") != nil {
-                        let givenName = row.stringByReplacingOccurrencesOfString("2 GIVN ", withString: "")
-                        self.nameAtBirth.givenName = givenName
-                    } else if row.rangeOfString("_MARNM") != nil {
-                        self.nameNow.familyName = row.stringByReplacingOccurrencesOfString("2 _MARNM ", withString: "")
-                    } else if row.rangeOfString("SURN") != nil {
-                        self.nameAtBirth.familyName = row.stringByReplacingOccurrencesOfString("2 SURN ", withString: "")
-                    }
-                }
-            } else if row.rangeOfString("BIRT") != nil {
-                for (x,row) in ge.enumerate() where x > i {
-                    if row[0] == "1" {
-                        break
-                    }
-                    if row.rangeOfString("DATE") != nil {
-                        let dateString = row.stringByReplacingOccurrencesOfString("2 DATE ", withString: "")
-                        self.birth.date = convertFEDate(date: dateString)
-                    } else if row.rangeOfString("PLAC") != nil {
-//                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
-//                        Don't parse location for now, just have that entered later in UI
-                        
-                    }
-                }
-            } else if row.rangeOfString("DEAT Y") != nil {
-                self.isAlive = false
-                for (x,row) in ge.enumerate() where x > i {
-                    if row[0] == "1" {
-                        break
-                    }
-                    if row.rangeOfString("DATE") != nil {
-                        let dateString = row.stringByReplacingOccurrencesOfString("2 DATE ", withString: "")
-                        self.death.date = convertFEDate(date: dateString)
-                    } else if row.rangeOfString("PLAC") != nil {
-//                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
-//                        Don't parse location for now, just have that entered later in UI
-                    }
-                }
-            } else if row.rangeOfString("SEX") != nil {
-                switch row.stringByReplacingOccurrencesOfString("1 SEX ", withString: "") {
-                case "M":
-                    self.sex = Sex.Male
-                case "F":
-                    self.sex = Sex.Female
-                default:
-                    self.sex = nil
-                }
-            }
-            
-            if self.nameNow.givenName == "" && self.nameAtBirth.givenName != "" {
-                self.nameNow.givenName = self.nameAtBirth.givenName
-            } else if self.nameAtBirth.givenName == "" && self.nameNow.givenName != "" {
-                self.nameAtBirth.givenName = self.nameNow.givenName
-            }
-        }
-    }
-    
-    ///Dictionary representation
+struct Birth {
+    var date: Date = Date(day: nil, month: nil, year: nil)
+    var location: String = ""
     var dictionary: NSMutableDictionary {
         get {
             let dict = NSMutableDictionary()
-
-            dict["nameNow"] = self.nameNow.dictionary
-            dict["nameAtBirth"] = self.nameAtBirth.dictionary
-            dict["INDI"] = self.INDI!
-            dict["birth"] = self.birth.dictionary
-            dict["death"] = self.death.dictionary
-            dict["sex"] = self.sex!.rawValue
-            if let pA = self.parentA {
-                dict["parentA"] = pA.INDI!
-            }
-            if let pB = self.parentB {
-                dict["parentB"] = pB.INDI!
-            }
-            
+            dict["date"] = date.dictionary
+            dict["location"] = location
             return dict
         }
     }
 }
+
+struct Death {
+    ///Has died
+    var hasDied = false
+    ///Date of death
+    var date: Date = Date(day: nil, month: nil, year: nil)
+    ///Place of death
+    var location: String = ""
+    
+    var dictionary: NSMutableDictionary {
+        get {
+            let dict = NSMutableDictionary()
+            dict["date"] = date.dictionary
+            dict["location"] = location
+            dict["hasDied"] = hasDied
+            return dict
+        }
+    }
+}
+
+//MARK: - GEDCOM Compatibility
 
 func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
     let tree = Tree()
     var rows = (inputData.componentsSeparatedByString("\n"))
     rows.removeLast()
     if (rows[0][0] != "0") {
+        //TODO: Make it not crash, just cancel import
         assert(false, "First row isn't Level:0")
     }
     for (i,row) in rows.enumerate() {
         if (row.characters.count == 0) {
+            //TODO: Make it not crash, just cancel import
             assert(false, "Empty row!")
         }
         rows[i] = row.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())

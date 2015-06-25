@@ -184,7 +184,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rO4-Fe-H6b">
-                                <rect key="frame" x="18" y="296" width="445" height="26"/>
+                                <rect key="frame" x="18" y="296" width="385" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="a7L-Yp-5TN"/>
                                 </constraints>
@@ -205,7 +205,7 @@
                                 </connections>
                             </popUpButton>
                             <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="vce-OI-QDS">
-                                <rect key="frame" x="20" y="288" width="440" height="5"/>
+                                <rect key="frame" x="20" y="288" width="445" height="5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="XWU-Uf-79I"/>
                                 </constraints>
@@ -443,6 +443,21 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lkG-em-13l">
+                                <rect key="frame" x="406" y="292" width="65" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="HFx-iN-FSl"/>
+                                    <constraint firstAttribute="width" constant="53" id="oN5-k2-UVt"/>
+                                </constraints>
+                                <animations/>
+                                <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bmq-59-uDa">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="addPerson:" target="5gI-5U-AMq" id="b6I-fB-sbd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Bmm-us-xma" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="20" id="1Pe-x3-9PR"/>
@@ -452,22 +467,23 @@
                             <constraint firstItem="rO4-Fe-H6b" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="ASV-jR-TAJ"/>
                             <constraint firstItem="vce-OI-QDS" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="BZh-pb-tMQ"/>
                             <constraint firstItem="ukx-Xs-SXv" firstAttribute="top" secondItem="qvK-PP-kOE" secondAttribute="bottom" constant="8" id="D4l-4y-PaV"/>
+                            <constraint firstItem="lkG-em-13l" firstAttribute="leading" secondItem="rO4-Fe-H6b" secondAttribute="trailing" constant="12" id="EPU-I1-M5m"/>
                             <constraint firstItem="xBZ-Ds-qAz" firstAttribute="leading" secondItem="hUf-y3-1HD" secondAttribute="trailing" constant="8" id="Ear-dp-5aY"/>
-                            <constraint firstAttribute="trailing" secondItem="vce-OI-QDS" secondAttribute="trailing" constant="20" id="FDI-PH-elB"/>
+                            <constraint firstAttribute="trailing" secondItem="vce-OI-QDS" secondAttribute="trailing" constant="15" id="FDI-PH-elB"/>
                             <constraint firstItem="vYg-FY-Dyp" firstAttribute="leading" secondItem="FEb-7R-M8b" secondAttribute="trailing" constant="8" id="G3n-t8-V9X"/>
                             <constraint firstItem="gLr-DN-O5r" firstAttribute="top" secondItem="vYg-FY-Dyp" secondAttribute="bottom" constant="9" id="Gjg-Qh-RDJ"/>
                             <constraint firstItem="wkn-SQ-DPV" firstAttribute="top" secondItem="zua-ib-0nn" secondAttribute="bottom" constant="9" id="Ipc-ma-zpe"/>
-                            <constraint firstAttribute="trailing" secondItem="rO4-Fe-H6b" secondAttribute="trailing" constant="20" id="J8g-yd-dro"/>
                             <constraint firstItem="hUf-y3-1HD" firstAttribute="top" secondItem="ukx-Xs-SXv" secondAttribute="bottom" constant="8" id="Ktz-pl-UFB"/>
+                            <constraint firstAttribute="trailing" secondItem="lkG-em-13l" secondAttribute="trailing" constant="15" id="LhO-8n-jhx"/>
                             <constraint firstAttribute="trailing" secondItem="wkn-SQ-DPV" secondAttribute="trailing" constant="15" id="Mtq-FE-gHI"/>
                             <constraint firstItem="vYg-FY-Dyp" firstAttribute="top" secondItem="QzX-zh-spg" secondAttribute="bottom" constant="9" id="NaW-cO-TED"/>
-                            <constraint firstItem="rO4-Fe-H6b" firstAttribute="centerX" secondItem="ERx-hH-rdd" secondAttribute="centerX" id="Ntj-iZ-G2D"/>
                             <constraint firstItem="xBZ-Ds-qAz" firstAttribute="top" secondItem="TAX-Sh-WKB" secondAttribute="bottom" constant="9" id="Pnz-rl-mhj"/>
                             <constraint firstItem="TAX-Sh-WKB" firstAttribute="top" secondItem="QzX-zh-spg" secondAttribute="bottom" constant="9" id="RDs-Eq-RoE"/>
                             <constraint firstItem="N6D-cN-Ic7" firstAttribute="leading" secondItem="QzX-zh-spg" secondAttribute="trailing" constant="8" id="RME-OQ-YYo"/>
                             <constraint firstItem="gLr-DN-O5r" firstAttribute="leading" secondItem="KBy-Ql-Aaf" secondAttribute="trailing" constant="8" id="RaC-hX-gpg"/>
                             <constraint firstItem="QzX-zh-spg" firstAttribute="top" secondItem="vce-OI-QDS" secondAttribute="bottom" constant="8" id="SX2-Mj-2XQ"/>
                             <constraint firstItem="qvK-PP-kOE" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="Xt5-Ie-OR0"/>
+                            <constraint firstItem="rO4-Fe-H6b" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="72" id="Yb8-rc-x6p"/>
                             <constraint firstItem="QzX-zh-spg" firstAttribute="leading" secondItem="qvK-PP-kOE" secondAttribute="trailing" constant="8" id="eNm-GT-VlV"/>
                             <constraint firstItem="N6D-cN-Ic7" firstAttribute="top" secondItem="vce-OI-QDS" secondAttribute="bottom" constant="9" id="gUG-3W-DU4"/>
                             <constraint firstItem="zua-ib-0nn" firstAttribute="leading" secondItem="vYg-FY-Dyp" secondAttribute="trailing" constant="8" id="gxN-qN-Wyn"/>
@@ -484,6 +500,7 @@
                             <constraint firstItem="KBy-Ql-Aaf" firstAttribute="leading" secondItem="hUf-y3-1HD" secondAttribute="trailing" constant="8" id="sTH-tb-mZT"/>
                             <constraint firstItem="wkn-SQ-DPV" firstAttribute="leading" secondItem="gLr-DN-O5r" secondAttribute="trailing" constant="8" id="sjD-tS-SHl"/>
                             <constraint firstItem="qvK-PP-kOE" firstAttribute="top" secondItem="vce-OI-QDS" secondAttribute="bottom" constant="8" id="tIm-qC-Eh2"/>
+                            <constraint firstItem="lkG-em-13l" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="72" id="ttg-mW-AbQ"/>
                             <constraint firstItem="Bmm-us-xma" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="x1y-xZ-65l"/>
                             <constraint firstAttribute="trailing" secondItem="Bmm-us-xma" secondAttribute="trailing" constant="20" id="xQH-v6-kFX"/>
                         </constraints>
@@ -492,6 +509,7 @@
                     <connections>
                         <outlet property="addParentA" destination="TAX-Sh-WKB" id="Tft-H0-PyZ"/>
                         <outlet property="addParentB" destination="xBZ-Ds-qAz" id="53B-fU-kNY"/>
+                        <outlet property="addPerson" destination="lkG-em-13l" id="uCZ-Ls-bfW"/>
                         <outlet property="birthDateLabel" destination="ml9-31-LSY" id="i03-67-oC2"/>
                         <outlet property="birthLabel" destination="a3r-Ri-Nyi" id="g6D-K0-b4J"/>
                         <outlet property="birthLocationLabel" destination="nVM-si-TbL" id="aWZ-Ol-oqe"/>
