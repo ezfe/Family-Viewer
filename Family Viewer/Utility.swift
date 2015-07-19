@@ -14,7 +14,7 @@ import Cocoa
 func == (left: Person, right: Person) -> Bool {
     return left.INDI! == right.INDI!
 }
-T
+
 extension String {
     
     subscript (i: Int) -> Character {
@@ -382,6 +382,8 @@ class Person: CustomStringConvertible {
     init(tree t: Tree) {
         self.tree = t
         self.INDI = tree.getUniqueINDI()
+        //TODO: Better solution than storing male by default
+        self.sex = Sex.Male
     }
     
     init(gedcomEntity ge: [String], tree t: Tree) {

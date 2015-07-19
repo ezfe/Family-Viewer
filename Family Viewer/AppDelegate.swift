@@ -164,5 +164,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("No path, not importing anything")
         }
     }
+    
+    @IBAction func addPerson(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addPerson", object: nil)
+    }
 }
 

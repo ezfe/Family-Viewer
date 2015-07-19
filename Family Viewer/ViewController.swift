@@ -14,8 +14,6 @@ class ViewController: NSViewController {
     @IBOutlet weak var personSelectPopup: NSPopUpButton!
     @IBOutlet weak var openLastFileButton: NSButton!
     
-    ///Button to add a person
-    @IBOutlet weak var addPerson: NSButton!
     ///Label for the name ("Name:")
     @IBOutlet weak var nameLabel: NSTextField!
     ///Label that shows the name
@@ -50,6 +48,15 @@ class ViewController: NSViewController {
     @IBOutlet weak var birthLocationLabel: NSTextField!
     ///Edit birth
     @IBOutlet weak var editBirthButton: NSButton!
+    ///Label for death ("Death:")
+    @IBOutlet weak var deathLabel: NSTextField!
+    ///Label for death date (used for "not dead" if not dead)
+    @IBOutlet weak var deathDateLabel: NSTextField!
+    ///Label for death location (Leave blank if not dead)
+    @IBOutlet weak var deathLocationLabel: NSTextField!
+    ///Edit death
+    @IBOutlet weak var editDeathButton: NSButton!
+    
     
     @IBOutlet weak var horizontalBar: NSBox!
     
@@ -59,6 +66,14 @@ class ViewController: NSViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addedParent:", name: "com.ezekielelin.addedParent", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
+    }
+    
+    func addPersonFromNotification() {
+        let p = Person(tree: self.tree)
+        self.tree.people.append(p)
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+        selectPerson(person: p)
     }
     
     @IBAction func openLastFile(sender: AnyObject) {
@@ -116,7 +131,6 @@ class ViewController: NSViewController {
         self.peopleCountLabel.hidden = false
         self.personSelectPopup.hidden = false
         self.horizontalBar.hidden = false
-
         
         self.personSelectPopup.removeAllItems()
         self.personSelectPopup.addItemWithTitle("Choose a person")
@@ -157,6 +171,11 @@ class ViewController: NSViewController {
         birthLocationLabel.hidden = true
         birthDateLabel.hidden = true
         editBirthButton.hidden = true
+        
+        deathLabel.hidden = true
+        deathLocationLabel.hidden = true
+        deathDateLabel.hidden = true
+        editDeathButton.hidden = true
         
         parentALabel.hidden = true
         parentAField.hidden = true
@@ -229,6 +248,28 @@ class ViewController: NSViewController {
         } else {
             birthLocationLabel.stringValue = person.birth.location
         }
+        
+        deathLabel.hidden = false
+        deathLocationLabel.hidden = false
+        deathDateLabel.hidden = false
+        editDeathButton.hidden = false
+        
+        if person.death.date.isSet() {
+            deathDateLabel.stringValue = person.death.date.description
+        } else {
+            deathDateLabel.stringValue = "No Date Set"
+        }
+        
+        if person.death.location == "" {
+            deathLocationLabel.stringValue = "No Location Set"
+        } else {
+            deathLocationLabel.stringValue = person.birth.location
+        }
+        
+        if person.isAlive {
+            deathDateLabel.stringValue = "\(person.description) is still alive"
+            deathLocationLabel.stringValue = ""
+        }
     }
     
     @IBAction func viewParentA(sender: AnyObject) {
@@ -274,13 +315,6 @@ class ViewController: NSViewController {
         selectPerson(person: notification.userInfo!["newPerson"] as! Person)
     }
     
-    @IBAction func addPerson(sender: AnyObject) {
-        let p = Person(tree: self.tree)
-        self.tree.people.append(p)
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
-        selectPerson(person: p)
-    }
-    
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
         if let sender = sender as? NSButton {
             if let destination = segue.destinationController as? AddParentViewController, cPerson = self.currentPerson() {
@@ -298,6 +332,10 @@ class ViewController: NSViewController {
                 return
             }
             if let destination = segue.destinationController as? BirthdayViewController, cPerson = self.currentPerson() {
+                destination.person = cPerson
+                return
+            }
+            if let destination = segue.destinationController as? DeathViewController, cPerson = self.currentPerson() {
                 destination.person = cPerson
                 return
             }

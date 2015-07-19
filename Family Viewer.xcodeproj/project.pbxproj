@@ -14,7 +14,8 @@
 		661671311B2E6DC800714530 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661671301B2E6DC800714530 /* Utility.swift */; };
 		66223B711B30A050004132B6 /* AddParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B6F1B30A050004132B6 /* AddParentViewController.swift */; };
 		66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B701B30A050004132B6 /* EditNameViewController.swift */; };
-		6638D3301B3A3BBA009C6A17 /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6638D32F1B3A3BBA009C6A17 /* BirthdayViewController.swift */; };
+		6638D3301B3A3BBA009C6A17 /* DeathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */; };
+		667950CA1B5C65E600EEDD55 /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +28,8 @@
 		661671301B2E6DC800714530 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		66223B6F1B30A050004132B6 /* AddParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddParentViewController.swift; sourceTree = "<group>"; };
 		66223B701B30A050004132B6 /* EditNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
-		6638D32F1B3A3BBA009C6A17 /* BirthdayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BirthdayViewController.swift; path = ../BirthdayViewController.swift; sourceTree = "<group>"; };
+		6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeathViewController.swift; path = ../DeathViewController.swift; sourceTree = "<group>"; };
+		667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirthdayViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +67,8 @@
 				661671201B2E64D100714530 /* ViewController.swift */,
 				66223B6F1B30A050004132B6 /* AddParentViewController.swift */,
 				66223B701B30A050004132B6 /* EditNameViewController.swift */,
-				6638D32F1B3A3BBA009C6A17 /* BirthdayViewController.swift */,
+				667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */,
+				6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */,
 				661671241B2E64D100714530 /* Assets.xcassets */,
 				661671261B2E64D100714530 /* Main.storyboard */,
 				661671291B2E64D100714530 /* Info.plist */,
@@ -162,10 +165,11 @@
 			files = (
 				661671311B2E6DC800714530 /* Utility.swift in Sources */,
 				661671211B2E64D100714530 /* ViewController.swift in Sources */,
+				667950CA1B5C65E600EEDD55 /* BirthdayViewController.swift in Sources */,
 				66223B711B30A050004132B6 /* AddParentViewController.swift in Sources */,
 				6616711F1B2E64D100714530 /* AppDelegate.swift in Sources */,
 				66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */,
-				6638D3301B3A3BBA009C6A17 /* BirthdayViewController.swift in Sources */,
+				6638D3301B3A3BBA009C6A17 /* DeathViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
