@@ -67,6 +67,7 @@ class ViewController: NSViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addedParent:", name: "com.ezekielelin.addedParent", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deleteCurrentPerson", name: "com.ezekielelin.deleteCurrentPerson", object: nil)
     }
     
     func addPersonFromNotification() {
@@ -338,6 +339,17 @@ class ViewController: NSViewController {
             if let destination = segue.destinationController as? DeathViewController, cPerson = self.currentPerson() {
                 destination.person = cPerson
                 return
+            }
+        }
+    }
+    
+    func deleteCurrentPerson() {
+        if let person = currentPerson() {
+            for (i,p) in tree.people.enumerate() {
+                if p == person {
+                    tree.people.removeAtIndex(i)
+                    NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+                }
             }
         }
     }

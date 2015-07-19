@@ -168,5 +168,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func addPerson(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addPerson", object: nil)
     }
+    @IBAction func deletePerson(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.deleteCurrentPerson", object: nil)
+    }
 }
 

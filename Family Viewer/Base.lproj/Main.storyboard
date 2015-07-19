@@ -69,6 +69,9 @@
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
+                                            <connections>
+                                                <action selector="deletePerson:" target="Voe-Tx-rLC" id="Iez-dv-iDm"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="grw-nT-Oul"/>
                                         <menuItem title="Open..." id="kXD-0o-s84">
@@ -358,7 +361,11 @@ CA
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Family_Viewer" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Family_Viewer" customModuleProvider="target">
+                    <connections>
+                        <outlet property="deletePerson" destination="RV4-6v-5en" id="QP5-JO-2Cv"/>
+                    </connections>
+                </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="122" y="-2"/>
