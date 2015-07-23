@@ -15,6 +15,7 @@
 		66223B711B30A050004132B6 /* AddParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B6F1B30A050004132B6 /* AddParentViewController.swift */; };
 		66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B701B30A050004132B6 /* EditNameViewController.swift */; };
 		6638D3301B3A3BBA009C6A17 /* DeathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */; };
+		666530061B60855100744E0D /* EZPersonNameComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666530051B60855100744E0D /* EZPersonNameComponents.swift */; };
 		667950CA1B5C65E600EEDD55 /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		66223B6F1B30A050004132B6 /* AddParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddParentViewController.swift; sourceTree = "<group>"; };
 		66223B701B30A050004132B6 /* EditNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
 		6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeathViewController.swift; path = ../DeathViewController.swift; sourceTree = "<group>"; };
+		666530051B60855100744E0D /* EZPersonNameComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EZPersonNameComponents.swift; path = ../EZPersonNameComponents.swift; sourceTree = "<group>"; };
 		667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirthdayViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -62,6 +64,7 @@
 		6616711D1B2E64D100714530 /* Family Viewer */ = {
 			isa = PBXGroup;
 			children = (
+				666530051B60855100744E0D /* EZPersonNameComponents.swift */,
 				6616711E1B2E64D100714530 /* AppDelegate.swift */,
 				661671301B2E6DC800714530 /* Utility.swift */,
 				661671201B2E64D100714530 /* ViewController.swift */,
@@ -163,6 +166,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				666530061B60855100744E0D /* EZPersonNameComponents.swift in Sources */,
 				661671311B2E6DC800714530 /* Utility.swift in Sources */,
 				661671211B2E64D100714530 /* ViewController.swift in Sources */,
 				667950CA1B5C65E600EEDD55 /* BirthdayViewController.swift in Sources */,
@@ -274,6 +278,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Family Viewer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -286,6 +291,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Family Viewer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
