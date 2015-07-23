@@ -93,7 +93,7 @@ class Tree: CustomStringConvertible {
         return nil
     }
     
-    ///Description of the tree
+    ///Description of the treex
     var description: String {
         get {
             return "Tree with \(people.count) people"
@@ -771,4 +771,12 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
         }
     }
     return tree
+}
+
+//TODO: Make this better
+func displayAlert(title: String, message: String) {
+    let alert = NSAlert()
+    alert.messageText = title
+    alert.informativeText = message
+    alert.runModal()
 }

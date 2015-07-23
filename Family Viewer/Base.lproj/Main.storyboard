@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8152.3" systemVersion="15A216g" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Jdn-rn-sH9">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8152.3" systemVersion="15A226f" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="Jdn-rn-sH9">
     <dependencies>
         <deployment identifier="macosx"/>
         <development version="7000" identifier="xcode"/>
@@ -70,7 +70,7 @@
 CA
 </string>
                                             <connections>
-                                                <action selector="deletePerson:" target="Voe-Tx-rLC" id="Iez-dv-iDm"/>
+                                                <action selector="deletePerson:" target="Voe-Tx-rLC" id="ACX-o9-mUQ"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="grw-nT-Oul"/>
@@ -361,11 +361,7 @@ CA
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Family_Viewer" customModuleProvider="target">
-                    <connections>
-                        <outlet property="deletePerson" destination="RV4-6v-5en" id="QP5-JO-2Cv"/>
-                    </connections>
-                </customObject>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Family_Viewer" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="122" y="-2"/>
@@ -408,7 +404,7 @@ CA
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QSG-Pe-oB4">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QSG-Pe-oB4">
                                 <rect key="frame" x="177" y="308" width="127" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="17" id="n0p-PI-84D"/>
@@ -1633,12 +1629,12 @@ CA
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Piy-dx-H4W">
                                 <rect key="frame" x="53" y="49" width="104" height="26"/>
                                 <animations/>
-                                <popUpButtonCell key="cell" type="push" title="--" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="AvY-Ys-3Cf">
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="AvY-Ys-3Cf">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="1RF-Oh-Lfb">
                                         <items>
-                                            <menuItem title="--" state="on" id="VPs-i9-785"/>
+                                            <menuItem title="--" id="VPs-i9-785"/>
                                             <menuItem title="January" id="bPR-Dh-Grn"/>
                                             <menuItem title="February" id="MIl-Nh-Cft"/>
                                             <menuItem title="March" id="e07-Yh-ZfG"/>

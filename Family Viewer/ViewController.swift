@@ -344,6 +344,8 @@ class ViewController: NSViewController {
     }
     
     func deleteCurrentPerson() {
+        displayAlert("Oops", message: "That's not finished yet")
+        return
         if let person = currentPerson() {
             for (i,p) in tree.people.enumerate() {
                 if p == person {
