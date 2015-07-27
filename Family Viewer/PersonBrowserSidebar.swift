@@ -21,6 +21,10 @@ class PersonBrowserSidebarViewController: NSViewController {
     }
     
     @IBAction func click(sender: AnyObject) {
+        if table.selectedRow == -1 {
+            return
+        }
+        print("Sending notification with new row: \(table.selectedRow)")
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.sidebarTableRowChange", object: nil, userInfo: ["row": table.selectedRow])
     }
     
@@ -51,11 +55,13 @@ class PersonBrowserSidebarDataSource: NSObject, NSTableViewDataSource {
         
         return person.description
     }
-    
 }
 
 class PersonBrowserSidebarDelegate: NSObject, NSTableViewDelegate {
     
-    
+    func tableView(tableView: NSTableView, didClickTableColumn tableColumn: NSTableColumn) {
+        displayAlert("Error", message: "That button doesn't do  what it should")
+        //TODO: Find a way to intercept and cancel this event
+    }
     
 }

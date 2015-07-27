@@ -11,7 +11,10 @@ import Cocoa
 
 //MARK: App-wide functions and extensions
 
-func == (left: Person, right: Person) -> Bool {
+func == (left: Person?, right: Person?) -> Bool {
+    guard let left = left, right = right else {
+        return false
+    }
     return left.INDI! == right.INDI!
 }
 
@@ -278,6 +281,9 @@ class Person: CustomStringConvertible {
             if let givenName = name.givenName, familyName = name.familyName {
                 return "\(givenName) \(familyName)"
             } else {
+                if let givenName = name.givenName {
+                    return givenName
+                }
                 return "Person \(self.INDI!)"
             }
         }
@@ -339,7 +345,7 @@ class Person: CustomStringConvertible {
         get {
             var to_return = [Person]()
             for p in self.tree.people {
-                if p.parentA! == self || p.parentB! == self {
+                if p.parentA == self || p.parentB == self {
                     to_return.append(p)
                 }
             }
