@@ -65,6 +65,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addedParent:", name: "com.ezekielelin.addedParent", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sidebarTableRowChange:", name: "com.ezekielelin.sidebarTableRowChange", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deleteCurrentPerson", name: "com.ezekielelin.deleteCurrentPerson", object: nil)
@@ -158,7 +159,9 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
             return nil
         }
 
-        return self.tree.people[self.personSelectPopup.indexOfSelectedItem - 1]
+        let index = self.personSelectPopup.indexOfSelectedItem - 1
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.popupRowChange", object: nil, userInfo: ["row": index])
+        return self.tree.people[index]
 
     }
     
@@ -316,6 +319,12 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         selectPerson(person: notification.userInfo!["newPerson"] as! Person)
     }
     
+    func sidebarTableRowChange(notification: NSNotification) {
+        let row = notification.userInfo!["row"] as! Int
+        selectPerson(person: tree.people[row])
+        personSelectPopup.selectItemAtIndex(row+1)
+    }
+    
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
         if let sender = sender as? NSButton {
             if let destination = segue.destinationController as? AddParentViewController, cPerson = self.currentPerson() {
@@ -346,14 +355,14 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     func deleteCurrentPerson() {
         displayAlert("Oops", message: "That's not finished yet")
         return
-        if let person = currentPerson() {
-            for (i,p) in tree.people.enumerate() {
-                if p == person {
-                    tree.people.removeAtIndex(i)
-                    NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
-                }
-            }
-        }
+//        if let person = currentPerson() {
+//            for (i,p) in tree.people.enumerate() {
+//                if p == person {
+//                    tree.people.removeAtIndex(i)
+//                    NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+//                }
+//            }
+//        }
     }
     
     

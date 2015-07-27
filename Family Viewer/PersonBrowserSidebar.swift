@@ -16,10 +16,24 @@ class PersonBrowserSidebarViewController: NSViewController {
         super.viewDidLoad()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "popupRowChange:", name: "com.ezekielelin.popupRowChange", object: nil)
+
+    }
+    
+    @IBAction func click(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.sidebarTableRowChange", object: nil, userInfo: ["row": table.selectedRow])
     }
     
     func treeUpdate() {
         table.reloadData()
+    }
+    
+    func popupRowChange(notification: NSNotification) {
+        
+        let row = notification.userInfo!["row"] as! Int
+        
+        let indexes = NSIndexSet(index: row)
+        table.selectRowIndexes(indexes, byExtendingSelection: false)
     }
 }
 
@@ -31,8 +45,17 @@ class PersonBrowserSidebarDataSource: NSObject, NSTableViewDataSource {
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-        print("getting person for row \(row)")
+//        print("getting person for row \(row)")
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        return appDelegate.hasTree ? appDelegate.tree.people[row] : nil
+        let person = appDelegate.tree.people[row]
+        
+        return person.description
     }
+    
+}
+
+class PersonBrowserSidebarDelegate: NSObject, NSTableViewDelegate {
+    
+    
+    
 }
