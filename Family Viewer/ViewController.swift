@@ -202,6 +202,8 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
             noPersonSelected()
             return
         }
+
+        var views = Array<NSView>()
         
         nameLabel.hidden = false
         nameField.hidden = false
@@ -274,6 +276,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
             deathDateLabel.stringValue = "\(person.description) is still alive"
             deathLocationLabel.stringValue = ""
         }
+        
+        
+        let stackView = NSStackView(views: views)
+        stackView.orientation = NSUserInterfaceLayoutOrientation.Vertical
+
     }
     
     @IBAction func viewParentA(sender: AnyObject) {
