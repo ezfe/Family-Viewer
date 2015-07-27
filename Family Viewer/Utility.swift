@@ -283,11 +283,11 @@ class Person: CustomStringConvertible {
         }
     }
     ///Name components
-    var nameNow = EZPersonNameComponents()
+    var nameNow = NameComponents()
     ///Maiden name
-    var nameAtBirth = EZPersonNameComponents()
-    ///Get a EZPersonNameComponents for their current name, filling in blanks with nameAtBirth
-    func getNameNow() -> EZPersonNameComponents {
+    var nameAtBirth = NameComponents()
+    ///Get a NameComponents for their current name, filling in blanks with nameAtBirth
+    func getNameNow() -> NameComponents {
         let nameNow = self.nameNow
         if nameNow.namePrefix == nil {
             nameNow.namePrefix = nameAtBirth.namePrefix
@@ -475,7 +475,7 @@ class Person: CustomStringConvertible {
     }
 }
 
-extension EZPersonNameComponents {
+extension NameComponents {
     var dictionary: NSDictionary {
         get {
             let dict = NSMutableDictionary()

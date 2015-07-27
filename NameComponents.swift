@@ -1,5 +1,5 @@
 //
-//  EZPersonNameComponent.swift
+//  NameComponents.swift
 //  Family Viewer
 //
 //  Created by Ezekiel Elin on 7/22/15.
@@ -8,7 +8,9 @@
 
 import Foundation
 
-class EZPersonNameComponents {
+//Temporary Placeholder
+
+class NameComponents {
     var namePrefix: String?
     var givenName: String?
     var middleName: String?

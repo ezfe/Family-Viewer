@@ -12,10 +12,11 @@
 		661671251B2E64D100714530 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 661671241B2E64D100714530 /* Assets.xcassets */; };
 		661671281B2E64D100714530 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 661671261B2E64D100714530 /* Main.storyboard */; };
 		661671311B2E6DC800714530 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661671301B2E6DC800714530 /* Utility.swift */; };
+		661747001B65AA2500308C22 /* PersonBrowserSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661746FF1B65AA2500308C22 /* PersonBrowserSidebar.swift */; };
 		66223B711B30A050004132B6 /* AddParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B6F1B30A050004132B6 /* AddParentViewController.swift */; };
 		66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B701B30A050004132B6 /* EditNameViewController.swift */; };
 		6638D3301B3A3BBA009C6A17 /* DeathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */; };
-		666530061B60855100744E0D /* EZPersonNameComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666530051B60855100744E0D /* EZPersonNameComponents.swift */; };
+		666530061B60855100744E0D /* NameComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666530051B60855100744E0D /* NameComponents.swift */; };
 		667950CA1B5C65E600EEDD55 /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,10 +28,11 @@
 		661671271B2E64D100714530 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		661671291B2E64D100714530 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		661671301B2E6DC800714530 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		661746FF1B65AA2500308C22 /* PersonBrowserSidebar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonBrowserSidebar.swift; sourceTree = "<group>"; };
 		66223B6F1B30A050004132B6 /* AddParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddParentViewController.swift; sourceTree = "<group>"; };
 		66223B701B30A050004132B6 /* EditNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
 		6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeathViewController.swift; path = ../DeathViewController.swift; sourceTree = "<group>"; };
-		666530051B60855100744E0D /* EZPersonNameComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EZPersonNameComponents.swift; path = ../EZPersonNameComponents.swift; sourceTree = "<group>"; };
+		666530051B60855100744E0D /* NameComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NameComponents.swift; path = ../NameComponents.swift; sourceTree = "<group>"; };
 		667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirthdayViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -64,8 +66,9 @@
 		6616711D1B2E64D100714530 /* Family Viewer */ = {
 			isa = PBXGroup;
 			children = (
-				666530051B60855100744E0D /* EZPersonNameComponents.swift */,
+				666530051B60855100744E0D /* NameComponents.swift */,
 				6616711E1B2E64D100714530 /* AppDelegate.swift */,
+				661746FF1B65AA2500308C22 /* PersonBrowserSidebar.swift */,
 				661671301B2E6DC800714530 /* Utility.swift */,
 				661671201B2E64D100714530 /* ViewController.swift */,
 				66223B6F1B30A050004132B6 /* AddParentViewController.swift */,
@@ -166,7 +169,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				666530061B60855100744E0D /* EZPersonNameComponents.swift in Sources */,
+				666530061B60855100744E0D /* NameComponents.swift in Sources */,
 				661671311B2E6DC800714530 /* Utility.swift in Sources */,
 				661671211B2E64D100714530 /* ViewController.swift in Sources */,
 				667950CA1B5C65E600EEDD55 /* BirthdayViewController.swift in Sources */,
@@ -174,6 +177,7 @@
 				6616711F1B2E64D100714530 /* AppDelegate.swift in Sources */,
 				66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */,
 				6638D3301B3A3BBA009C6A17 /* DeathViewController.swift in Sources */,
+				661747001B65AA2500308C22 /* PersonBrowserSidebar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
