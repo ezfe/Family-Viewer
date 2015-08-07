@@ -93,7 +93,8 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         
         let defaults = NSUserDefaults.standardUserDefaults()
         if let filePath = defaults.stringForKey("filePath") {
-            self.openLastFileButton.title = "Open \(filePath.lastPathComponent)"
+            let str = NSString(string: filePath).lastPathComponent
+            self.openLastFileButton.title = "Open \(str)"
         } else {
             self.openLastFileButton.hidden = true
             self.peopleCountLabel.hidden = false

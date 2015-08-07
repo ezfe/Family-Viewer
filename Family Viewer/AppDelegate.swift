@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+//import Foundation
+import AppKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -18,8 +20,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let formatVersion = 1
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        // Insert code here to initialize your application
+        // Make sure app folder exists
         
+        createAppSupportFolder() //Create AppSupport directory if it doesn't exist already
+        
+        let fm = NSFileManager.defaultManager()
+        
+        if !fm.fileExistsAtPath(dataFileURL().path!) {
+            saveFile(self)
+        } else {
+            readXMLFile(dataFileURL().path!)
+        }
+        
+        //
         let defaults = NSUserDefaults.standardUserDefaults()
         var showAlert = true
         if defaults.boolForKey("betaAlertShown") {
@@ -99,6 +112,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func readGEDFile(path: String) {
+        displayAlert("Warning!", message: "This will overwrite your current tree with the data from the GED file")
         let stringData = try! NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding)
         let t = GEDCOMToFamilyObject(gedcomString: stringData as String)
         if t.people.count > 0 {
@@ -123,46 +137,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    @IBAction func openXMLFile(sender: AnyObject) {
-        let fileDialog = NSOpenPanel()
-        
-        fileDialog.prompt = "Open XML File"
-        fileDialog.allowsMultipleSelection = false
-        fileDialog.canChooseDirectories = false
-        fileDialog.canChooseFiles = true
-        fileDialog.resolvesAliases = true
-        fileDialog.allowedFileTypes = ["xml"]
-        fileDialog.runModal()
-        if let path = fileDialog.URL?.path {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setObject(path, forKey: "filePath")
-            
-            print("Stored defaults as \(path)")
-            
-            readXMLFile(path)
-        } else {
-            print("No path, not importing anything")
-        }
+    func appSupportURL() -> NSURL {
+        let supportDirPath = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0]
+
+        return NSURL(fileURLWithPath: supportDirPath).URLByAppendingPathComponent(NSBundle.mainBundle().bundleIdentifier!)
+    }
+    
+    func createAppSupportFolder() {
+        let fm = NSFileManager.defaultManager()
+        try! fm.createDirectoryAtURL(appSupportURL(), withIntermediateDirectories: true, attributes: nil)
+    }
+    
+    func dataFileURL() -> NSURL {
+        return appSupportURL().URLByAppendingPathComponent("data.xml")
+    }
+    
+    func dataFileExists() -> Bool {
+        let fm = NSFileManager.defaultManager()
+        return fm.fileExistsAtPath(dataFileURL().path!)
     }
     
     @IBAction func saveFile(sender: AnyObject) {
-        let fileDialog = NSSavePanel()
-        fileDialog.allowedFileTypes = ["xml"]
-        fileDialog.runModal()
-        if let filePath = fileDialog.URL?.path {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setObject(filePath, forKey: "filePath")
-            
-            tree.dictionary.writeToFile(filePath, atomically: true)
-            
-            let fm = NSFileManager()
-            if !fm.fileExistsAtPath(filePath) {
-                print("File wasn't written for unknown reason")
-                print(tree.dictionary)
-            }
-        } else {
-            print("No path, not importing anything")
+        createAppSupportFolder()
+        
+        let fm = NSFileManager.defaultManager()
+        tree.dictionary.writeToFile(dataFileURL().path!, atomically: true)
+        if !fm.fileExistsAtPath(dataFileURL().path!) {
+            print("File wasn't written for unknown reason")
+            print(tree.dictionary)
         }
+
+//        let fileDialog = NSSavePanel()
+//        fileDialog.allowedFileTypes = ["xml"]
+//        fileDialog.runModal()
+//        if let filePath = fileDialog.URL?.path {
+//            let defaults = NSUserDefaults.standardUserDefaults()
+//            defaults.setObject(filePath, forKey: "filePath")
+//            
+//            tree.dictionary.writeToFile(filePath, atomically: true)
+//            
+//        } else {
+//            print("No path, not importing anything")
+//        }
     }
     
     @IBAction func addPerson(sender: AnyObject) {
