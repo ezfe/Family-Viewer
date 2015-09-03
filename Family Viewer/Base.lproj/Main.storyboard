@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A244d" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jrl-Pf-HAD">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8187.4" systemVersion="15A279b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jrl-Pf-HAD">
     <dependencies>
         <development version="7000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8173.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8187.4"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -384,7 +384,7 @@ CA
                                 </connections>
                             </containerView>
                             <box horizontalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Pe1-TF-lEq">
-                                <rect key="frame" x="205" y="12" width="4" height="440"/>
+                                <rect key="frame" x="205" y="12" width="5" height="440"/>
                                 <animations/>
                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -448,27 +448,6 @@ CA
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rO4-Fe-H6b">
-                                <rect key="frame" x="18" y="276" width="450" height="26"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="a7L-Yp-5TN"/>
-                                </constraints>
-                                <animations/>
-                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="0L7-3J-pcJ">
-                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="IUz-gs-VFe">
-                                        <items>
-                                            <menuItem title="Choose a person" enabled="NO" id="kTe-cy-Xef">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                        </items>
-                                    </menu>
-                                </popUpButtonCell>
-                                <connections>
-                                    <action selector="selectChanged:" target="5gI-5U-AMq" id="H2h-nM-iBd"/>
-                                </connections>
-                            </popUpButton>
                             <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="vce-OI-QDS">
                                 <rect key="frame" x="20" y="268" width="445" height="5"/>
                                 <constraints>
@@ -783,8 +762,8 @@ CA
                             <constraint firstItem="ml9-31-LSY" firstAttribute="top" secondItem="xBZ-Ds-qAz" secondAttribute="bottom" constant="8" id="58U-49-eNt"/>
                             <constraint firstItem="zua-ib-0nn" firstAttribute="top" secondItem="QzX-zh-spg" secondAttribute="bottom" constant="9" id="5LK-wN-eOg"/>
                             <constraint firstAttribute="trailing" secondItem="Fec-mf-Ruf" secondAttribute="trailing" constant="153" id="92G-E0-bg1"/>
-                            <constraint firstItem="rO4-Fe-H6b" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="ASV-jR-TAJ"/>
                             <constraint firstItem="vce-OI-QDS" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="BZh-pb-tMQ"/>
+                            <constraint firstItem="vce-OI-QDS" firstAttribute="top" secondItem="Fec-mf-Ruf" secondAttribute="bottom" constant="34" id="D3t-Cp-n4t"/>
                             <constraint firstItem="ukx-Xs-SXv" firstAttribute="top" secondItem="qvK-PP-kOE" secondAttribute="bottom" constant="8" id="D4l-4y-PaV"/>
                             <constraint firstItem="TXV-99-seo" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="DC9-51-S9W"/>
                             <constraint firstItem="xBZ-Ds-qAz" firstAttribute="leading" secondItem="hUf-y3-1HD" secondAttribute="trailing" constant="8" id="Ear-dp-5aY"/>
@@ -805,12 +784,10 @@ CA
                             <constraint firstItem="gLr-DN-O5r" firstAttribute="leading" secondItem="KBy-Ql-Aaf" secondAttribute="trailing" constant="8" id="RaC-hX-gpg"/>
                             <constraint firstItem="LRR-3e-kPb" firstAttribute="top" secondItem="vsF-dP-ZQe" secondAttribute="bottom" constant="8" id="SLz-9F-wgv"/>
                             <constraint firstItem="QzX-zh-spg" firstAttribute="top" secondItem="vce-OI-QDS" secondAttribute="bottom" constant="8" id="SX2-Mj-2XQ"/>
-                            <constraint firstAttribute="trailing" secondItem="rO4-Fe-H6b" secondAttribute="trailing" constant="15" id="Tto-b0-yAf"/>
                             <constraint firstItem="nVM-si-TbL" firstAttribute="top" secondItem="ml9-31-LSY" secondAttribute="bottom" constant="8" id="UE3-p3-duo"/>
                             <constraint firstAttribute="trailing" secondItem="0Ea-Ja-0HA" secondAttribute="trailing" constant="15" id="VY2-Af-xnx"/>
                             <constraint firstItem="qvK-PP-kOE" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="Xt5-Ie-OR0"/>
                             <constraint firstItem="vsF-dP-ZQe" firstAttribute="top" secondItem="nVM-si-TbL" secondAttribute="bottom" constant="8" id="YGP-h6-wRQ"/>
-                            <constraint firstItem="rO4-Fe-H6b" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="72" id="Yb8-rc-x6p"/>
                             <constraint firstItem="a3r-Ri-Nyi" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="cgo-v8-bTi"/>
                             <constraint firstItem="QzX-zh-spg" firstAttribute="leading" secondItem="qvK-PP-kOE" secondAttribute="trailing" constant="8" id="eNm-GT-VlV"/>
                             <constraint firstItem="0Ea-Ja-0HA" firstAttribute="leading" secondItem="ml9-31-LSY" secondAttribute="trailing" constant="10" id="ePb-lH-F5f"/>
@@ -818,7 +795,6 @@ CA
                             <constraint firstItem="N6D-cN-Ic7" firstAttribute="top" secondItem="vce-OI-QDS" secondAttribute="bottom" constant="9" id="gUG-3W-DU4"/>
                             <constraint firstItem="zua-ib-0nn" firstAttribute="leading" secondItem="vYg-FY-Dyp" secondAttribute="trailing" constant="8" id="gxN-qN-Wyn"/>
                             <constraint firstItem="rDv-yi-6wt" firstAttribute="top" secondItem="0Ea-Ja-0HA" secondAttribute="bottom" constant="34" id="hYL-t8-W8k"/>
-                            <constraint firstItem="rO4-Fe-H6b" firstAttribute="top" secondItem="QSG-Pe-oB4" secondAttribute="bottom" constant="8" id="j1R-ld-UNY"/>
                             <constraint firstItem="nVM-si-TbL" firstAttribute="leading" secondItem="a3r-Ri-Nyi" secondAttribute="trailing" constant="10" id="jBU-f1-UFa"/>
                             <constraint firstItem="FEb-7R-M8b" firstAttribute="leading" secondItem="ukx-Xs-SXv" secondAttribute="trailing" constant="8" id="jso-QD-NJj"/>
                             <constraint firstItem="QSG-Pe-oB4" firstAttribute="centerX" secondItem="ERx-hH-rdd" secondAttribute="centerX" id="kMY-o9-FdI"/>
@@ -830,7 +806,6 @@ CA
                             <constraint firstItem="ukx-Xs-SXv" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="pHq-Fe-6zq"/>
                             <constraint firstItem="QSG-Pe-oB4" firstAttribute="top" secondItem="Bmm-us-xma" secondAttribute="bottom" constant="8" id="pKR-Pf-NKX"/>
                             <constraint firstItem="a3r-Ri-Nyi" firstAttribute="top" secondItem="hUf-y3-1HD" secondAttribute="bottom" constant="8" id="pzj-CO-ZIx"/>
-                            <constraint firstItem="vce-OI-QDS" firstAttribute="top" secondItem="rO4-Fe-H6b" secondAttribute="bottom" constant="8" id="qts-SK-GQq"/>
                             <constraint firstAttribute="trailing" secondItem="zua-ib-0nn" secondAttribute="trailing" constant="15" id="rNo-DW-NpC"/>
                             <constraint firstItem="KBy-Ql-Aaf" firstAttribute="leading" secondItem="hUf-y3-1HD" secondAttribute="trailing" constant="8" id="sTH-tb-mZT"/>
                             <constraint firstItem="wkn-SQ-DPV" firstAttribute="leading" secondItem="gLr-DN-O5r" secondAttribute="trailing" constant="8" id="sjD-tS-SHl"/>
@@ -864,7 +839,6 @@ CA
                         <outlet property="parentBField" destination="KBy-Ql-Aaf" id="wya-Xj-j89"/>
                         <outlet property="parentBLabel" destination="hUf-y3-1HD" id="5A9-Kh-Osd"/>
                         <outlet property="peopleCountLabel" destination="QSG-Pe-oB4" id="FdM-mZ-Iqf"/>
-                        <outlet property="personSelectPopup" destination="rO4-Fe-H6b" id="BAv-xB-53S"/>
                         <outlet property="removeParentA" destination="zua-ib-0nn" id="TBq-fV-2F8"/>
                         <outlet property="removeParentB" destination="wkn-SQ-DPV" id="qh7-WT-AV9"/>
                         <outlet property="viewParentA" destination="vYg-FY-Dyp" id="e0X-Ga-fuW"/>
@@ -1777,12 +1751,12 @@ CA
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <animations/>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RPZ-7V-dJx">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="RPZ-7V-dJx">
                                     <rect key="frame" x="1" y="446" width="360" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="EUg-gP-7JS">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="EUg-gP-7JS">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
