@@ -15,47 +15,40 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     
     ///Label for the name ("Name:")
     @IBOutlet weak var nameLabel: NSTextField!
-    ///Label that shows the name
     @IBOutlet weak var nameField: NSTextField!
+    
     ///Label for Parent A ("Parent A:")
     @IBOutlet weak var parentALabel: NSTextField!
-    ///Label for Parent A's name
     @IBOutlet weak var parentAField: NSTextField!
+    
     ///Label for Parent B ("Parent B:")
     @IBOutlet weak var parentBLabel: NSTextField!
-    ///Label for Parent B's name
     @IBOutlet weak var parentBField: NSTextField!
-    ///Add Parent A button
+
     @IBOutlet weak var addParentA: NSButton!
-    ///Add Parent B button
     @IBOutlet weak var addParentB: NSButton!
-    ///Remove Parent A
+    
     @IBOutlet weak var removeParentA: NSButton!
-    ///Remove Parent B
     @IBOutlet weak var removeParentB: NSButton!
-    ///View Parent A
+
     @IBOutlet weak var viewParentA: NSButton!
-    ///View Parent B
     @IBOutlet weak var viewParentB: NSButton!
-    ///Edit name
+
     @IBOutlet weak var editName: NSButton!
+    
     ///Label for birth ("Birth:")
     @IBOutlet weak var birthLabel: NSTextField!
-    ///Label for birth date
     @IBOutlet weak var birthDateLabel: NSTextField!
-    ///Label for birth location
     @IBOutlet weak var birthLocationLabel: NSTextField!
-    ///Edit birth
     @IBOutlet weak var editBirthButton: NSButton!
+    
     ///Label for death ("Death:")
     @IBOutlet weak var deathLabel: NSTextField!
     ///Label for death date (used for "not dead" if not dead)
     @IBOutlet weak var deathDateLabel: NSTextField!
     ///Label for death location (Leave blank if not dead)
     @IBOutlet weak var deathLocationLabel: NSTextField!
-    ///Edit death
     @IBOutlet weak var editDeathButton: NSButton!
-    
     
     @IBOutlet weak var horizontalBar: NSBox!
  
@@ -63,22 +56,35 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     var tree: Tree? = nil
     
     override func viewDidLoad() {
-
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        tree = appDelegate.tree
-        
-//        updateViewFromTree()
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadTree", name: "com.ezekielelin.treeIsReady", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addedParent:", name: "com.ezekielelin.addedParent", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "sidebarTableRowChange:", name: "com.ezekielelin.sidebarTableRowChange", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deleteCurrentPerson", name: "com.ezekielelin.deleteCurrentPerson", object: nil)
+    }
+    
+    func loadTree() {
+        print("Loading tree...")
+        
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        tree = appDelegate.tree
+        
+        if let selectedPersonFromTree = tree?.selectedPerson {
+            selectPerson(person: selectedPersonFromTree)
+            print(selectedPersonFromTree)
+        } else {
+            if tree!.people.count == 0 {
+                tree?.people.append(Person(tree: tree!))
+            }
+            selectPerson(person: tree!.people[0])
+        }
         
         guard let _ = tree else {
             assert(false,"tree is nil")
         }
+
     }
     
     func addPersonFromNotification() {
@@ -113,7 +119,10 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     
     ///Tree changed
     func treeDidUpdate() {
-        tree!.cleanupINDICodes()
+        guard let tree = self.tree else {
+            return
+        }
+        tree.cleanupINDICodes()
         updateViewFromTree()
     }
     
@@ -134,6 +143,8 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         currentPerson = person
         
         print("Received request to select \(person)")
+        
+        print(person.children)
 
 //      var views = Array<NSView>()
         

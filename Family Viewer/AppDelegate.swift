@@ -32,6 +32,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             readXMLFile(dataFileURL().path!)
         }
         
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeIsReady", object: nil)
+        
         let defaults = NSUserDefaults.standardUserDefaults()
         var showAlert = true
         if defaults.boolForKey("betaAlertShown") {
@@ -44,6 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationWillTerminate(aNotification: NSNotification) {
+        saveFile(self)
         // Insert code here to tear down your application
     }
 
@@ -133,8 +136,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print(tree.dictionary)
         }
 
-        
-        displayAlert("Success", message: "The file was saved or created")
 //        let fileDialog = NSSavePanel()
 //        fileDialog.allowedFileTypes = ["xml"]
 //        fileDialog.runModal()
