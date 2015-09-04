@@ -66,8 +66,8 @@
 		6616711D1B2E64D100714530 /* Family Viewer */ = {
 			isa = PBXGroup;
 			children = (
-				666530051B60855100744E0D /* NameComponents.swift */,
 				6616711E1B2E64D100714530 /* AppDelegate.swift */,
+				666530051B60855100744E0D /* NameComponents.swift */,
 				661746FF1B65AA2500308C22 /* PersonBrowserSidebar.swift */,
 				661671201B2E64D100714530 /* ViewController.swift */,
 				661671301B2E6DC800714530 /* Utility.swift */,

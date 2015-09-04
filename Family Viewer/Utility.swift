@@ -15,7 +15,7 @@ func == (left: Person?, right: Person?) -> Bool {
     guard let left = left, right = right else {
         return false
     }
-    return left.INDI! == right.INDI!
+    return left.INDI == right.INDI
 }
 
 extension String {
@@ -59,6 +59,9 @@ class Tree: CustomStringConvertible {
         }
     }
     
+    ///The currently displayed person, used for preserving the shown person
+    var selectedPerson: Person?
+    
     ///Name of the tree
     var treeName = "Family Tree"
     
@@ -78,6 +81,22 @@ class Tree: CustomStringConvertible {
         for p in self.people {
             if p.INDI == id {
                 return p
+            }
+        }
+        return nil
+    }
+    
+    /**
+    Get the index of a person in the list
+    
+    Returned value is not a constant ID for the person
+
+    (Use person.INDI for this)
+    */
+    func getIndexOfPerson(person: Person) -> Int? {
+        for (i,p) in self.people.enumerate() {
+            if p == person {
+                return i
             }
         }
         return nil
@@ -109,13 +128,15 @@ class Tree: CustomStringConvertible {
             let dict = NSMutableDictionary()
             let arr = NSMutableArray()
             for person in people {
-                print("Added \(person.INDI!) to the array")
+                print("Added \(person.INDI) to the array")
                 arr.addObject(person.dictionary)
             }
             dict["people"] = arr
             let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
             dict["version"] = appDelegate.formatVersion
             dict["name"] = self.treeName
+            //Store using INDI because we don't want to store it as a dictionary
+            dict["selectedPerson"] = self.selectedPerson?.INDI
             return dict
         }
     }
@@ -124,8 +145,8 @@ class Tree: CustomStringConvertible {
     func getUniqueINDI() -> Int {
         var INDIGen = 1
         for p in self.people {
-            if p.INDI! >= INDIGen {
-                INDIGen = p.INDI!
+            if p.INDI >= INDIGen {
+                INDIGen = p.INDI
             }
         }
         return ++INDIGen
@@ -137,7 +158,7 @@ class Tree: CustomStringConvertible {
             for (x,p2) in people.enumerate() where x != i {
                 if p == p2 {
                     p2.INDI = self.getUniqueINDI()
-                    print("Assigned new INDI (\(p2.INDI!)) to \(p2.description)")
+                    print("Assigned new INDI (\(p2.INDI)) to \(p2.description)")
                 }
             }
         }
@@ -245,19 +266,24 @@ class Tree: CustomStringConvertible {
         //Second loop to add parents
         for pDict in arr {
             if let INDICode = pDict["INDI"] as? Int, let p = self.getPerson(id: INDICode) {
-                if let pAINDI = pDict["parentA"] as? Int {
-                    print("Imported Parent A (\(pAINDI) for \(p.INDI!))")
-                    p.parentA = self.getPerson(id: pAINDI)
+                if let parentA_INDI = pDict["parentA"] as? Int {
+                    print("Imported Parent A (\(parentA_INDI) for \(p.INDI))")
+                    p.parentA = self.getPerson(id: parentA_INDI)
                 } else {
-                    print("No parent found for \(p.INDI!)")
+                    print("No parent found for \(p.INDI)")
                 }
-                if let pBINDI = pDict["parentB"] as? Int {
-                    print("Imported Parent B (\(pBINDI) for \(p.INDI!))")
-                    p.parentB = self.getPerson(id: pBINDI)
+                if let parentB_INDI = pDict["parentB"] as? Int {
+                    print("Imported Parent B (\(parentB_INDI) for \(p.INDI))")
+                    p.parentB = self.getPerson(id: parentB_INDI)
                 } else {
-                    print("No parent found for \(p.INDI!)")
+                    print("No parent found for \(p.INDI)")
                 }
             }
+        }
+        
+        //Set selected person
+        if let selectedPersonINDI = dict["selectedPerson"] as? Int {
+            self.selectedPerson = getPerson(id: selectedPersonINDI)
         }
     }
 }
@@ -284,7 +310,7 @@ class Person: CustomStringConvertible {
                 if let givenName = name.givenName {
                     return givenName
                 }
-                return "Person \(self.INDI!)"
+                return "Person \(self.INDI)"
             }
         }
     }
@@ -316,7 +342,7 @@ class Person: CustomStringConvertible {
         return nameNow
     }
     ///INDI Code, not including preceding @I and trailing @
-    var INDI: Int?
+    var INDI: Int
     ///Birth
     var birth = Birth()
     ///Is ``self`` alive
@@ -394,6 +420,7 @@ class Person: CustomStringConvertible {
     
     init(gedcomEntity ge: [String], tree t: Tree) {
         self.tree = t
+        self.INDI = tree.getUniqueINDI()
         for (i,row) in ge.enumerate() {
             if row.rangeOfString("INDI") != nil {
                 self.INDI = Int(row.stringByReplacingOccurrencesOfString("0 @I", withString: "").stringByReplacingOccurrencesOfString("@ INDI", withString: ""))!
@@ -465,15 +492,15 @@ class Person: CustomStringConvertible {
             
             dict["nameNow"] = self.nameNow.dictionary
             dict["nameAtBirth"] = self.nameAtBirth.dictionary
-            dict["INDI"] = self.INDI!
+            dict["INDI"] = self.INDI
             dict["birth"] = self.birth.dictionary
             dict["death"] = self.death.dictionary
             dict["sex"] = self.sex!.rawValue
             if let pA = self.parentA {
-                dict["parentA"] = pA.INDI!
+                dict["parentA"] = pA.INDI
             }
             if let pB = self.parentB {
-                dict["parentB"] = pB.INDI!
+                dict["parentB"] = pB.INDI
             }
             
             return dict

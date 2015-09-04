@@ -638,20 +638,6 @@ CA
                                     <segue destination="Gjf-5R-amz" kind="popover" popoverAnchorView="N6D-cN-Ic7" popoverBehavior="t" preferredEdge="maxY" id="Nig-Fl-4Vc"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fec-mf-Ruf">
-                                <rect key="frame" x="147" y="298" width="186" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="Pjz-ny-kyh"/>
-                                </constraints>
-                                <animations/>
-                                <buttonCell key="cell" type="push" title="Open ()" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LmF-he-uXD">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="openLastFile:" target="5gI-5U-AMq" id="khM-I1-N5T"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a3r-Ri-Nyi">
                                 <rect key="frame" x="18" y="170" width="64" height="17"/>
                                 <constraints>
@@ -758,12 +744,9 @@ CA
                             <constraint firstItem="TAX-Sh-WKB" firstAttribute="leading" secondItem="ukx-Xs-SXv" secondAttribute="trailing" constant="8" id="1xa-Wl-2Qa"/>
                             <constraint firstItem="rDv-yi-6wt" firstAttribute="leading" secondItem="LRR-3e-kPb" secondAttribute="trailing" constant="10" id="2fs-8h-8sY"/>
                             <constraint firstItem="hUf-y3-1HD" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="403-YC-kQg"/>
-                            <constraint firstItem="Fec-mf-Ruf" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="153" id="51N-he-vaI"/>
                             <constraint firstItem="ml9-31-LSY" firstAttribute="top" secondItem="xBZ-Ds-qAz" secondAttribute="bottom" constant="8" id="58U-49-eNt"/>
                             <constraint firstItem="zua-ib-0nn" firstAttribute="top" secondItem="QzX-zh-spg" secondAttribute="bottom" constant="9" id="5LK-wN-eOg"/>
-                            <constraint firstAttribute="trailing" secondItem="Fec-mf-Ruf" secondAttribute="trailing" constant="153" id="92G-E0-bg1"/>
                             <constraint firstItem="vce-OI-QDS" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="BZh-pb-tMQ"/>
-                            <constraint firstItem="vce-OI-QDS" firstAttribute="top" secondItem="Fec-mf-Ruf" secondAttribute="bottom" constant="34" id="D3t-Cp-n4t"/>
                             <constraint firstItem="ukx-Xs-SXv" firstAttribute="top" secondItem="qvK-PP-kOE" secondAttribute="bottom" constant="8" id="D4l-4y-PaV"/>
                             <constraint firstItem="TXV-99-seo" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="DC9-51-S9W"/>
                             <constraint firstItem="xBZ-Ds-qAz" firstAttribute="leading" secondItem="hUf-y3-1HD" secondAttribute="trailing" constant="8" id="Ear-dp-5aY"/>
@@ -802,10 +785,10 @@ CA
                             <constraint firstItem="0Ea-Ja-0HA" firstAttribute="leading" secondItem="nVM-si-TbL" secondAttribute="trailing" constant="10" id="lEc-j2-Dh4"/>
                             <constraint firstItem="FEb-7R-M8b" firstAttribute="top" secondItem="QzX-zh-spg" secondAttribute="bottom" constant="8" id="mze-aE-RfQ"/>
                             <constraint firstItem="KBy-Ql-Aaf" firstAttribute="top" secondItem="FEb-7R-M8b" secondAttribute="bottom" constant="8" id="nbT-DR-qa1"/>
-                            <constraint firstItem="Fec-mf-Ruf" firstAttribute="top" secondItem="Bmm-us-xma" secondAttribute="bottom" constant="7" id="pFy-xU-6L3"/>
                             <constraint firstItem="ukx-Xs-SXv" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="pHq-Fe-6zq"/>
                             <constraint firstItem="QSG-Pe-oB4" firstAttribute="top" secondItem="Bmm-us-xma" secondAttribute="bottom" constant="8" id="pKR-Pf-NKX"/>
                             <constraint firstItem="a3r-Ri-Nyi" firstAttribute="top" secondItem="hUf-y3-1HD" secondAttribute="bottom" constant="8" id="pzj-CO-ZIx"/>
+                            <constraint firstItem="vce-OI-QDS" firstAttribute="top" secondItem="QSG-Pe-oB4" secondAttribute="bottom" constant="37" id="rFi-7w-zEq"/>
                             <constraint firstAttribute="trailing" secondItem="zua-ib-0nn" secondAttribute="trailing" constant="15" id="rNo-DW-NpC"/>
                             <constraint firstItem="KBy-Ql-Aaf" firstAttribute="leading" secondItem="hUf-y3-1HD" secondAttribute="trailing" constant="8" id="sTH-tb-mZT"/>
                             <constraint firstItem="wkn-SQ-DPV" firstAttribute="leading" secondItem="gLr-DN-O5r" secondAttribute="trailing" constant="8" id="sjD-tS-SHl"/>
@@ -833,7 +816,6 @@ CA
                         <outlet property="horizontalBar" destination="vce-OI-QDS" id="LIa-PL-rbw"/>
                         <outlet property="nameField" destination="QzX-zh-spg" id="d1L-K3-LiB"/>
                         <outlet property="nameLabel" destination="qvK-PP-kOE" id="Ipb-vZ-fDw"/>
-                        <outlet property="openLastFileButton" destination="Fec-mf-Ruf" id="zu5-Of-Tmc"/>
                         <outlet property="parentAField" destination="FEb-7R-M8b" id="Z4h-LJ-AQE"/>
                         <outlet property="parentALabel" destination="ukx-Xs-SXv" id="Pn8-sh-sex"/>
                         <outlet property="parentBField" destination="KBy-Ql-Aaf" id="wya-Xj-j89"/>

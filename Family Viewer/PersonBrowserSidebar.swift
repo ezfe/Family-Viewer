@@ -16,7 +16,7 @@ class PersonBrowserSidebarViewController: NSViewController {
         super.viewDidLoad()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "popupRowChange:", name: "com.ezekielelin.popupRowChange", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "mainViewPersonChange:", name: "com.ezekielelin.mainViewPersonChange", object: nil)
 
     }
     
@@ -32,11 +32,18 @@ class PersonBrowserSidebarViewController: NSViewController {
         table.reloadData()
     }
     
-    func popupRowChange(notification: NSNotification) {
+    func mainViewPersonChange(notification: NSNotification) {
+        let id = notification.userInfo!["id"] as! Int
+//        let id = 1
         
-        let row = notification.userInfo!["row"] as! Int
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let tree = appDelegate.tree
         
-        let indexes = NSIndexSet(index: row)
+        guard let person = tree.getPerson(id: id) else {
+            assert(false,"Invalid ID sent")
+        }
+        
+        let indexes = NSIndexSet(index: tree.getIndexOfPerson(person)!)
         table.selectRowIndexes(indexes, byExtendingSelection: false)
     }
 }
@@ -45,7 +52,7 @@ class PersonBrowserSidebarDataSource: NSObject, NSTableViewDataSource {
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        return appDelegate.hasTree ? appDelegate.tree.people.count : 0
+        return appDelegate.tree.people.count
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {

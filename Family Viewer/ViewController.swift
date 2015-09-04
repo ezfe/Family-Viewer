@@ -11,7 +11,6 @@ import Cocoa
 class ViewController: NSViewController, NSOutlineViewDataSource {
     @IBOutlet weak var filenameLabel: NSTextField!
     @IBOutlet weak var peopleCountLabel: NSTextField!
-    @IBOutlet weak var personSelectPopup: NSPopUpButton!
     @IBOutlet weak var openLastFileButton: NSButton!
     
     ///Label for the name ("Name:")
@@ -59,9 +58,16 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     
     
     @IBOutlet weak var horizontalBar: NSBox!
+ 
+    ///The tree
+    var tree: Tree? = nil
     
     override func viewDidLoad() {
-        updateViewNoTree()
+
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        tree = appDelegate.tree
+        
+//        updateViewFromTree()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addedParent:", name: "com.ezekielelin.addedParent", object: nil)
@@ -69,142 +75,67 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deleteCurrentPerson", name: "com.ezekielelin.deleteCurrentPerson", object: nil)
+        
+        guard let _ = tree else {
+            assert(false,"tree is nil")
+        }
     }
     
     func addPersonFromNotification() {
-        let p = Person(tree: self.tree)
-        self.tree.people.append(p)
+        let p = Person(tree: self.tree!)
+        self.tree!.people.append(p)
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
         selectPerson(person: p)
     }
     
-    @IBAction func openLastFile(sender: AnyObject) {
-        print("Posting notification to open last file")
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.openLastFile", object: self)
-    }
-    
     func updatedDefaultsFilePath() {
-        updateViewNoTree()
-    }
-    
-    func updateViewNoTree() {
-        self.peopleCountLabel.hidden = true
-        self.openLastFileButton.hidden = false
-        
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let filePath = defaults.stringForKey("filePath") {
-            let str = NSString(string: filePath).lastPathComponent
-            self.openLastFileButton.title = "Open \(str)"
-        } else {
-            self.openLastFileButton.hidden = true
-            self.peopleCountLabel.hidden = false
-            self.peopleCountLabel.stringValue = "Use File > Open..."
-        }
-        self.personSelectPopup.hidden = true
-        self.horizontalBar.hidden = true
-        
-        noPersonSelected()
-    }
-    
-    ///The tree
-    var tree: Tree {
-        set(newValue) {
-            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-            appDelegate.tree = newValue
 
-        }
-        get {
-            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-            return appDelegate.tree
-        }
     }
     
     ///Update the view based on the tree
     func updateViewFromTree() {
-        let cPerson: Person?
-        if let cP = currentPerson() {
-            cPerson = cP
+        if let _ = currentPerson {
+            print("No issues!")
         } else {
-            cPerson = nil
+            if tree!.people.count == 0 {
+                tree!.people.append(Person(tree: tree!))
+            }
+            self.currentPerson = tree!.people[0]
+            print("Uh ohh, fixed though")
         }
-        
-        self.filenameLabel.stringValue = tree.treeName 
-        self.peopleCountLabel.stringValue = self.tree.description
-        self.openLastFileButton.hidden = true
+        self.filenameLabel.stringValue = tree!.treeName
+        self.peopleCountLabel.stringValue = self.tree!.description
         self.peopleCountLabel.hidden = false
-        self.personSelectPopup.hidden = false
         self.horizontalBar.hidden = false
         
-        self.personSelectPopup.removeAllItems()
-        self.personSelectPopup.addItemWithTitle("Choose a person")
-        self.personSelectPopup.itemAtIndex(0)?.enabled = false
-        self.personSelectPopup.addItemsWithTitles(self.tree.indexOfPeople)
-        
-        if let cPerson = cPerson {
-            self.selectPerson(person: cPerson)
-        } else {
-            self.personSelectPopup.selectItemAtIndex(0)
-            self.selectChanged(self)
-        }
+        self.selectPerson(person: self.currentPerson!)
     }
     
     ///Tree changed
     func treeDidUpdate() {
-        tree.cleanupINDICodes()
+        tree!.cleanupINDICodes()
         updateViewFromTree()
     }
     
-    ///Get the currently selected Person (or nil)
-    func currentPerson() -> Person? {
-        if self.personSelectPopup.indexOfSelectedItem == 0 {
-            return nil
+    var currentPerson: Person? = nil {
+        didSet {
+            tree!.selectedPerson = self.currentPerson
         }
-
-        let index = self.personSelectPopup.indexOfSelectedItem - 1
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.popupRowChange", object: nil, userInfo: ["row": index])
-        return self.tree.people[index]
-
-    }
-    
-    ///When nobody is selected... (doesn't change popup)
-    func noPersonSelected() {
-        nameLabel.hidden = true
-        nameField.hidden = true
-        editName.hidden = true
-        
-        birthLabel.hidden = true
-        birthLocationLabel.hidden = true
-        birthDateLabel.hidden = true
-        editBirthButton.hidden = true
-        
-        deathLabel.hidden = true
-        deathLocationLabel.hidden = true
-        deathDateLabel.hidden = true
-        editDeathButton.hidden = true
-        
-        parentALabel.hidden = true
-        parentAField.hidden = true
-        removeParentA.hidden = true
-        addParentA.hidden = true
-        viewParentA.hidden = true
-        
-        parentBLabel.hidden = true
-        parentBField.hidden = true
-        removeParentB.hidden = true
-        addParentB.hidden = true
-        viewParentB.hidden = true
     }
     
     ///Show Person ``person``
-    func selectPerson(person p: Person) {
-        personSelectPopup.selectItemWithTitle(p.description)
+    func selectPerson(person person: Person) {
         
-        guard let person = currentPerson() else {
-            noPersonSelected()
-            return
-        }
+//        guard let person = currentPerson else {
+//            assert(false,"It done broke")
+//            return
+//        }
 
-        var views = Array<NSView>()
+        currentPerson = person
+        
+        print("Received request to select \(person)")
+
+//      var views = Array<NSView>()
         
         nameLabel.hidden = false
         nameField.hidden = false
@@ -279,25 +210,27 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         }
         
         
-        let stackView = NSStackView(views: views)
-        stackView.orientation = NSUserInterfaceLayoutOrientation.Vertical
-
+//        let stackView = NSStackView(views: views)
+//        stackView.orientation = NSUserInterfaceLayoutOrientation.Vertical
+        
+        print("Selected \(person)")
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.mainViewPersonChange", object: nil, userInfo: ["id": person.INDI])
     }
     
     @IBAction func viewParentA(sender: AnyObject) {
-        if let parentA = currentPerson()?.parentA {
+        if let parentA = currentPerson?.parentA {
             selectPerson(person: parentA)
         }
     }
     
     @IBAction func viewParentB(sender: AnyObject) {
-        if let parentB = currentPerson()?.parentB {
+        if let parentB = currentPerson?.parentB {
             selectPerson(person: parentB)
         }
     }
     
     @IBAction func removeParentA(sender: AnyObject) {
-        if let person = currentPerson() {
+        if let person = currentPerson {
             person.parentA = nil
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
             selectPerson(person: person)
@@ -305,7 +238,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     }
     
     @IBAction func removeParentB(sender: AnyObject) {
-        if let person = currentPerson() {
+        if let person = currentPerson {
             person.parentB = nil
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
             selectPerson(person: person)
@@ -315,13 +248,6 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     @IBAction func editName(sender: AnyObject) {
         print("NO")
     }
-
-    ///Called when the selection changes.
-    @IBAction func selectChanged(sender: AnyObject) {
-        if let person = currentPerson() {
-            selectPerson(person: person)
-        }
-    }
     
     func addedParent(notification: NSNotification) {
         selectPerson(person: notification.userInfo!["newPerson"] as! Person)
@@ -329,14 +255,15 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     
     func sidebarTableRowChange(notification: NSNotification) {
         let row = notification.userInfo!["row"] as! Int
-        selectPerson(person: tree.people[row])
-        personSelectPopup.selectItemAtIndex(row+1)
+        print("Selecting person @:\(row)")
+        print("That means \(tree!.people[row])")
+        selectPerson(person: tree!.people[row])
     }
     
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
         if let sender = sender as? NSButton {
-            if let destination = segue.destinationController as? AddParentViewController, cPerson = self.currentPerson() {
-                destination.tree = self.tree
+            if let destination = segue.destinationController as? AddParentViewController, cPerson = self.currentPerson {
+                destination.tree = self.tree!
                 destination.parentTo = cPerson
                 if sender.identifier == "addParentA" {
                     destination.A_B = "A"
@@ -345,15 +272,15 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
                 }
                 return
             }
-            if let destination = segue.destinationController as? EditNameViewController, cPerson = self.currentPerson() {
+            if let destination = segue.destinationController as? EditNameViewController, cPerson = self.currentPerson {
                 destination.person = cPerson
                 return
             }
-            if let destination = segue.destinationController as? BirthdayViewController, cPerson = self.currentPerson() {
+            if let destination = segue.destinationController as? BirthdayViewController, cPerson = self.currentPerson {
                 destination.person = cPerson
                 return
             }
-            if let destination = segue.destinationController as? DeathViewController, cPerson = self.currentPerson() {
+            if let destination = segue.destinationController as? DeathViewController, cPerson = self.currentPerson {
                 destination.person = cPerson
                 return
             }
@@ -363,7 +290,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     func deleteCurrentPerson() {
         displayAlert("Oops", message: "That's not finished yet")
         return
-//        if let person = currentPerson() {
+//        if let person = currentPerson {
 //            for (i,p) in tree.people.enumerate() {
 //                if p == person {
 //                    tree.people.removeAtIndex(i)
@@ -375,7 +302,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     
     
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
-        return tree.people.count
+        return tree!.people.count
     }
     
     func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
@@ -383,7 +310,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     }
     
     func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
-        return tree.people[index].description
+        return tree!.people[index].description
     }
     
     func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
