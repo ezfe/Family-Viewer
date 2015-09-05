@@ -10,7 +10,6 @@ import Foundation
 import AppKit
 
 class Tree: CustomStringConvertible {
-    ///List of Person objects in the tree
     var people = [Person]() {
         didSet {
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self)
@@ -45,7 +44,7 @@ class Tree: CustomStringConvertible {
         return nil
     }
     
-    ///Get a person by their name, e.g. Kezia Lind, Kezia Sørbøe
+    ///Get a person by their name, either name works: Kezia Lind, Kezia Sørbøe
     func getPerson(givenName firstName: String, familyName lastName: String) -> Person? {
         for p in self.people {
             if let givenNameNow = p.nameNow.givenName, familyNameNow = p.nameNow.familyName where givenNameNow.lowercaseString == firstName.lowercaseString && familyNameNow.lowercaseString == lastName.lowercaseString {
