@@ -17,6 +17,7 @@ class PersonBrowserSidebarViewController: NSViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "mainViewPersonChange:", name: "com.ezekielelin.mainViewPersonChange", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "click:", name: "NSTableViewSelectionDidChangeNotification", object: nil)
 
     }
     
@@ -70,5 +71,4 @@ class PersonBrowserSidebarDelegate: NSObject, NSTableViewDelegate {
         displayAlert("Error", message: "That button doesn't do  what it should")
         //TODO: Find a way to intercept and cancel this event
     }
-    
 }

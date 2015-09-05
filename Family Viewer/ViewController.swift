@@ -100,21 +100,12 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     
     ///Update the view based on the tree
     func updateViewFromTree() {
-        if let _ = currentPerson {
-            print("No issues!")
-        } else {
-            if tree!.people.count == 0 {
-                tree!.people.append(Person(tree: tree!))
-            }
-            self.currentPerson = tree!.people[0]
-            print("Uh ohh, fixed though")
-        }
         self.filenameLabel.stringValue = tree!.treeName
         self.peopleCountLabel.stringValue = self.tree!.description
         self.peopleCountLabel.hidden = false
         self.horizontalBar.hidden = false
         
-        self.selectPerson(person: self.currentPerson!)
+        self.selectPerson(person: self.selectedPerson)
     }
     
     ///Tree changed
@@ -126,27 +117,36 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         updateViewFromTree()
     }
     
-    var currentPerson: Person? = nil {
-        didSet {
-            tree!.selectedPerson = self.currentPerson
+    var selectedPerson: Person {
+        set (p) {
+            tree!.selectedPerson = p
+        }
+        
+        get {
+            guard let tree = tree else {
+                assert(false, "No tree")
+            }
+            if let p = tree.selectedPerson {
+                return p
+            } else {
+                if tree.people.count == 0 {
+                    tree.people.append(Person(tree: tree))
+                }
+                tree.selectedPerson = tree.people[0]
+                return tree.selectedPerson!
+            }
         }
     }
     
     ///Show Person ``person``
     func selectPerson(person person: Person) {
         
-//        guard let person = currentPerson else {
-//            assert(false,"It done broke")
-//            return
-//        }
-
-        currentPerson = person
+        let NO_DATE_STRING = "No Date Set"
+        let NO_LOCATION_STRING = "No Location Set"
+        
+        selectedPerson = person
         
         print("Received request to select \(person)")
-        
-        print(person.children)
-
-//      var views = Array<NSView>()
         
         nameLabel.hidden = false
         nameField.hidden = false
@@ -189,11 +189,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         if person.birth.date.isSet() {
             birthDateLabel.stringValue = person.birth.date.description
         } else {
-            birthDateLabel.stringValue = "No Date Set"
+            birthDateLabel.stringValue = NO_DATE_STRING
         }
         
         if person.birth.location == "" {
-            birthLocationLabel.stringValue = "No Location Set"
+            birthLocationLabel.stringValue = NO_LOCATION_STRING
         } else {
             birthLocationLabel.stringValue = person.birth.location
         }
@@ -206,11 +206,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         if person.death.date.isSet() {
             deathDateLabel.stringValue = person.death.date.description
         } else {
-            deathDateLabel.stringValue = "No Date Set"
+            deathDateLabel.stringValue = NO_DATE_STRING
         }
         
         if person.death.location == "" {
-            deathLocationLabel.stringValue = "No Location Set"
+            deathLocationLabel.stringValue = NO_LOCATION_STRING
         } else {
             deathLocationLabel.stringValue = person.birth.location
         }
@@ -229,35 +229,25 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     }
     
     @IBAction func viewParentA(sender: AnyObject) {
-        if let parentA = currentPerson?.parentA {
+        if let parentA = selectedPerson.parentA {
             selectPerson(person: parentA)
         }
     }
     
     @IBAction func viewParentB(sender: AnyObject) {
-        if let parentB = currentPerson?.parentB {
+        if let parentB = selectedPerson.parentB {
             selectPerson(person: parentB)
         }
     }
     
     @IBAction func removeParentA(sender: AnyObject) {
-        if let person = currentPerson {
-            person.parentA = nil
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
-            selectPerson(person: person)
-        }
+        selectedPerson.parentA = nil
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
     }
     
     @IBAction func removeParentB(sender: AnyObject) {
-        if let person = currentPerson {
-            person.parentB = nil
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
-            selectPerson(person: person)
-        }
-    }
-    
-    @IBAction func editName(sender: AnyObject) {
-        print("NO")
+        selectedPerson.parentB = nil
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
     }
     
     func addedParent(notification: NSNotification) {
@@ -273,9 +263,9 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
         if let sender = sender as? NSButton {
-            if let destination = segue.destinationController as? AddParentViewController, cPerson = self.currentPerson {
+            if let destination = segue.destinationController as? AddParentViewController {
                 destination.tree = self.tree!
-                destination.parentTo = cPerson
+                destination.parentTo = selectedPerson
                 if sender.identifier == "addParentA" {
                     destination.A_B = "A"
                 } else if sender.identifier == "addParentB" {
@@ -283,16 +273,16 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
                 }
                 return
             }
-            if let destination = segue.destinationController as? EditNameViewController, cPerson = self.currentPerson {
-                destination.person = cPerson
+            if let destination = segue.destinationController as? EditNameViewController {
+                destination.person = selectedPerson
                 return
             }
-            if let destination = segue.destinationController as? BirthdayViewController, cPerson = self.currentPerson {
-                destination.person = cPerson
+            if let destination = segue.destinationController as? BirthdayViewController {
+                destination.person = selectedPerson
                 return
             }
-            if let destination = segue.destinationController as? DeathViewController, cPerson = self.currentPerson {
-                destination.person = cPerson
+            if let destination = segue.destinationController as? DeathViewController {
+                destination.person = selectedPerson
                 return
             }
         }

@@ -634,7 +634,6 @@ CA
                                     <font key="font" metaFont="smallSystemBold"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="editName:" target="5gI-5U-AMq" id="1na-s2-xPW"/>
                                     <segue destination="Gjf-5R-amz" kind="popover" popoverAnchorView="N6D-cN-Ic7" popoverBehavior="t" preferredEdge="maxY" id="Nig-Fl-4Vc"/>
                                 </connections>
                             </button>

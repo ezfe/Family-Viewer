@@ -18,7 +18,7 @@ class AddParentViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
-        self.popupChooser.addItemsWithTitles(tree.indexOfPeople)
+        self.popupChooser.addItemsWithTitles(tree.peopleNameList)
     }
 
     @IBAction func setParent(sender: AnyObject) {
