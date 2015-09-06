@@ -59,35 +59,29 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="Add Person" keyEquivalent="n" id="hYF-r2-jMd">
+                                        <menuItem title="Save..." keyEquivalent="s" id="caD-QH-BqC">
                                             <connections>
-                                                <action selector="addPerson:" target="Voe-Tx-rLC" id="cLd-zf-aoo"/>
+                                                <action selector="saveFile:" target="Voe-Tx-rLC" id="MHF-A8-tpa"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete Person" id="RV4-6v-5en">
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Tree" id="nDk-SA-sDy">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Tree" id="GCt-Gv-0GB">
+                                    <items>
+                                        <menuItem title="Add Person" keyEquivalent="n" id="6db-aP-kTq">
+                                            <connections>
+                                                <action selector="addPerson:" target="Voe-Tx-rLC" id="gXp-Tc-gmp"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Delete Person" id="rM7-ux-kO3">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
                                             <connections>
-                                                <action selector="deletePerson:" target="Voe-Tx-rLC" id="ACX-o9-mUQ"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="grw-nT-Oul"/>
-                                        <menuItem title="Open..." id="kXD-0o-s84">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Open..." id="8Vg-l2-cMh">
-                                                <items>
-                                                    <menuItem title="from .ged" keyEquivalent="O" id="WSi-PD-i9l">
-                                                        <connections>
-                                                            <action selector="openGEDFile:" target="Voe-Tx-rLC" id="afE-QL-d51"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </menuItem>
-                                        <menuItem title="Save..." keyEquivalent="s" id="caD-QH-BqC">
-                                            <connections>
-                                                <action selector="saveFile:" target="Voe-Tx-rLC" id="MHF-A8-tpa"/>
+                                                <action selector="deletePerson:" target="Voe-Tx-rLC" id="dRz-9x-eYm"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -325,6 +319,12 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="performZoom:" target="Ady-hI-5gd" id="DIl-cC-cCs"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Enter Full Screen" keyEquivalent="f" id="TJi-Wl-vqF">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleFullScreen:" target="Ady-hI-5gd" id="t75-hB-4hM"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>

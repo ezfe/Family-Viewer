@@ -71,6 +71,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
         tree = appDelegate.tree
         
+        guard let _ = tree else {
+            assert(false, "tree is nil")
+            return
+        }
+        
         if let selectedPersonFromTree = tree?.selectedPerson {
             selectPerson(person: selectedPersonFromTree)
             print(selectedPersonFromTree)
@@ -81,9 +86,6 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
             selectPerson(person: tree!.people[0])
         }
         
-        guard let _ = tree else {
-            assert(false,"tree is nil")
-        }
 
     }
     
@@ -125,6 +127,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         get {
             guard let tree = tree else {
                 assert(false, "No tree")
+                return Person(tree: Tree()) //Xcode doesn't like it if I don't return something here
             }
             if let p = tree.selectedPerson {
                 return p

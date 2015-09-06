@@ -13,14 +13,33 @@
 		661671281B2E64D100714530 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 661671261B2E64D100714530 /* Main.storyboard */; };
 		661671311B2E6DC800714530 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661671301B2E6DC800714530 /* Utility.swift */; };
 		661747001B65AA2500308C22 /* PersonBrowserSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661746FF1B65AA2500308C22 /* PersonBrowserSidebar.swift */; };
+		661A2AFA1B9BE21D004A4FEF /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A2AF91B9BE21D004A4FEF /* BirthdayViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		661A2AFC1B9BE22E004A4FEF /* NameComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A2AFB1B9BE22E004A4FEF /* NameComponents.swift */; settings = {ASSET_TAGS = (); }; };
+		661A2AFE1B9BE23B004A4FEF /* DeathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A2AFD1B9BE23B004A4FEF /* DeathViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		66223B711B30A050004132B6 /* AddParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B6F1B30A050004132B6 /* AddParentViewController.swift */; };
 		66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B701B30A050004132B6 /* EditNameViewController.swift */; };
-		6638D3301B3A3BBA009C6A17 /* DeathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */; };
-		666530061B60855100744E0D /* NameComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666530051B60855100744E0D /* NameComponents.swift */; };
-		667950CA1B5C65E600EEDD55 /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */; };
+		669485BA1B9B9DDD002FB335 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669485B91B9B9DDD002FB335 /* Errors.swift */; settings = {ASSET_TAGS = (); }; };
+		66AC74751B9BA09D0084B59E /* Family_Viewer_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AC74741B9BA09D0084B59E /* Family_Viewer_Tests.swift */; };
 		66E5A44F1B9B2E1500B492B5 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A44E1B9B2E1500B492B5 /* Tree.swift */; settings = {ASSET_TAGS = (); }; };
 		66E5A4521B9B2EF900B492B5 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A4511B9B2EF900B492B5 /* Person.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		66AC74771B9BA09D0084B59E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 661671131B2E64D000714530 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6616711A1B2E64D000714530;
+			remoteInfo = "Family Viewer";
+		};
+		66AC74851B9BA15F0084B59E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 661671131B2E64D000714530 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6616711A1B2E64D000714530;
+			remoteInfo = "Family Viewer";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6616711B1B2E64D100714530 /* Family Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Family Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,17 +50,36 @@
 		661671291B2E64D100714530 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		661671301B2E6DC800714530 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		661746FF1B65AA2500308C22 /* PersonBrowserSidebar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonBrowserSidebar.swift; sourceTree = "<group>"; };
+		661A2AF91B9BE21D004A4FEF /* BirthdayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirthdayViewController.swift; sourceTree = "<group>"; };
+		661A2AFB1B9BE22E004A4FEF /* NameComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameComponents.swift; sourceTree = "<group>"; };
+		661A2AFD1B9BE23B004A4FEF /* DeathViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeathViewController.swift; sourceTree = "<group>"; };
 		66223B6F1B30A050004132B6 /* AddParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddParentViewController.swift; sourceTree = "<group>"; };
 		66223B701B30A050004132B6 /* EditNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
-		6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeathViewController.swift; path = ../DeathViewController.swift; sourceTree = "<group>"; };
-		666530051B60855100744E0D /* NameComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NameComponents.swift; path = ../NameComponents.swift; sourceTree = "<group>"; };
-		667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirthdayViewController.swift; sourceTree = SOURCE_ROOT; };
+		669485B91B9B9DDD002FB335 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		66AC74721B9BA09D0084B59E /* Family Viewer Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Family Viewer Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		66AC74741B9BA09D0084B59E /* Family_Viewer_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Family_Viewer_Tests.swift; sourceTree = "<group>"; };
+		66AC74761B9BA09D0084B59E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66AC74801B9BA15F0084B59E /* Family Viewer UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Family Viewer UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66E5A44E1B9B2E1500B492B5 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		66E5A4511B9B2EF900B492B5 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		661671181B2E64D000714530 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66AC746F1B9BA09D0084B59E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66AC747D1B9BA15F0084B59E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -55,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				6616711D1B2E64D100714530 /* Family Viewer */,
+				66AC74731B9BA09D0084B59E /* Family Viewer Tests */,
 				6616711C1B2E64D100714530 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				6616711B1B2E64D100714530 /* Family Viewer.app */,
+				66AC74721B9BA09D0084B59E /* Family Viewer Tests.xctest */,
+				66AC74801B9BA15F0084B59E /* Family Viewer UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -71,8 +112,9 @@
 			isa = PBXGroup;
 			children = (
 				6616711E1B2E64D100714530 /* AppDelegate.swift */,
-				666530051B60855100744E0D /* NameComponents.swift */,
+				661A2AFB1B9BE22E004A4FEF /* NameComponents.swift */,
 				661671301B2E6DC800714530 /* Utility.swift */,
+				669485B91B9B9DDD002FB335 /* Errors.swift */,
 				66E5A4531B9B32C800B492B5 /* Classes */,
 				66E5A4501B9B2E3900B492B5 /* View Controllers */,
 				661671241B2E64D100714530 /* Assets.xcassets */,
@@ -82,6 +124,15 @@
 			path = "Family Viewer";
 			sourceTree = "<group>";
 		};
+		66AC74731B9BA09D0084B59E /* Family Viewer Tests */ = {
+			isa = PBXGroup;
+			children = (
+				66AC74741B9BA09D0084B59E /* Family_Viewer_Tests.swift */,
+				66AC74761B9BA09D0084B59E /* Info.plist */,
+			);
+			path = "Family Viewer Tests";
+			sourceTree = "<group>";
+		};
 		66E5A4501B9B2E3900B492B5 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,8 +140,8 @@
 				661746FF1B65AA2500308C22 /* PersonBrowserSidebar.swift */,
 				66223B6F1B30A050004132B6 /* AddParentViewController.swift */,
 				66223B701B30A050004132B6 /* EditNameViewController.swift */,
-				667950C91B5C65E600EEDD55 /* BirthdayViewController.swift */,
-				6638D32F1B3A3BBA009C6A17 /* DeathViewController.swift */,
+				661A2AF91B9BE21D004A4FEF /* BirthdayViewController.swift */,
+				661A2AFD1B9BE23B004A4FEF /* DeathViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -125,6 +176,42 @@
 			productReference = 6616711B1B2E64D100714530 /* Family Viewer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		66AC74711B9BA09D0084B59E /* Family Viewer Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66AC747B1B9BA09D0084B59E /* Build configuration list for PBXNativeTarget "Family Viewer Tests" */;
+			buildPhases = (
+				66AC746E1B9BA09D0084B59E /* Sources */,
+				66AC746F1B9BA09D0084B59E /* Frameworks */,
+				66AC74701B9BA09D0084B59E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				66AC74781B9BA09D0084B59E /* PBXTargetDependency */,
+			);
+			name = "Family Viewer Tests";
+			productName = "Family Viewer Tests";
+			productReference = 66AC74721B9BA09D0084B59E /* Family Viewer Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		66AC747F1B9BA15F0084B59E /* Family Viewer UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66AC74871B9BA15F0084B59E /* Build configuration list for PBXNativeTarget "Family Viewer UITests" */;
+			buildPhases = (
+				66AC747C1B9BA15F0084B59E /* Sources */,
+				66AC747D1B9BA15F0084B59E /* Frameworks */,
+				66AC747E1B9BA15F0084B59E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				66AC74861B9BA15F0084B59E /* PBXTargetDependency */,
+			);
+			name = "Family Viewer UITests";
+			productName = "Family Viewer UITests";
+			productReference = 66AC74801B9BA15F0084B59E /* Family Viewer UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -136,6 +223,14 @@
 				TargetAttributes = {
 					6616711A1B2E64D000714530 = {
 						CreatedOnToolsVersion = 7.0;
+					};
+					66AC74711B9BA09D0084B59E = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 6616711A1B2E64D000714530;
+					};
+					66AC747F1B9BA15F0084B59E = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 6616711A1B2E64D000714530;
 					};
 				};
 			};
@@ -153,6 +248,8 @@
 			projectRoot = "";
 			targets = (
 				6616711A1B2E64D000714530 /* Family Viewer */,
+				66AC74711B9BA09D0084B59E /* Family Viewer Tests */,
+				66AC747F1B9BA15F0084B59E /* Family Viewer UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -164,6 +261,20 @@
 			files = (
 				661671251B2E64D100714530 /* Assets.xcassets in Resources */,
 				661671281B2E64D100714530 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66AC74701B9BA09D0084B59E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66AC747E1B9BA15F0084B59E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,21 +302,50 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				666530061B60855100744E0D /* NameComponents.swift in Sources */,
 				661671311B2E6DC800714530 /* Utility.swift in Sources */,
 				661671211B2E64D100714530 /* ViewController.swift in Sources */,
-				667950CA1B5C65E600EEDD55 /* BirthdayViewController.swift in Sources */,
+				669485BA1B9B9DDD002FB335 /* Errors.swift in Sources */,
 				66E5A4521B9B2EF900B492B5 /* Person.swift in Sources */,
 				66223B711B30A050004132B6 /* AddParentViewController.swift in Sources */,
+				661A2AFE1B9BE23B004A4FEF /* DeathViewController.swift in Sources */,
+				661A2AFA1B9BE21D004A4FEF /* BirthdayViewController.swift in Sources */,
 				66E5A44F1B9B2E1500B492B5 /* Tree.swift in Sources */,
+				661A2AFC1B9BE22E004A4FEF /* NameComponents.swift in Sources */,
 				6616711F1B2E64D100714530 /* AppDelegate.swift in Sources */,
 				66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */,
-				6638D3301B3A3BBA009C6A17 /* DeathViewController.swift in Sources */,
 				661747001B65AA2500308C22 /* PersonBrowserSidebar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		66AC746E1B9BA09D0084B59E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66AC74751B9BA09D0084B59E /* Family_Viewer_Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66AC747C1B9BA15F0084B59E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		66AC74781B9BA09D0084B59E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6616711A1B2E64D000714530 /* Family Viewer */;
+			targetProxy = 66AC74771B9BA09D0084B59E /* PBXContainerItemProxy */;
+		};
+		66AC74861B9BA15F0084B59E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6616711A1B2E64D000714530 /* Family Viewer */;
+			targetProxy = 66AC74851B9BA15F0084B59E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		661671261B2E64D100714530 /* Main.storyboard */ = {
@@ -325,6 +465,58 @@
 			};
 			name = Release;
 		};
+		66AC74791B9BA09D0084B59E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Family Viewer Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Family Viewer.app/Contents/MacOS/Family Viewer";
+			};
+			name = Debug;
+		};
+		66AC747A1B9BA09D0084B59E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Family Viewer Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Family Viewer.app/Contents/MacOS/Family Viewer";
+			};
+			name = Release;
+		};
+		66AC74881B9BA15F0084B59E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Family Viewer UITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Family Viewer";
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		66AC74891B9BA15F0084B59E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Family Viewer UITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Family Viewer";
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -342,6 +534,24 @@
 			buildConfigurations = (
 				6616712D1B2E64D100714530 /* Debug */,
 				6616712E1B2E64D100714530 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		66AC747B1B9BA09D0084B59E /* Build configuration list for PBXNativeTarget "Family Viewer Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66AC74791B9BA09D0084B59E /* Debug */,
+				66AC747A1B9BA09D0084B59E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		66AC74871B9BA15F0084B59E /* Build configuration list for PBXNativeTarget "Family Viewer UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66AC74881B9BA15F0084B59E /* Debug */,
+				66AC74891B9BA15F0084B59E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

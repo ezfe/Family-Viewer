@@ -41,7 +41,8 @@ class PersonBrowserSidebarViewController: NSViewController {
         let tree = appDelegate.tree
         
         guard let person = tree.getPerson(id: id) else {
-            assert(false,"Invalid ID sent")
+            assert(false, "Invalid ID sent")
+            return
         }
         
         let indexes = NSIndexSet(index: tree.getIndexOfPerson(person)!)
