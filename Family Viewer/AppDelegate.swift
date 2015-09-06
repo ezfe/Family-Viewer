@@ -15,13 +15,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     /**
     Version to save in the file
-    1: Current version as of Build 445
+    1: Current version as of Build 759
     */
-    let formatVersion = 1
-    
+    let formatVersion = 1    
+    var tree = Tree()
+
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
-        
         let verificationURL = "http://ezekielelin.com/family-viewer/beta-verification?v=\(appVersion)"
         if let verificationURL = NSURL(string: verificationURL) {
             do {
@@ -65,20 +65,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         saveFile(self)
         // Insert code here to tear down your application
     }
-
-    var loadedTree = false
-    var tree = Tree() {
-        didSet {
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
-        }
-    }
-        
+    
     func readSavedData(path: String) {
         let dict = NSDictionary(contentsOfFile: path)
         if let dict = dict, treeVersion = dict["version"] as? Int {
             if treeVersion > 0 {
-                self.tree = Tree(dictionary: dict)
-                loadedTree = true
+                self.tree.loadDictionary(dict, appFormat: self.formatVersion)
             } else {
                 fatalError("Version wasn't greater than 0")
             }
@@ -86,6 +78,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("Error reading from path (\(path))")
         }
     }
+    
+    //MARK:-
+    //MARK: Paths
     
     func appSupportURL() -> NSURL {
         let supportDirPath = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0]
@@ -117,6 +112,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    //MARK:-
+    
     func dataFileExists() -> Bool {
         let fm = NSFileManager.defaultManager()
         return fm.fileExistsAtPath(dataFileURL.path!)
@@ -126,11 +123,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         createAppSupportFolder()
         
         let fm = NSFileManager.defaultManager()
-        
-        if !loadedTree && fm.fileExistsAtPath(dataFilePath) {
-            displayAlert("Error", message: "Because the tree was never loaded, it cannot be saved")
-            //TODO: Fix overwriting issues
-        }
         
         tree.dictionary.writeToFile(dataFilePath, atomically: true)
         if !fm.fileExistsAtPath(dataFilePath) {

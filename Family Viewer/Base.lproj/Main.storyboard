@@ -721,6 +721,7 @@ CA
                                             </tableColumns>
                                             <connections>
                                                 <action selector="tableClick:" target="5gI-5U-AMq" id="Gjv-Ha-Moy"/>
+                                                <outlet property="dataSource" destination="5gI-5U-AMq" id="6PT-Pb-fL6"/>
                                             </connections>
                                         </tableView>
                                     </subviews>

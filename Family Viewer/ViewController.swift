@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSOutlineViewDataSource {
+class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewDataSource {
     @IBOutlet weak var filenameLabel: NSTextField!
     @IBOutlet weak var peopleCountLabel: NSTextField!
     
@@ -63,43 +63,32 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deleteCurrentPerson", name: "com.ezekielelin.deleteCurrentPerson", object: nil)
-        
-        //---
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "mainViewPersonChange:", name: "com.ezekielelin.mainViewPersonChange", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "click:", name: "NSTableViewSelectionDidChangeNotification", object: nil)
-
     }
     
     @IBAction func tableClick(sender: AnyObject) {
         if table.selectedRow == -1 {
             return
         }
-        selectPerson(person: tree!.people[table.selectedRow])
+        selectPerson(person: tree!.people[table.selectedRow], isFromTable: true)
     }
     
-    func mainViewPersonChange(notification: NSNotification) {
-        let id = notification.userInfo!["id"] as! Int
-        //        let id = 1
-        
+    //MARK: Table
+    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let tree = appDelegate.tree
-        
-        guard let person = tree.getPerson(id: id) else {
-            assert(false, "Invalid ID sent")
-            return
-        }
-        
-        let indexes = NSIndexSet(index: tree.getIndexOfPerson(person)!)
-        table.selectRowIndexes(indexes, byExtendingSelection: false)
+        return appDelegate.tree.people.count
     }
+    
+    func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
+        let person = tree!.people[row]
+        return person.description
+    }
+    //MARK:-
     
     func loadTree() {
         print("Loading tree...")
         
         let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        tree = appDelegate.tree
+        self.tree = appDelegate.tree
         
         guard let _ = tree else {
             assert(false, "tree is nil")
@@ -108,7 +97,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         
         if let selectedPersonFromTree = tree?.selectedPerson {
             selectPerson(person: selectedPersonFromTree)
-            print(selectedPersonFromTree)
+//            print(selectedPersonFromTree)
         } else {
             if tree!.people.count == 0 {
                 tree?.people.append(Person(tree: tree!))
@@ -170,7 +159,17 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     }
     
     ///Show Person ``person``
-    func selectPerson(person person: Person) {
+    func selectPerson(person person: Person, isFromTable: Bool = false) {
+        
+        if !isFromTable {
+            print("Not called by table, informing table")
+            
+            let personIndex = tree!.getIndexOfPerson(person)!
+            
+            let indexes = NSIndexSet(index: personIndex)
+            table.selectRowIndexes(indexes, byExtendingSelection: false)
+            table.scrollRowToVisible(personIndex)
+        }
         
         let NO_DATE_STRING = "No Date Set"
         let NO_LOCATION_STRING = "No Location Set"

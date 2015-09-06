@@ -118,9 +118,12 @@ class Tree: CustomStringConvertible {
     
     init() {} //dunno if i need this
     
-    init(dictionary dict: NSDictionary) {
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let currentFormat = appDelegate.formatVersion
+    
+    func loadDictionary(dict: NSDictionary, appFormat: Int?) {
+        guard let currentFormat = appFormat else {
+            fatalError("No format passed")
+        }
+        
         guard let dictFormat = dict["version"] as? Int else {
             //TODO: Make it not crash
             assert(false, "Dictionary doesn't have version tag")
