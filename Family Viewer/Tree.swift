@@ -17,7 +17,9 @@ class Tree: CustomStringConvertible {
     }
     
     var selectedPerson: Person?
-    var treeName = "Family Tree"
+    
+    let DEFAULT_TREE_NAME = "Family Tree"
+    var treeName: String
     
     func getPerson(id id: Int) -> Person? {
         for p in self.people {
@@ -116,8 +118,14 @@ class Tree: CustomStringConvertible {
         }
     }
     
-    init() {} //dunno if i need this
+    init() {
+        self.treeName = DEFAULT_TREE_NAME
+    }
     
+    func resetTree() {
+        self.people.removeAll()
+        self.treeName = DEFAULT_TREE_NAME
+    }
     
     func loadDictionary(dict: NSDictionary, appFormat: Int?) {
         guard let currentFormat = appFormat else {
