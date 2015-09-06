@@ -8,48 +8,6 @@
 
 import Cocoa
 
-class PersonBrowserSidebarViewController: NSViewController {
-    
-    @IBOutlet weak var table: NSTableView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "mainViewPersonChange:", name: "com.ezekielelin.mainViewPersonChange", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "click:", name: "NSTableViewSelectionDidChangeNotification", object: nil)
-
-    }
-    
-    @IBAction func click(sender: AnyObject) {
-        if table.selectedRow == -1 {
-            return
-        }
-        print("Sending notification with new row: \(table.selectedRow)")
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.sidebarTableRowChange", object: nil, userInfo: ["row": table.selectedRow])
-    }
-    
-    func treeUpdate() {
-        table.reloadData()
-    }
-    
-    func mainViewPersonChange(notification: NSNotification) {
-        let id = notification.userInfo!["id"] as! Int
-//        let id = 1
-        
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        let tree = appDelegate.tree
-        
-        guard let person = tree.getPerson(id: id) else {
-            assert(false, "Invalid ID sent")
-            return
-        }
-        
-        let indexes = NSIndexSet(index: tree.getIndexOfPerson(person)!)
-        table.selectRowIndexes(indexes, byExtendingSelection: false)
-    }
-}
-
 class PersonBrowserSidebarDataSource: NSObject, NSTableViewDataSource {
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {

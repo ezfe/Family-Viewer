@@ -11,7 +11,6 @@ import Cocoa
 class ViewController: NSViewController, NSOutlineViewDataSource {
     @IBOutlet weak var filenameLabel: NSTextField!
     @IBOutlet weak var peopleCountLabel: NSTextField!
-    @IBOutlet weak var openLastFileButton: NSButton!
     
     ///Label for the name ("Name:")
     @IBOutlet weak var nameLabel: NSTextField!
@@ -52,6 +51,8 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     
     @IBOutlet weak var horizontalBar: NSBox!
  
+    @IBOutlet weak var table: NSTableView!
+    
     ///The tree
     var tree: Tree? = nil
     
@@ -59,10 +60,39 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadTree", name: "com.ezekielelin.treeIsReady", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addedParent:", name: "com.ezekielelin.addedParent", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sidebarTableRowChange:", name: "com.ezekielelin.sidebarTableRowChange", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deleteCurrentPerson", name: "com.ezekielelin.deleteCurrentPerson", object: nil)
+        
+        //---
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "mainViewPersonChange:", name: "com.ezekielelin.mainViewPersonChange", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "click:", name: "NSTableViewSelectionDidChangeNotification", object: nil)
+
+    }
+    
+    @IBAction func tableClick(sender: AnyObject) {
+        if table.selectedRow == -1 {
+            return
+        }
+        selectPerson(person: tree!.people[table.selectedRow])
+    }
+    
+    func mainViewPersonChange(notification: NSNotification) {
+        let id = notification.userInfo!["id"] as! Int
+        //        let id = 1
+        
+        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
+        let tree = appDelegate.tree
+        
+        guard let person = tree.getPerson(id: id) else {
+            assert(false, "Invalid ID sent")
+            return
+        }
+        
+        let indexes = NSIndexSet(index: tree.getIndexOfPerson(person)!)
+        table.selectRowIndexes(indexes, byExtendingSelection: false)
     }
     
     func loadTree() {
@@ -86,7 +116,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
             selectPerson(person: tree!.people[0])
         }
         
-
+        table.reloadData()
     }
     
     func addPersonFromNotification() {
@@ -94,10 +124,6 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         self.tree!.people.append(p)
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
         selectPerson(person: p)
-    }
-    
-    func updatedDefaultsFilePath() {
-
     }
     
     ///Update the view based on the tree
@@ -108,6 +134,8 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
         self.horizontalBar.hidden = false
         
         self.selectPerson(person: self.selectedPerson)
+        
+        table.reloadData()
     }
     
     ///Tree changed
@@ -255,13 +283,6 @@ class ViewController: NSViewController, NSOutlineViewDataSource {
     
     func addedParent(notification: NSNotification) {
         selectPerson(person: notification.userInfo!["newPerson"] as! Person)
-    }
-    
-    func sidebarTableRowChange(notification: NSNotification) {
-        let row = notification.userInfo!["row"] as! Int
-        print("Selecting person @:\(row)")
-        print("That means \(tree!.people[row])")
-        selectPerson(person: tree!.people[row])
     }
     
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {

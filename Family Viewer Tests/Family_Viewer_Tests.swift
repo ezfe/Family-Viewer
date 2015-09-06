@@ -20,9 +20,27 @@ class Family_Viewer_Tests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testTree() {
+        let tree = Tree()
+        XCTAssert(tree.people.count == 0)
+        
+        let testName = "Test Name"
+        
+        let personA = Person(tree: tree)
+        let personB = Person(tree: tree)
+        let personC = Person(tree: tree)
+        let personD = Person(tree: tree)
+        tree.people.append(personA)
+        tree.people.append(personB)
+        tree.people.append(personC)
+        tree.people.append(personD)
+        
+        personA.parentA = personB
+        personA.parentB = personC
+        personB.parentA = personD
+        
+        personA.nameAtBirth.familyName = testName
+        XCTAssert(personD.children[0].children[0].nameAtBirth.familyName == testName)
     }
     
     func testPerformanceExample() {
