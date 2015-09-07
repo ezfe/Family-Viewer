@@ -16,6 +16,37 @@ class Tree: CustomStringConvertible {
         }
     }
     
+    enum SortingTypes {
+        case A_FIRST
+        case Z_FIRST
+        case ID_SORT
+    }
+    
+    var nextSort: SortingTypes = .A_FIRST
+    
+    func sortPeople(sortType: SortingTypes = .A_FIRST) {
+        self.people.sortInPlace { (p1, p2) -> Bool in
+            if sortType == .A_FIRST {
+                return p1.description > p2.description
+            } else if sortType == .Z_FIRST {
+                return p1.description < p2.description
+            } else /*if sortType == .ID_SORT*/ {
+                return p1.INDI < p2.INDI
+            }
+        }
+        
+        switch sortType {
+        case .A_FIRST:
+            self.nextSort = .Z_FIRST
+        case .Z_FIRST:
+            self.nextSort = .ID_SORT
+        case .ID_SORT:
+            self.nextSort = .A_FIRST
+        default:
+            self.nextSort = .A_FIRST
+        }
+    }
+    
     var selectedPerson: Person?
     
     let DEFAULT_TREE_NAME = "Family Tree"

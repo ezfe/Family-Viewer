@@ -86,6 +86,15 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     func tableView(tableView: NSTableView, shouldEditTableColumn tableColumn: NSTableColumn?, row: Int) -> Bool {
         return false
     }
+    
+    func tableView(tableView: NSTableView, shouldSelectTableColumn tableColumn: NSTableColumn?) -> Bool {
+        tree?.sortPeople(tree!.nextSort)
+        table.reloadData()
+        return false
+    }
+    
+    
+    
     //MARK:-
     
     func loadTree() {
