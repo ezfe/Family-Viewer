@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewDataSource {
+class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewDataSource, NSTableViewDelegate {
     @IBOutlet weak var filenameLabel: NSTextField!
     @IBOutlet weak var peopleCountLabel: NSTextField!
     
@@ -81,6 +81,10 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         let person = tree!.people[row]
         return person.description
+    }
+    
+    func tableView(tableView: NSTableView, shouldEditTableColumn tableColumn: NSTableColumn?, row: Int) -> Bool {
+        return false
     }
     //MARK:-
     

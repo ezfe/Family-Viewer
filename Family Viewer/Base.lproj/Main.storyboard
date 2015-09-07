@@ -412,7 +412,7 @@ CA
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="vce-OI-QDS">
-                                <rect key="frame" x="20" y="268" width="781" height="5"/>
+                                <rect key="frame" x="240" y="268" width="561" height="5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="XWU-Uf-79I"/>
                                 </constraints>
@@ -722,6 +722,7 @@ CA
                                             <connections>
                                                 <action selector="tableClick:" target="5gI-5U-AMq" id="Gjv-Ha-Moy"/>
                                                 <outlet property="dataSource" destination="5gI-5U-AMq" id="6PT-Pb-fL6"/>
+                                                <outlet property="delegate" destination="5gI-5U-AMq" id="Jnj-YY-QCp"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
@@ -767,7 +768,6 @@ CA
                             <constraint firstItem="ukx-Xs-SXv" firstAttribute="leading" secondItem="bRP-cH-LS1" secondAttribute="trailing" constant="8" id="5th-tf-Ckh"/>
                             <constraint firstItem="TXV-99-seo" firstAttribute="leading" secondItem="bRP-cH-LS1" secondAttribute="trailing" constant="8" id="9cP-8M-QPf"/>
                             <constraint firstItem="bRP-cH-LS1" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="20" id="Asg-PU-LYd"/>
-                            <constraint firstItem="vce-OI-QDS" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="BZh-pb-tMQ"/>
                             <constraint firstItem="ukx-Xs-SXv" firstAttribute="top" secondItem="qvK-PP-kOE" secondAttribute="bottom" constant="8" id="D4l-4y-PaV"/>
                             <constraint firstItem="xBZ-Ds-qAz" firstAttribute="leading" secondItem="hUf-y3-1HD" secondAttribute="trailing" constant="8" id="Ear-dp-5aY"/>
                             <constraint firstAttribute="trailing" secondItem="vce-OI-QDS" secondAttribute="trailing" constant="20" id="FDI-PH-elB"/>
@@ -784,6 +784,7 @@ CA
                             <constraint firstItem="bRP-cH-LS1" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" id="PBf-sf-Z67"/>
                             <constraint firstItem="vsF-dP-ZQe" firstAttribute="leading" secondItem="TXV-99-seo" secondAttribute="trailing" constant="8" id="PDt-Ra-pYn"/>
                             <constraint firstItem="xBZ-Ds-qAz" firstAttribute="top" secondItem="TAX-Sh-WKB" secondAttribute="bottom" constant="9" id="Pnz-rl-mhj"/>
+                            <constraint firstItem="vce-OI-QDS" firstAttribute="leading" secondItem="bRP-cH-LS1" secondAttribute="trailing" constant="10" id="RBG-T5-pMj"/>
                             <constraint firstItem="TAX-Sh-WKB" firstAttribute="top" secondItem="QzX-zh-spg" secondAttribute="bottom" constant="8" id="RDs-Eq-RoE"/>
                             <constraint firstItem="N6D-cN-Ic7" firstAttribute="leading" secondItem="QzX-zh-spg" secondAttribute="trailing" constant="8" id="RME-OQ-YYo"/>
                             <constraint firstItem="gLr-DN-O5r" firstAttribute="leading" secondItem="KBy-Ql-Aaf" secondAttribute="trailing" constant="121" id="RaC-hX-gpg"/>
