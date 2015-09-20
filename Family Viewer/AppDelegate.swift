@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let myHTMLString = try NSString(contentsOfURL: verificationURL, encoding: NSUTF8StringEncoding)
 
                 if myHTMLString != "OK" {
-                    displayAlert("Error", message: "This build cannot run due to an unexpected server response\n\nReceived: \(myHTMLString)\nExpected: OK")
+                    displayAlert("Error", message: "This build cannot run due to an unexpected server response\n\nYou may need to update this application to continue using it")
                     NSApp.terminate(self)
                 }
             } catch {
