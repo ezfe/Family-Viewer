@@ -174,22 +174,24 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     ///Show Person ``person``
     func selectPerson(person person: Person, isFromTable: Bool = false) {
         
+        print("Received request to select \(person)")
+        
         if !isFromTable {
             print("Not called by table, informing table")
             
-            let personIndex = tree!.getIndexOfPerson(person)!
-            
-            let indexes = NSIndexSet(index: personIndex)
-            table.selectRowIndexes(indexes, byExtendingSelection: false)
-            table.scrollRowToVisible(personIndex)
+            if let personIndex = tree!.getIndexOfPerson(person) {
+                let indexes = NSIndexSet(index: personIndex)
+                table.selectRowIndexes(indexes, byExtendingSelection: false)
+                table.scrollRowToVisible(personIndex)
+            } else {
+                print("\(person) doesn't exist in the tree")
+            }
         }
         
         let NO_DATE_STRING = "No Date Set"
         let NO_LOCATION_STRING = "No Location Set"
         
         selectedPerson = person
-        
-        print("Received request to select \(person)")
         
         nameLabel.hidden = false
         nameField.hidden = false
@@ -325,16 +327,14 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     }
     
     func deleteCurrentPerson() {
-        displayAlert("Oops", message: "That's not finished yet")
-        return
-//        if let person = currentPerson {
-//            for (i,p) in tree.people.enumerate() {
-//                if p == person {
-//                    tree.people.removeAtIndex(i)
-//                    NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
-//                }
-//            }
-//        }
+        print("Received request to delete current person")
+        print("Deleting \(selectedPerson)")
+        if tree!.removePerson(selectedPerson) {
+            print("Success")
+            updateViewFromTree()
+        } else {
+            displayAlert("Error", message: "An unexpected error occurred")
+        }
     }
     
     

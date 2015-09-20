@@ -12,12 +12,12 @@ import AppKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
+
     /**
     Version to save in the file
     1: Current version as of Build 759
     */
-    let formatVersion = 1    
+    let formatVersion = 1
     var tree = Tree()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -34,22 +34,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } catch {
                 displayAlert("Error", message: "An unexpected error occured making a network request")
             }
-            
+
         } else {
             fatalError("Verification URL is not valid")
         }
-        
+
         createAppSupportFolder() //Create AppSupport directory if it doesn't exist already
-        
+
         let fm = NSFileManager.defaultManager()
         if !fm.fileExistsAtPath(dataFileURL.path!) {
             saveFile(self)
         } else {
             readSavedData(dataFileURL.path!)
         }
-        
+
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeIsReady", object: nil)
-        
+
         let defaults = NSUserDefaults.standardUserDefaults()
         var showAlert = true
         if defaults.boolForKey("betaAlertShown") {
@@ -60,12 +60,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         defaults.setBool(true, forKey: "betaAlertShown")
     }
-    
+
     func applicationWillTerminate(aNotification: NSNotification) {
         saveFile(self)
         // Insert code here to tear down your application
     }
-    
+
     func readSavedData(path: String) {
         let dict = NSDictionary(contentsOfFile: path)
         if let dict = dict, treeVersion = dict["version"] as? Int {
@@ -78,16 +78,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("Error reading from path (\(path))")
         }
     }
-    
+
     //MARK:-
     //MARK: Paths
-    
+
     func appSupportURL() -> NSURL {
         let supportDirPath = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0]
 
         return NSURL(fileURLWithPath: supportDirPath).URLByAppendingPathComponent(NSBundle.mainBundle().bundleIdentifier!)
     }
-    
+
     func createAppSupportFolder() {
         do {
             let fm = NSFileManager.defaultManager()
@@ -96,13 +96,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             fatalError("Could not create directory at \(appSupportURL())")
         }
     }
-    
+
     var dataFileURL: NSURL {
         get {
             return appSupportURL().URLByAppendingPathComponent("data.plist")
         }
     }
-    
+
     var dataFilePath: String {
         get {
             guard let path = dataFileURL.path else {
@@ -111,26 +111,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return path
         }
     }
-    
+
     //MARK:-
-    
+
     func dataFileExists() -> Bool {
         let fm = NSFileManager.defaultManager()
         return fm.fileExistsAtPath(dataFileURL.path!)
     }
-    
+
     @IBAction func saveFile(sender: AnyObject) {
         createAppSupportFolder()
-        
+
         let fm = NSFileManager.defaultManager()
-        
+
         tree.dictionary.writeToFile(dataFilePath, atomically: true)
         if !fm.fileExistsAtPath(dataFilePath) {
             print("File wasn't written for unknown reason")
             print(tree.dictionary)
         }
     }
-    
+
     @IBAction func addPerson(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addPerson", object: nil)
     }
@@ -138,4 +138,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.deleteCurrentPerson", object: nil)
     }
 }
-

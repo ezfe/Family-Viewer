@@ -67,17 +67,18 @@ class Person: CustomStringConvertible {
             self.death.hasDied = !isAlive
         }
     }
-    ///Death
+    
+    
     var death = Death()
-    ///Sex
     var sex: Sex?
+    
     ///Parent A (Usually Mother)
     var parentA: Person?
     ///Parent B (Usually Father)
     var parentB: Person?
-    ///Tree that this person exists in
+    
     var tree: Tree
-    ///List of children
+    
     var children: [Person] {
         get {
             var to_return = [Person]()
@@ -89,6 +90,7 @@ class Person: CustomStringConvertible {
             return to_return
         }
     }
+
     ///List of siblings that share at least one parent (includes half siblings)
     var allSiblings: [Person] {
         get {
@@ -106,6 +108,7 @@ class Person: CustomStringConvertible {
             return to_return
         }
     }
+    
     ///List of siblings that share both parents
     var fullSiblings: [Person] {
         get {
@@ -119,6 +122,17 @@ class Person: CustomStringConvertible {
                 }
             }
             return to_return
+        }
+    }
+    
+    func cleanupAssociationsForDeletion() {
+        for c in self.children {
+            if c.parentA == self {
+                c.parentA = nil
+            }
+            if c.parentB == self {
+                c.parentB = nil
+            }
         }
     }
     

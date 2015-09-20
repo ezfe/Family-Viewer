@@ -6,7 +6,7 @@
 //  Copyright © 2015 Ezekiel Elin. All rights reserved.
 //
 
-import Cocoa
+import AppKit
 
 class AddParentViewController: NSViewController {
 
@@ -14,10 +14,10 @@ class AddParentViewController: NSViewController {
     var parentTo: Person? = nil
     var A_B: String = "A"
     var tree: Tree = Tree()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do view setup here.
+        
         self.popupChooser.addItemsWithTitles(tree.peopleNameList)
     }
 
@@ -29,7 +29,7 @@ class AddParentViewController: NSViewController {
             return
         }
         let parent = self.tree.people[self.popupChooser.indexOfSelectedItem - 1]
-        
+
         //TODO: DRY!
         if let parentA = parent.parentA where parentA == parentTo {
             //TODO: Proper alert here
@@ -41,7 +41,7 @@ class AddParentViewController: NSViewController {
             print("Cannot set parent to child")
             return
         }
-        
+
         if self.A_B == "A" {
             parentTo.parentA = parent
         } else if self.A_B == "B" {
@@ -50,7 +50,7 @@ class AddParentViewController: NSViewController {
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
         self.dismissController(self)
     }
-    
+
     @IBAction func createNewPerson(sender: AnyObject) {
         guard let parentTo = parentTo else {
             return
