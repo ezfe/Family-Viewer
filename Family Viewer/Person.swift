@@ -99,9 +99,9 @@ class Person: CustomStringConvertible {
                 if p == self {
                     continue
                 }
-                if p.parentA! == self.parentA! || p.parentA! == self.parentB! {
+                if p.parentA == self.parentA || p.parentA == self.parentB {
                     to_return.append(p)
-                } else if p.parentB! == self.parentA! || p.parentB! == self.parentB! {
+                } else if p.parentB == self.parentA || p.parentB == self.parentB {
                     to_return.append(p)
                 }
             }

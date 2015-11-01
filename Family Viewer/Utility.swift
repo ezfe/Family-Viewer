@@ -362,3 +362,24 @@ func displayAlert(title: String, message: String) {
     alert.informativeText = message
     alert.runModal()
 }
+
+enum XcodeTag: Int {
+    case MainBrowserTable  = 20
+    case PersonDetailTable = 60
+}
+
+func getXcodeTag(tag: Int) -> XcodeTag {
+    if let xctag = XcodeTag(rawValue: tag) {
+        return xctag
+    } else {
+        assert(false, "Unable to initialize XcodeTag")
+    }
+}
+
+enum TableActions {
+    case EditName
+    case EditBirth
+    case EditDeath
+    case SetParentA
+    case SetParentB
+}

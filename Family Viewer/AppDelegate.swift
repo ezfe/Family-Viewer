@@ -63,7 +63,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(aNotification: NSNotification) {
         saveFile(self)
-        // Insert code here to tear down your application
     }
 
     func readSavedData(path: String) {
