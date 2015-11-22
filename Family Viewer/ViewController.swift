@@ -57,6 +57,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     }
     
     func doubleClickDetail() {
+        
         if let person = personLinks[detailTable.clickedRow] {
             selectPerson(person: person)
             return
@@ -93,6 +94,10 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
             case .ToggleSex:
                 selectedPerson.sex = (selectedPerson.sex == Sex.Female ? Sex.Male : Sex.Female)
                 updateViewFromTree()
+            case .TreeView:
+                let vc = self.storyboard?.instantiateControllerWithIdentifier("TreeViewController") as! TreeViewController
+                vc.tree = self.tree!
+                self.presentViewControllerAsSheet(vc)
             }
         }
     }
@@ -163,6 +168,12 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         personDetail[personDetail.count - 1].append("Name")
         personDetail[personDetail.count - 1].append(selectedPerson.description)
         actionsTypes[personDetail.count - 1] = TableActions.EditName
+        
+        personDetail.append(Array<String>())
+        personDetail[personDetail.count - 1].append("Tree")
+        personDetail[personDetail.count - 1].append("")
+        actionsTypes[personDetail.count - 1] = TableActions.TreeView
+        
         
         personDetail.append(Array<String>())
         personDetail[personDetail.count - 1].append("Sex")

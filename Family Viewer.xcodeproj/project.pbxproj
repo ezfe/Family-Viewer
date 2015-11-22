@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66131AC91C0276F30069AE80 /* TreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66131AC71C0276F30069AE80 /* TreeViewController.swift */; };
+		66131ACC1C027DE10069AE80 /* TreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66131ACB1C027DE10069AE80 /* TreeView.swift */; };
 		6616711F1B2E64D100714530 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6616711E1B2E64D100714530 /* AppDelegate.swift */; };
 		661671211B2E64D100714530 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661671201B2E64D100714530 /* ViewController.swift */; };
 		661671251B2E64D100714530 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 661671241B2E64D100714530 /* Assets.xcassets */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		66131AC71C0276F30069AE80 /* TreeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeViewController.swift; sourceTree = "<group>"; };
+		66131ACB1C027DE10069AE80 /* TreeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeView.swift; sourceTree = "<group>"; };
 		6616711B1B2E64D100714530 /* Family Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Family Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6616711E1B2E64D100714530 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		661671201B2E64D100714530 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +101,8 @@
 				66223B701B30A050004132B6 /* EditNameViewController.swift */,
 				661A2AF91B9BE21D004A4FEF /* BirthdayViewController.swift */,
 				661A2AFD1B9BE23B004A4FEF /* DeathViewController.swift */,
+				66131AC71C0276F30069AE80 /* TreeViewController.swift */,
+				66131ACB1C027DE10069AE80 /* TreeView.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -206,6 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66131AC91C0276F30069AE80 /* TreeViewController.swift in Sources */,
 				661671311B2E6DC800714530 /* Utility.swift in Sources */,
 				661671211B2E64D100714530 /* ViewController.swift in Sources */,
 				669485BA1B9B9DDD002FB335 /* Errors.swift in Sources */,
@@ -217,6 +224,7 @@
 				661A2AFC1B9BE22E004A4FEF /* NameComponents.swift in Sources */,
 				6616711F1B2E64D100714530 /* AppDelegate.swift in Sources */,
 				66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */,
+				66131ACC1C027DE10069AE80 /* TreeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

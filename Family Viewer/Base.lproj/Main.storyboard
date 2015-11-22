@@ -492,6 +492,41 @@ CA
             </objects>
             <point key="canvasLocation" x="720.5" y="556"/>
         </scene>
+        <!--Tree View Controller-->
+        <scene sceneID="HUN-zi-Yaf">
+            <objects>
+                <viewController storyboardIdentifier="TreeViewController" id="eyg-Ej-1Ry" customClass="TreeViewController" customModule="Family_Viewer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="R4r-NR-vmJ">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YMt-gr-qxD">
+                                <rect key="frame" x="381" y="18" width="49" height="25"/>
+                                <buttonCell key="cell" type="roundTextured" title="Close" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QL0-NV-CsM">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="eyg-Ej-1Ry" id="8eS-Dl-VIf"/>
+                                </connections>
+                            </button>
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G87-IF-xm5" customClass="TreeView" customModule="Family_Viewer" customModuleProvider="target">
+                                <rect key="frame" x="20" y="50" width="410" height="230"/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="YMt-gr-qxD" secondAttribute="trailing" constant="20" id="2hF-rq-lUa"/>
+                            <constraint firstAttribute="bottom" secondItem="YMt-gr-qxD" secondAttribute="bottom" constant="20" id="qdw-zQ-OGB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="treeView" destination="G87-IF-xm5" id="iMq-3E-iLn"/>
+                    </connections>
+                </viewController>
+                <customObject id="NVf-bI-NKD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="359" y="964"/>
+        </scene>
         <!--Birthday View Controller-->
         <scene sceneID="8I6-t6-qc5">
             <objects>

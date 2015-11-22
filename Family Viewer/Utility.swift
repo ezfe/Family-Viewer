@@ -384,4 +384,5 @@ enum TableActions {
     case SetParentA
     case SetParentB
     case ToggleSex
+    case TreeView
 }
