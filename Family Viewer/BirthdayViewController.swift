@@ -38,9 +38,28 @@ class BirthdayViewController: NSViewController {
                 self.yearPicker.stringValue = ""
             }
             self.locationStringPicker.stringValue = person.birth.location
+
+            updateMap()
         } else {
             assert(false, "person is nil")
         }
+    }
+    
+    func updateMap() {
+        let geocoder: CLGeocoder = CLGeocoder()
+        guard let person = person else {
+            return
+        }
+        geocoder.geocodeAddressString(person.birth.location, completionHandler: { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
+            guard let placemarks = placemarks else {
+                return
+            }
+            let place = placemarks[0]
+            let location = place.location!;
+            //TODO: This seems like a silly thing to do to avoid "deprecated"
+            let region = place.region! as! CLCircularRegion;
+            self.centerMapOnLocation(location, radius: region.radius)
+        })
     }
     
     @IBAction func update(sender: AnyObject) {
@@ -71,6 +90,17 @@ class BirthdayViewController: NSViewController {
         
         person.birth.location = self.locationStringPicker.stringValue
         
+        updateMap()
+        
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+    }
+    
+    /*
+     * http://www.raywenderlich.com/90971/introduction-mapkit-swift-tutorial
+     */
+    func centerMapOnLocation(location: CLLocation, radius: CLLocationDistance) {
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
+            radius * 2.0, radius * 2.0)
+        map.setRegion(coordinateRegion, animated: true)
     }
 }

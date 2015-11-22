@@ -373,6 +373,7 @@ func getXcodeTag(tag: Int) -> XcodeTag {
         return xctag
     } else {
         assert(false, "Unable to initialize XcodeTag")
+        return Optional()!
     }
 }
 

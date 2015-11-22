@@ -582,7 +582,7 @@ CA
                                     <action selector="update:" target="6TP-j7-g8D" id="H6v-6U-Omg"/>
                                 </connections>
                             </textField>
-                            <mapView mapType="standard" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kZ4-N9-k2I">
+                            <mapView mapType="hybrid" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kZ4-N9-k2I">
                                 <rect key="frame" x="0.0" y="0.0" width="224" height="172"/>
                             </mapView>
                         </subviews>

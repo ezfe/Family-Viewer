@@ -12,7 +12,8 @@ class Person: CustomStringConvertible {
     ///Name String
     var description: String {
         get {
-            return self.getNameNow().isSet() ? self.getNameNow().description : "Person \(INDI)"
+            let ret = self.getNameNow().isSet() ? self.getNameNow().description : "Person"
+            return "\(ret) \(INDI)";
         }
     }
     ///Name components
