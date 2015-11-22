@@ -34,7 +34,12 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deleteCurrentPerson", name: "com.ezekielelin.deleteCurrentPerson", object: nil)
-        
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentA", name: "com.ezekielelin.addMother", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentB", name: "com.ezekielelin.addFather", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "removeParentA", name: "com.ezekielelin.removeMother", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "removeParentB", name: "com.ezekielelin.removeFather", object: nil)
+
         detailTable.doubleAction = "doubleClickDetail"
     }
     
@@ -73,6 +78,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
                 return
             case .SetParentA:
                 let vc = self.storyboard?.instantiateControllerWithIdentifier("AddParentViewController") as! AddParentViewController
+                vc.tree = self.tree!
                 vc.parentTo = selectedPerson
                 vc.A_B = "A"
                 self.presentViewController(vc, asPopoverRelativeToRect: detailTable.rectOfRow(detailTable.clickedRow), ofView: detailTable, preferredEdge: NSRectEdge.MaxX, behavior: NSPopoverBehavior.Semitransient)
@@ -80,9 +86,13 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
             case .SetParentB:
                 let vc = self.storyboard?.instantiateControllerWithIdentifier("AddParentViewController") as! AddParentViewController
                 vc.parentTo = selectedPerson
+                vc.tree = self.tree!
                 vc.A_B = "B"
                 self.presentViewController(vc, asPopoverRelativeToRect: detailTable.rectOfRow(detailTable.clickedRow), ofView: detailTable, preferredEdge: NSRectEdge.MaxX, behavior: NSPopoverBehavior.Semitransient)
                 return
+            case .ToggleSex:
+                selectedPerson.sex = (selectedPerson.sex == Sex.Female ? Sex.Male : Sex.Female)
+                updateViewFromTree()
             }
         }
     }
@@ -157,6 +167,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         personDetail.append(Array<String>())
         personDetail[personDetail.count - 1].append("Sex")
         personDetail[personDetail.count - 1].append(selectedPerson.sex!.rawValue)
+        actionsTypes[personDetail.count - 1] = TableActions.ToggleSex
         
         personDetail.append(Array<String>())
         personDetail[personDetail.count - 1].append("Date of Birth")
@@ -327,10 +338,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
                 return
             }
         }
-        
-        let NO_DATE_STRING = "No Date Set"
-        let NO_LOCATION_STRING = "No Location Set"
-        
+                
         selectedPerson = person
         
         print("Selected \(person)")
@@ -339,24 +347,12 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.mainViewPersonChange", object: nil, userInfo: ["id": person.INDI])
     }
     
-    @IBAction func viewParentA(sender: AnyObject) {
-        if let parentA = selectedPerson.parentA {
-            selectPerson(person: parentA)
-        }
-    }
-    
-    @IBAction func viewParentB(sender: AnyObject) {
-        if let parentB = selectedPerson.parentB {
-            selectPerson(person: parentB)
-        }
-    }
-    
-    @IBAction func removeParentA(sender: AnyObject) {
+    func removeParentA() {
         selectedPerson.parentA = nil
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
     }
     
-    @IBAction func removeParentB(sender: AnyObject) {
+    func removeParentB() {
         selectedPerson.parentB = nil
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
     }
@@ -424,4 +420,10 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         }
     }
     
+    func addParentA() {
+        
+    }
+    func addParentB() {
+        
+    }
 }

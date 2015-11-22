@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import MapKit
 
 class BirthdayViewController: NSViewController {
 
@@ -15,6 +16,7 @@ class BirthdayViewController: NSViewController {
     @IBOutlet weak var datePicker: NSTextField!
     @IBOutlet weak var monthPicker: NSPopUpButton!
     @IBOutlet weak var yearPicker: NSTextField!
+    @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var locationStringPicker: NSTextField!
     
     override func viewDidLoad() {

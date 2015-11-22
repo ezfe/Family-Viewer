@@ -10,11 +10,52 @@ import Foundation
 
 //Temporary Placeholder
 
-class NameComponents {
+class NameComponents: CustomStringConvertible {
+    
     var namePrefix: String?
     var givenName: String?
     var middleName: String?
     var familyName: String?
     var nameSuffix: String?
     var nickname: String?
+    
+    var lastInitial: String? {
+        get {
+            return familyName![0]
+        }
+    }
+    
+    ///Returns wether description will work
+    ///If this is false, then description may print NONAME
+    func isSet() -> Bool {
+        if let _ = self.familyName {
+            if let _ = self.nickname {
+                return true;
+            } else if let _ = self.givenName {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    var description: String {
+        get {
+            var first: String
+            var last: String
+            if let nick = self.nickname {
+                first = nick
+            } else if let name = self.givenName {
+                first = name
+            } else {
+                first = "First"
+            }
+            if let familyName = familyName {
+                last = familyName
+            } else {
+                last = "Last"
+            }
+            
+            return "\(first) \(last)"
+        }
+    }
 }

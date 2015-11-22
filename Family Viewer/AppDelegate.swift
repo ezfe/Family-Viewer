@@ -13,16 +13,18 @@ import AppKit
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    /**
-    Version to save in the file
-    1: Current version as of Build 759
-    */
+    /*
+     * Version to save in the file
+     * 1: Current version as of Build 759
+     */
     let formatVersion = 1
     var tree = Tree()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
-        let verificationURL = "http://ezekielelin.com/family-viewer/beta-verification?v=\(appVersion)"
+        
+        let verificationURL = "https://ezekielelin.com/family-viewer/beta-verification?v=\(appVersion)"
+        
         if let verificationURL = NSURL(string: verificationURL) {
             do {
                 let myHTMLString = try NSString(contentsOfURL: verificationURL, encoding: NSUTF8StringEncoding)
@@ -39,7 +41,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             fatalError("Verification URL is not valid")
         }
 
-        createAppSupportFolder() //Create AppSupport directory if it doesn't exist already
+        //Create AppSupport directory if it doesn't exist already
+        createAppSupportFolder()
 
         let fm = NSFileManager.defaultManager()
         if !fm.fileExistsAtPath(dataFileURL.path!) {
@@ -135,5 +138,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     @IBAction func deletePerson(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.deleteCurrentPerson", object: nil)
+    }
+    
+    @IBAction func addMother(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addMother", object: nil)
+    }
+    @IBAction func addFather(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addFather", object: nil)
+    }
+    
+    @IBAction func removeMother(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.removeMother", object: nil)
+    }
+    @IBAction func removeFather(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.removeFather", object: nil)
     }
 }

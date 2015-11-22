@@ -382,4 +382,5 @@ enum TableActions {
     case EditDeath
     case SetParentA
     case SetParentB
+    case ToggleSex
 }

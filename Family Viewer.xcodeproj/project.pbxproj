@@ -12,14 +12,15 @@
 		661671251B2E64D100714530 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 661671241B2E64D100714530 /* Assets.xcassets */; };
 		661671281B2E64D100714530 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 661671261B2E64D100714530 /* Main.storyboard */; };
 		661671311B2E6DC800714530 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661671301B2E6DC800714530 /* Utility.swift */; };
-		661A2AFA1B9BE21D004A4FEF /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A2AF91B9BE21D004A4FEF /* BirthdayViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		661A2AFC1B9BE22E004A4FEF /* NameComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A2AFB1B9BE22E004A4FEF /* NameComponents.swift */; settings = {ASSET_TAGS = (); }; };
-		661A2AFE1B9BE23B004A4FEF /* DeathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A2AFD1B9BE23B004A4FEF /* DeathViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		661A2AFA1B9BE21D004A4FEF /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A2AF91B9BE21D004A4FEF /* BirthdayViewController.swift */; };
+		661A2AFC1B9BE22E004A4FEF /* NameComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A2AFB1B9BE22E004A4FEF /* NameComponents.swift */; };
+		661A2AFE1B9BE23B004A4FEF /* DeathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A2AFD1B9BE23B004A4FEF /* DeathViewController.swift */; };
 		66223B711B30A050004132B6 /* AddParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B6F1B30A050004132B6 /* AddParentViewController.swift */; };
 		66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B701B30A050004132B6 /* EditNameViewController.swift */; };
-		669485BA1B9B9DDD002FB335 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669485B91B9B9DDD002FB335 /* Errors.swift */; settings = {ASSET_TAGS = (); }; };
-		66E5A44F1B9B2E1500B492B5 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A44E1B9B2E1500B492B5 /* Tree.swift */; settings = {ASSET_TAGS = (); }; };
-		66E5A4521B9B2EF900B492B5 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A4511B9B2EF900B492B5 /* Person.swift */; settings = {ASSET_TAGS = (); }; };
+		669485BA1B9B9DDD002FB335 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669485B91B9B9DDD002FB335 /* Errors.swift */; };
+		66AE91461C013E0B001A07E1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AE91451C013E0B001A07E1 /* MapKit.framework */; };
+		66E5A44F1B9B2E1500B492B5 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A44E1B9B2E1500B492B5 /* Tree.swift */; };
+		66E5A4521B9B2EF900B492B5 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A4511B9B2EF900B492B5 /* Person.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		66223B6F1B30A050004132B6 /* AddParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddParentViewController.swift; sourceTree = "<group>"; };
 		66223B701B30A050004132B6 /* EditNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
 		669485B91B9B9DDD002FB335 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		66AE91451C013E0B001A07E1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		66AE91471C013E0B001A07E1 /* Family Viewer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Family Viewer.entitlements"; sourceTree = "<group>"; };
 		66E5A44E1B9B2E1500B492B5 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		66E5A4511B9B2EF900B492B5 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -45,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66AE91461C013E0B001A07E1 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +58,7 @@
 		661671121B2E64D000714530 = {
 			isa = PBXGroup;
 			children = (
+				66AE91451C013E0B001A07E1 /* MapKit.framework */,
 				6616711D1B2E64D100714530 /* Family Viewer */,
 				6616711C1B2E64D100714530 /* Products */,
 			);
@@ -70,6 +75,7 @@
 		6616711D1B2E64D100714530 /* Family Viewer */ = {
 			isa = PBXGroup;
 			children = (
+				66AE91471C013E0B001A07E1 /* Family Viewer.entitlements */,
 				6616711E1B2E64D100714530 /* AppDelegate.swift */,
 				661A2AFB1B9BE22E004A4FEF /* NameComponents.swift */,
 				661671301B2E6DC800714530 /* Utility.swift */,
@@ -137,6 +143,11 @@
 					6616711A1B2E64D000714530 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = 39QG79F7FD;
+						SystemCapabilities = {
+							com.apple.Maps.Mac = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -304,12 +315,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_ENTITLEMENTS = "Family Viewer/Family Viewer.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Family Viewer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -320,12 +332,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_ENTITLEMENTS = "Family Viewer/Family Viewer.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Family Viewer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
