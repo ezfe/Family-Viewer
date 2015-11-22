@@ -147,6 +147,9 @@
 							com.apple.Maps.Mac = {
 								enabled = 1;
 							};
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
 						};
 					};
 				};

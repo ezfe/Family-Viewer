@@ -24,7 +24,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
         
         let verificationURL = "https://ezekielelin.com/family-viewer/beta-verification?v=\(appVersion)"
-        
         if let verificationURL = NSURL(string: verificationURL) {
             do {
                 let myHTMLString = try NSString(contentsOfURL: verificationURL, encoding: NSUTF8StringEncoding)
@@ -45,6 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         createAppSupportFolder()
 
         let fm = NSFileManager.defaultManager()
+        
         if !fm.fileExistsAtPath(dataFileURL.path!) {
             saveFile(self)
         } else {
@@ -65,7 +65,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
-        saveFile(self)
+        if tree.people.count > 0 {
+            saveFile(self)
+        }
     }
 
     func readSavedData(path: String) {
