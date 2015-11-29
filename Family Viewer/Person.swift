@@ -66,9 +66,9 @@ class Person: CustomStringConvertible {
     var sex: Sex?
     
     ///Parent A (Usually Mother)
-    var parentA: Person?
+    weak var parentA: Person?
     ///Parent B (Usually Father)
-    var parentB: Person?
+    weak var parentB: Person?
     
     var tree: Tree
     
@@ -117,18 +117,7 @@ class Person: CustomStringConvertible {
             return to_return
         }
     }
-    
-    func cleanupAssociationsForDeletion() {
-        for c in self.children {
-            if c.parentA == self {
-                c.parentA = nil
-            }
-            if c.parentB == self {
-                c.parentB = nil
-            }
-        }
-    }
-    
+
     init(tree t: Tree) {
         self.tree = t
         self.INDI = tree.getUniqueINDI()

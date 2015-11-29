@@ -65,9 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
-        if tree.people.count > 0 {
-            saveFile(self)
-        }
+        saveFile(self)
     }
 
     func readSavedData(path: String) {
@@ -128,10 +126,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let fm = NSFileManager.defaultManager()
 
-        tree.dictionary.writeToFile(dataFilePath, atomically: true)
-        if !fm.fileExistsAtPath(dataFilePath) {
-            print("File wasn't written for unknown reason")
-            print(tree.dictionary)
+        if tree.realTree {
+            tree.dictionary.writeToFile(dataFilePath, atomically: true)
+            
+            if !fm.fileExistsAtPath(dataFilePath) {
+                print("File wasn't written for unknown reason")
+                print(tree.dictionary)
+            }
+        } else {
+            print("Tree wasn't written because it's not real")
         }
     }
 

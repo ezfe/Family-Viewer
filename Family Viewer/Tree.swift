@@ -10,8 +10,12 @@ import Foundation
 import AppKit
 
 class Tree: CustomStringConvertible {
+    ///Wether this tree should be saved, expected to have values, etc.
+    var realTree = false;
+    
     var people = [Person]() {
         didSet {
+            realTree = true;
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self)
         }
     }
@@ -146,7 +150,7 @@ class Tree: CustomStringConvertible {
             }
         }
     }
-
+    
     init() {
         self.treeName = DEFAULT_TREE_NAME
     }
@@ -158,8 +162,6 @@ class Tree: CustomStringConvertible {
     
     func removePerson(p: Person) -> Bool {
         print("Tree recevied request to delete \(p)")
-        
-        p.cleanupAssociationsForDeletion()
         
         for (i, p2) in people.enumerate() {
             if p == p2 {
@@ -175,6 +177,8 @@ class Tree: CustomStringConvertible {
     }
 
     func loadDictionary(dict: NSDictionary, appFormat: Int?) {
+        realTree = true;
+        
         guard let currentFormat = appFormat else {
             fatalError("No format passed")
         }
