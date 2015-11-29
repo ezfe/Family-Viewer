@@ -13,7 +13,7 @@ class Person: CustomStringConvertible {
     var description: String {
         get {
             let ret = self.getNameNow().isSet() ? self.getNameNow().description : "Person"
-            return "\(ret) \(INDI)";
+            return "\(ret) \(INDI)"
         }
     }
     ///Name components

@@ -1271,11 +1271,11 @@ CA
             <objects>
                 <viewController storyboardIdentifier="DeathViewController" id="ImP-sn-5V4" customClass="DeathViewController" customModule="Family_Viewer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="GFu-c1-ldq">
-                        <rect key="frame" x="0.0" y="0.0" width="224" height="116"/>
+                        <rect key="frame" x="0.0" y="0.0" width="224" height="285"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LAs-QA-Gbq">
-                                <rect key="frame" x="162" y="52" width="42" height="22"/>
+                                <rect key="frame" x="162" y="221" width="42" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="YYYY" drawsBackground="YES" id="S2X-et-0hi">
                                     <numberFormatter key="formatter" formatterBehavior="custom10_4" allowsFloats="NO" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="JvY-Fm-uoH">
                                         <real key="minimum" value="1"/>
@@ -1290,7 +1290,7 @@ CA
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FmG-OX-J99">
-                                <rect key="frame" x="20" y="52" width="27" height="22"/>
+                                <rect key="frame" x="20" y="221" width="27" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="DD" drawsBackground="YES" id="jbL-Bu-xJE">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="bGD-53-vxh">
                                         <real key="minimum" value="1"/>
@@ -1305,7 +1305,7 @@ CA
                                 </connections>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Piy-dx-H4W">
-                                <rect key="frame" x="53" y="49" width="104" height="26"/>
+                                <rect key="frame" x="53" y="218" width="104" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="AvY-Ys-3Cf">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -1332,7 +1332,7 @@ CA
                                 </connections>
                             </popUpButton>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VHV-Jf-HfC">
-                                <rect key="frame" x="18" y="80" width="188" height="18"/>
+                                <rect key="frame" x="18" y="249" width="188" height="18"/>
                                 <buttonCell key="cell" type="check" title="% is alive" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SHw-yj-6Yd">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="systemBold"/>
@@ -1342,7 +1342,7 @@ CA
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="44g-ua-Khs">
-                                <rect key="frame" x="20" y="20" width="184" height="22"/>
+                                <rect key="frame" x="20" y="189" width="184" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Location" drawsBackground="YES" id="8aR-7p-LlT">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1352,19 +1352,23 @@ CA
                                     <action selector="update:" target="ImP-sn-5V4" id="nbG-BG-dul"/>
                                 </connections>
                             </textField>
+                            <mapView fixedFrame="YES" mapType="hybrid" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hma-qo-TnM">
+                                <rect key="frame" x="0.0" y="0.0" width="224" height="181"/>
+                            </mapView>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="datePicker" destination="FmG-OX-J99" id="E2N-2E-lTw"/>
                         <outlet property="isAliveCheckbox" destination="VHV-Jf-HfC" id="wpb-fl-GON"/>
                         <outlet property="locationStringPicker" destination="44g-ua-Khs" id="zH6-sY-XGO"/>
+                        <outlet property="map" destination="hma-qo-TnM" id="OLv-G9-Ljr"/>
                         <outlet property="monthPicker" destination="Piy-dx-H4W" id="t5E-EF-Ua8"/>
                         <outlet property="yearPicker" destination="LAs-QA-Gbq" id="qAo-Bp-ADM"/>
                     </connections>
                 </viewController>
                 <customObject id="h4x-UM-tRm" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1361" y="437"/>
+            <point key="canvasLocation" x="2121" y="512.5"/>
         </scene>
     </scenes>
 </document>

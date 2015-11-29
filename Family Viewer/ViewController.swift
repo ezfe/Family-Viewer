@@ -34,12 +34,12 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deleteCurrentPerson", name: "com.ezekielelin.deleteCurrentPerson", object: nil)
-
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentA", name: "com.ezekielelin.addMother", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentB", name: "com.ezekielelin.addFather", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "removeParentA", name: "com.ezekielelin.removeMother", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "removeParentB", name: "com.ezekielelin.removeFather", object: nil)
-
+        
         detailTable.doubleAction = "doubleClickDetail"
     }
     
@@ -182,7 +182,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         
         personDetail.append(Array<String>())
         personDetail[personDetail.count - 1].append("Date of Birth")
-        personDetail[personDetail.count - 1].append(selectedPerson.birth.date.description)
+        if selectedPerson.birth.date.isSet() {
+            personDetail[personDetail.count - 1].append(selectedPerson.birth.date.description)
+        } else {
+            personDetail[personDetail.count - 1].append("Date Not Set")
+        }
         actionsTypes[personDetail.count - 1] = TableActions.EditBirth
         
         personDetail.append(Array<String>())
@@ -197,20 +201,22 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         personDetail.append(Array<String>())
         personDetail[personDetail.count - 1].append("Date of Death")
         if (!selectedPerson.isAlive) {
-            personDetail[personDetail.count - 1].append(selectedPerson.death.date.description)
+            if selectedPerson.death.date.isSet() {
+                personDetail[personDetail.count - 1].append(selectedPerson.death.date.description)
+            } else {
+                personDetail[personDetail.count - 1].append("Date Not Set")
+            }
         } else {
             personDetail[personDetail.count - 1].append("Still Alive")
         }
         actionsTypes[personDetail.count - 1] = TableActions.EditDeath
         
-        personDetail.append(Array<String>())
-        personDetail[personDetail.count - 1].append("Location of Death")
-        if (selectedPerson.death.location == "") {
-            personDetail[personDetail.count - 1].append("Unknown")
-        } else {
+        if !selectedPerson.isAlive {
+            personDetail.append(Array<String>())
+            personDetail[personDetail.count - 1].append("Location of Death")
+            actionsTypes[personDetail.count - 1] = TableActions.EditDeath
             personDetail[personDetail.count - 1].append(selectedPerson.death.location)
         }
-        actionsTypes[personDetail.count - 1] = TableActions.EditDeath
         
         personDetail.append(Array<String>())
         personDetail[personDetail.count - 1].append("Mother")
@@ -349,7 +355,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
                 return
             }
         }
-                
+        
         selectedPerson = person
         
         print("Selected \(person)")
@@ -429,12 +435,5 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         } else {
             return nil
         }
-    }
-    
-    func addParentA() {
-        
-    }
-    func addParentB() {
-        
     }
 }

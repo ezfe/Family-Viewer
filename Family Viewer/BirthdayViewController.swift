@@ -58,7 +58,7 @@ class BirthdayViewController: NSViewController {
             let location = place.location!;
             //TODO: This seems like a silly thing to do to avoid "deprecated"
             let region = place.region! as! CLCircularRegion;
-            self.centerMapOnLocation(location, radius: region.radius)
+            centerMapOnLocation(self.map, location: location, radius: region.radius)
         })
     }
     
@@ -93,14 +93,5 @@ class BirthdayViewController: NSViewController {
         updateMap()
         
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
-    }
-    
-    /*
-     * http://www.raywenderlich.com/90971/introduction-mapkit-swift-tutorial
-     */
-    func centerMapOnLocation(location: CLLocation, radius: CLLocationDistance) {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
-            radius * 2.0, radius * 2.0)
-        map.setRegion(coordinateRegion, animated: true)
     }
 }

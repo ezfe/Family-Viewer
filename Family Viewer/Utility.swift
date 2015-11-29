@@ -8,6 +8,7 @@
 
 import Foundation
 import Cocoa
+import MapKit
 
 //MARK: App-wide functions and extensions
 
@@ -385,4 +386,13 @@ enum TableActions {
     case SetParentB
     case ToggleSex
     case TreeView
+}
+
+/*
+* http://www.raywenderlich.com/90971/introduction-mapkit-swift-tutorial
+*/
+func centerMapOnLocation(map: MKMapView, location: CLLocation, radius: CLLocationDistance) {
+    let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
+        radius * 2.0, radius * 2.0)
+    map.setRegion(coordinateRegion, animated: true)
 }

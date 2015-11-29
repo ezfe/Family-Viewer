@@ -67,7 +67,7 @@ class TreeView: NSView {
                 } else {
                     nx = x + mx
                 }
-                drawPerson(nx, y: y - 22, person: child, level: level - 1, drawParents: false, drawChildren: true)
+                drawPerson(nx, y: y - 22, person: child, level: level - 1, drawParents: false, drawChildren: false)
             }
         }
 
