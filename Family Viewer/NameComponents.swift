@@ -42,6 +42,8 @@ class NameComponents: CustomStringConvertible {
         get {
             var first: String
             var last: String
+            var suffix: String
+            var prefix: String
             if let nick = self.nickname {
                 first = nick
             } else if let name = self.givenName {
@@ -54,8 +56,18 @@ class NameComponents: CustomStringConvertible {
             } else {
                 last = "Last"
             }
+            if let namePrefix = self.namePrefix {
+                prefix = "\(namePrefix) "
+            } else {
+                prefix = ""
+            }
+            if let nameSuffix = self.nameSuffix {
+                suffix = " \(nameSuffix)"
+            } else {
+                suffix = ""
+            }
             
-            return "\(first) \(last)"
+            return "\(prefix)\(first) \(last)\(suffix)"
         }
     }
 }

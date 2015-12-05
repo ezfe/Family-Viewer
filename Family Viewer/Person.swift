@@ -13,7 +13,9 @@ class Person: CustomStringConvertible {
     var description: String {
         get {
             let ret = self.getNameNow().isSet() ? self.getNameNow().description : "Person"
-            return "\(ret) \(INDI)"
+            let Str = "test"
+            Str.characters.count
+            return ret
         }
     }
     ///Name components
@@ -36,8 +38,8 @@ class Person: CustomStringConvertible {
         if nameNow.familyName == nil {
             nameNow.familyName = nameAtBirth.familyName
         }
-        if nameNow.namePrefix == nil {
-            nameNow.namePrefix = nameAtBirth.namePrefix
+        if nameNow.nameSuffix == nil {
+            nameNow.nameSuffix = nameAtBirth.nameSuffix
         }
         if nameNow.nickname == nil {
             nameNow.nickname = nameAtBirth.nickname
