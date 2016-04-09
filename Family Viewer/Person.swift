@@ -74,6 +74,19 @@ class Person: CustomStringConvertible {
     
     var tree: Tree
     
+    var parents: [Person] {
+        get {
+            var retVal = Array<Person>();
+            if let pA = self.parentA {
+                retVal.append(pA)
+            }
+            if let pB = self.parentB {
+                retVal.append(pB)
+            }
+            return retVal
+        }
+    }
+    
     var children: [Person] {
         get {
             var to_return = [Person]()
@@ -119,7 +132,156 @@ class Person: CustomStringConvertible {
             return to_return
         }
     }
-
+    
+    func relationTo(person p: Person) -> String? {
+        enum Visitor {
+            case Me, Them
+        }
+        
+        enum VisitState {
+            case Me
+            case Them
+            case Both
+            case None
+        }
+        
+        class AncestorPerson: CustomStringConvertible {
+            let person: Person
+            var myDistance: Int?
+            var theirDistance: Int?
+            var visitState: VisitState
+            
+            init(person p: Person, visitState v: VisitState) {
+                self.person = p
+                self.visitState = v
+            }
+            
+            func visitBy(visitor: Visitor) {
+                switch visitState {
+                case .Both:
+                    break
+                case .Me:
+                    if visitor == .Them {
+                        visitState = .Both
+                    }
+                case .Them:
+                    if visitor == .Me {
+                        visitState = .Both
+                    }
+                case .None:
+                    if visitor == .Me {
+                        visitState = .Me
+                    } else if visitor == .Them {
+                        visitState = .Them
+                    }
+                }
+            }
+            
+            var description: String {
+                get {
+                    let mds = self.myDistance ?? -1
+                    let tds = self.theirDistance ?? -1
+                    return "\(person.description)::\(mds)/\(tds)::\(visitState)"
+                }
+            }
+        }
+        
+        var ancestorsSet = Array<AncestorPerson>()
+        
+        func populateAncestors(from popPerson: Person, distance: Int, visitor: Visitor) {
+            if !personInSet(popPerson) {
+                var visitState: VisitState = .None
+                if visitor == .Me {
+                    visitState = .Me
+                } else if visitor == .Them {
+                    visitState = .Them
+                }
+                let ap = AncestorPerson(person: popPerson, visitState: visitState)
+                if visitor == .Me {
+                    ap.myDistance = distance
+                } else if visitor == .Them {
+                    ap.theirDistance = distance
+                }
+                ancestorsSet.append(ap)
+            } else {
+                for a in ancestorsSet {
+                    if a.person == popPerson {
+                        a.visitBy(visitor)
+                        if visitor == .Me {
+                            if a.myDistance == nil {
+                                a.myDistance = distance
+                            }
+                        } else if visitor == .Them {
+                            if a.theirDistance == nil {
+                                a.theirDistance = distance
+                            }
+                        }
+                    }
+                }
+            }
+            for parent in popPerson.parents {
+                populateAncestors(from: parent, distance: distance + 1, visitor: visitor)
+            }
+        }
+        
+        func personInSet(person: Person) -> Bool {
+            for a in ancestorsSet {
+                if a.person == person {
+                    return true
+                }
+            }
+            return false
+        }
+        
+        populateAncestors(from: self, distance: 0, visitor: .Me)
+        populateAncestors(from: p, distance: 0, visitor: .Them)
+        
+        for (i, a) in ancestorsSet.enumerate().reverse() {
+            if (a.visitState != .Both) {
+                ancestorsSet.removeAtIndex(i)
+            }
+        }
+        
+        ancestorsSet.sortInPlace { (a1, a2) -> Bool in
+            if let a1d1 = a1.theirDistance, a1d2 = a1.myDistance, a2d1 = a2.theirDistance, a2d2 = a2.myDistance {
+                return (a1d1 + a1d2 < a2d1 + a2d2)
+            } else {
+                return false
+            }
+        }
+        
+        let relationships = [
+                ["sibling","niece or nephew","grandniece or grandnephew","great grandniece or grandnephew","2nd great grandniece or grandnephew"],
+                ["niece or nephew","1st cousin","1st cousin 1 time removed","1st cousin 2 times removed","1st cousin 3 times removed"],
+                ["grandniece or grandnephew","1st cousin 1 time removed","2nd cousin","2nd cousin 1 time removed","2nd cousin 2 times removed"],
+                ["great grandniece or grandnephew","1st cousin 2 times removed","2nd cousin 1 time removed","3rd cousin","3rd cousin 1 time removed"],
+                ["2nd great grandniece or grandnephew","1st cousin 3 times removed","2nd cousin 2 times removed","3rd cousin 1 time removed","4th cousin"]
+        ];
+        
+        guard let lowestCommonAncestor = ancestorsSet.first else {
+            return nil
+        }
+        
+        guard let theirDistance = lowestCommonAncestor.theirDistance, myDistance = lowestCommonAncestor.myDistance else {
+            return nil
+        }
+        
+        if theirDistance == 0 || myDistance == 0 {
+            //TODO: Finish this area
+            return nil
+        }
+        
+        let myArrayIndex = myDistance - 1
+        let theirIndex = theirDistance - 1
+        
+        print(myArrayIndex)
+        print(theirIndex)
+        
+        print(relationships[myArrayIndex][theirIndex])
+        
+        return ""
+    }
+    
     init(tree t: Tree) {
         self.tree = t
         self.INDI = tree.getUniqueINDI()

@@ -50,7 +50,7 @@ class Tree: CustomStringConvertible {
     }
 
     var selectedPerson: Person?
-
+    
     private let DEFAULT_TREE_NAME = "Family Tree"
     var treeName: String
 

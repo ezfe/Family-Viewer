@@ -67,6 +67,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
             return
         }
         
+        guard let selectedPerson = self.selectedPerson else {
+            print("No selected eperson")
+            return
+        }
+        
         if let action = actionsTypes[detailTable.clickedRow] {
             switch action {
             case .EditName:
@@ -149,12 +154,12 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
             return v
         case .PersonDetailTable:
             guard let v = tableView.makeViewWithIdentifier("LabelCell", owner: self) as? NSTableCellView else {
-                print("Unable to create LabelCell view in \(#function)")
+                print("Unable to create LabelCell view in \(#function)@\(#line)")
                 return nil
             }
             
             guard let c = tableView.makeViewWithIdentifier("DataCell", owner: self) as? NSTableCellView else {
-                print("Unable to cerate DataCell view in \(#function)")
+                print("Unable to cerate DataCell view in \(#function)@\(#line)")
                 return nil
             }
             
@@ -185,9 +190,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         personLinks.removeAll()
         actionsTypes.removeAll()
         
-        guard let _ = tree else {
+        guard let selectedPerson = self.selectedPerson else {
+            print("No selected person")
             return
         }
+        
         personDetail.append(Array<String>())
         personDetail[personDetail.count - 1].append("Name")
         personDetail[personDetail.count - 1].append(selectedPerson.description)
@@ -291,23 +298,28 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     func loadTree() {
         print("Loading tree...")
         
-        let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-        self.tree = appDelegate.tree
-        
-        guard let _ = tree else {
-            assert(false, "tree is nil")
+        guard let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate else {
+            print("\(#function)@\(#line): unable to find App Delegate")
             return
         }
         
-        if let selectedPersonFromTree = tree?.selectedPerson {
-            selectPerson(person: selectedPersonFromTree)
-            //            print(selectedPersonFromTree)
-        } else {
-            if tree!.people.count == 0 {
-                tree?.people.append(Person(tree: tree!))
-            }
-            selectPerson(person: tree!.people[0])
+        self.tree = appDelegate.tree
+        
+        guard let tree = self.tree else {
+            print("\(#function)@\(#line): self.tree is nil")
+            return
         }
+        
+        if let selectedPersonFromTree = tree.selectedPerson {
+            selectPerson(person: selectedPersonFromTree)
+        } else {
+            if tree.people.count == 0 {
+                tree.people.append(Person(tree: tree))
+            }
+            selectPerson(person: tree.people[0])
+        }
+        
+        updateViewFromTree()
         
         table.reloadData()
         
@@ -322,42 +334,44 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     
     ///Update the view based on the tree
     func updateViewFromTree() {
-        self.filenameLabel.stringValue = tree!.treeName
+        if let tree = self.tree {
+            self.filenameLabel.stringValue = tree.treeName
+        }
         self.horizontalBar.hidden = false
         
-        self.selectPerson(person: self.selectedPerson)
-        
+        if let selectedPerson = self.selectedPerson {
+            self.selectPerson(person: selectedPerson)
+        }
         table.reloadData()
         
     }
     
     ///Tree changed
     func treeDidUpdate() {
-        guard let tree = self.tree else {
-            return
+        if let tree = self.tree {
+            tree.cleanupINDICodes()
+            updateViewFromTree()
         }
-        tree.cleanupINDICodes()
-        updateViewFromTree()
     }
     
-    var selectedPerson: Person {
+    var selectedPerson: Person? {
         set (p) {
             tree!.selectedPerson = p
         }
         
         get {
-            guard let tree = tree else {
-                assert(false, "No tree")
-                return Person(tree: Tree()) //Xcode doesn't like it if I don't return something here
+            guard let tree = self.tree else {
+                return nil
             }
             if let p = tree.selectedPerson {
                 return p
             } else {
                 if tree.people.count == 0 {
-                    tree.people.append(Person(tree: tree))
+                    return nil
+                } else {
+                    tree.selectedPerson = tree.people[0]
+                    return tree.selectedPerson
                 }
-                tree.selectedPerson = tree.people[0]
-                return tree.selectedPerson!
             }
         }
     }
@@ -382,6 +396,8 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         
         selectedPerson = person
         
+        person.relationTo(person: tree!.getPerson(givenName: "Ezekiel", familyName: "Elin")!)
+        
         print("Selected \(person)")
         detailTable.reloadData()
         
@@ -389,13 +405,17 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     }
     
     func removeParentA() {
-        selectedPerson.parentA = nil
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
+        if let selectedPerson = self.selectedPerson {
+            selectedPerson.parentA = nil
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
+        }
     }
     
     func removeParentB() {
-        selectedPerson.parentB = nil
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
+        if let selectedPerson = self.selectedPerson {
+            selectedPerson.parentB = nil
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.tree)
+        }
     }
     
     func addedParent(notification: NSNotification) {
@@ -434,7 +454,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     func deleteCurrentPerson() {
         print("Received request to delete current person")
         print("Deleting \(selectedPerson)")
-        if let tree = self.tree where tree.removePerson(selectedPerson) {
+        if let tree = self.tree, selectedPerson = self.selectedPerson where tree.removePerson(selectedPerson) {
             print("Success")
             updateViewFromTree()
         } else {
