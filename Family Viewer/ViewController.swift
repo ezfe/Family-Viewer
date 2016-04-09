@@ -28,19 +28,18 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     //MARK:-
     
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadTree", name: "com.ezekielelin.treeIsReady", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "treeDidUpdate", name: "com.ezekielelin.treeDidUpdate", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addedParent:", name: "com.ezekielelin.addedParent", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatedDefaultsFilePath", name: "com.ezekielelin.updatedDefaults_FilePath", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addPersonFromNotification", name: "com.ezekielelin.addPerson", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deleteCurrentPerson", name: "com.ezekielelin.deleteCurrentPerson", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.loadTree), name: "com.ezekielelin.treeIsReady", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.treeDidUpdate), name: "com.ezekielelin.treeDidUpdate", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.addedParent(_:)), name: "com.ezekielelin.addedParent", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.addPersonFromNotification), name: "com.ezekielelin.addPerson", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.deleteCurrentPerson), name: "com.ezekielelin.deleteCurrentPerson", object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentA", name: "com.ezekielelin.addMother", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentB", name: "com.ezekielelin.addFather", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "removeParentA", name: "com.ezekielelin.removeMother", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "removeParentB", name: "com.ezekielelin.removeFather", object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentA", name: "com.ezekielelin.addMother", object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentB", name: "com.ezekielelin.addFather", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.removeParentA), name: "com.ezekielelin.removeMother", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.removeParentB), name: "com.ezekielelin.removeFather", object: nil)
         
-        detailTable.doubleAction = "doubleClickDetail"
+        detailTable.doubleAction = #selector(ViewController.doubleClickDetail)
     }
     
     //MARK:-
@@ -62,6 +61,12 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
             selectPerson(person: person)
             return
         }
+        
+        guard let tree = self.tree else {
+            treeIsNilError()
+            return
+        }
+        
         if let action = actionsTypes[detailTable.clickedRow] {
             switch action {
             case .EditName:
@@ -79,7 +84,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
                 return
             case .SetParentA:
                 let vc = self.storyboard?.instantiateControllerWithIdentifier("AddParentViewController") as! AddParentViewController
-                vc.tree = self.tree!
+                vc.tree = tree
                 vc.parentTo = selectedPerson
                 vc.A_B = "A"
                 self.presentViewController(vc, asPopoverRelativeToRect: detailTable.rectOfRow(detailTable.clickedRow), ofView: detailTable, preferredEdge: NSRectEdge.MaxX, behavior: NSPopoverBehavior.Semitransient)
@@ -87,7 +92,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
             case .SetParentB:
                 let vc = self.storyboard?.instantiateControllerWithIdentifier("AddParentViewController") as! AddParentViewController
                 vc.parentTo = selectedPerson
-                vc.tree = self.tree!
+                vc.tree = tree
                 vc.A_B = "B"
                 self.presentViewController(vc, asPopoverRelativeToRect: detailTable.rectOfRow(detailTable.clickedRow), ofView: detailTable, preferredEdge: NSRectEdge.MaxX, behavior: NSPopoverBehavior.Semitransient)
                 return
@@ -96,7 +101,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
                 updateViewFromTree()
             case .TreeView:
                 let vc = self.storyboard?.instantiateControllerWithIdentifier("TreeViewController") as! TreeViewController
-                vc.tree = self.tree!
+                vc.tree = tree
                 self.presentViewControllerAsSheet(vc)
             }
         }
@@ -106,7 +111,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         if table.selectedRow == -1 {
             return
         }
-        selectPerson(person: tree!.people[table.selectedRow], isFromTable: true)
+        guard let tree = self.tree else {
+            treeIsNilError()
+            return
+        }
+        selectPerson(person: tree.people[table.selectedRow], isFromTable: true)
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
@@ -121,18 +130,33 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         }
     }
     
+    /**
+     This function manages the table view and and populates it with the necessary values.
+    */
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         switch getXcodeTag(tableView.tag) {
         case .MainBrowserTable:
             let v = tableView.makeViewWithIdentifier("PersonCell", owner: self) as! NSTableCellView
             
-            v.textField?.stringValue = tree!.people[row].description
+            guard let tree = self.tree else {
+                treeIsNilError()
+                return nil
+            }
+            
+            v.textField?.stringValue = tree.people[row].description
             
             return v
         case .PersonDetailTable:
-            let v = tableView.makeViewWithIdentifier("LabelCell", owner: self) as! NSTableCellView
-            let c = tableView.makeViewWithIdentifier("DataCell", owner: self) as! NSTableCellView
+            guard let v = tableView.makeViewWithIdentifier("LabelCell", owner: self) as? NSTableCellView else {
+                print("Unable to create LabelCell view in \(#function)")
+                return nil
+            }
+            
+            guard let c = tableView.makeViewWithIdentifier("DataCell", owner: self) as? NSTableCellView else {
+                print("Unable to cerate DataCell view in \(#function)")
+                return nil
+            }
             
             if (tableColumn?.identifier == "LabelColumn") {
                 v.textField?.stringValue = personDetail[row][0]
@@ -375,7 +399,9 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     }
     
     func addedParent(notification: NSNotification) {
-        selectPerson(person: notification.userInfo!["newPerson"] as! Person)
+        if let p = notification.userInfo?["newPerson"] as? Person {
+            selectPerson(person: p)
+        }
     }
     
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
@@ -408,7 +434,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     func deleteCurrentPerson() {
         print("Received request to delete current person")
         print("Deleting \(selectedPerson)")
-        if tree!.removePerson(selectedPerson) {
+        if let tree = self.tree where tree.removePerson(selectedPerson) {
             print("Success")
             updateViewFromTree()
         } else {

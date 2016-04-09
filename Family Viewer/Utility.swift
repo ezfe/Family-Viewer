@@ -30,7 +30,7 @@ extension String {
     }
     
     subscript (r: Range<Int>) -> String {
-        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
+        return substringWithRange(Range(startIndex.advancedBy(r.startIndex) ..< startIndex.advancedBy(r.endIndex)))
     }
 }
 
@@ -395,4 +395,8 @@ func centerMapOnLocation(map: MKMapView, location: CLLocation, radius: CLLocatio
     let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
         radius * 2.0, radius * 2.0)
     map.setRegion(coordinateRegion, animated: true)
+}
+
+func treeIsNilError() {
+    print("The tree is nil, cancelling current operation")
 }

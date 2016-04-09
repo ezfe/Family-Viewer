@@ -136,7 +136,8 @@ class Tree: CustomStringConvertible {
                 INDIGen = p.INDI
             }
         }
-        return ++INDIGen
+        INDIGen += 1
+        return INDIGen
     }
 
     ///Deletes duplicate INDI codes and assigns missing ones.
