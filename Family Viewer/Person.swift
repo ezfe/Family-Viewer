@@ -185,15 +185,15 @@ class Person: CustomStringConvertible, Comparable {
                 }
                 ancestorsSet.append(ap)
             } else {
-                for a in ancestorsSet {
-                    if a.person == popPerson {
-                        a.visit()
-                        if visitor == .Me {
-                            a.myDistance = distance
-                        } else if visitor == .Them {
-                            a.theirDistance = distance
-                        }
+                for a in ancestorsSet where a.person == popPerson {
+                    a.visit()
+                    switch visitor {
+                    case .Me:
+                        a.myDistance = distance
+                    case .Them:
+                        a.theirDistance = distance
                     }
+                    break
                 }
             }
             for parent in popPerson.parents {
@@ -202,10 +202,8 @@ class Person: CustomStringConvertible, Comparable {
         }
         
         func personInSet(person: Person) -> Bool {
-            for a in ancestorsSet {
-                if a.person == person {
-                    return true
-                }
+            for a in ancestorsSet where a.person == person {
+                return true
             }
             return false
         }

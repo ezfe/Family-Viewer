@@ -20,7 +20,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var tree = Tree()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
+        guard let appVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String else {
+            displayAlert("Error", message: "No application version")
+            NSApp.terminate(self)
+            return
+        }
         
         let verificationURL = "https://ezekielelin.com/family-viewer/beta-verification?v=\(appVersion)"
         if let verificationURL = NSURL(string: verificationURL) {
@@ -44,10 +48,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let fm = NSFileManager.defaultManager()
         
-        if !fm.fileExistsAtPath(dataFileURL.path!) {
-            saveFile(self)
+        if let fpath = dataFileURL.path {
+            if !fm.fileExistsAtPath(fpath) {
+                saveFile(self)
+            } else {
+                readSavedData(dataFileURL.path!)
+            }
         } else {
-            readSavedData(dataFileURL.path!)
+            displayAlert("Error", message: "Unable to get data file path")
+            NSApp.terminate(self)
+            return
         }
 
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeIsReady", object: nil)
@@ -117,7 +127,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func dataFileExists() -> Bool {
         let fm = NSFileManager.defaultManager()
-        return fm.fileExistsAtPath(dataFileURL.path!)
+        guard let fpath = dataFileURL.path else {
+            print("Warning: dataFileURL.path is nil at \(#function) on line \(#line)")
+            return false
+        }
+        return fm.fileExistsAtPath(fpath)
     }
 
     @IBAction func saveFile(sender: AnyObject) {

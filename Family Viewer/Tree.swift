@@ -119,8 +119,11 @@ class Tree: CustomStringConvertible {
                 arr.addObject(person.dictionary)
             }
             dict["people"] = arr
-            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-            dict["version"] = appDelegate.formatVersion
+            if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+                //If there's no app delegate, than more problems are present than a missing version tag
+                //Just save it and hope the rest of the app works
+                dict["version"] = appDelegate.formatVersion
+            }
             dict["name"] = self.treeName
             //Store using INDI because we don't want to store it as a dictionary
             dict["selectedPerson"] = self.selectedPerson?.INDI
@@ -181,12 +184,13 @@ class Tree: CustomStringConvertible {
         realTree = true;
         
         guard let currentFormat = appFormat else {
-            fatalError("No format passed")
+            displayAlert("Warning", message: "Unable to read application version, which is required for safe opening")
+            return
         }
 
         guard var dictFormat = dict["version"] as? Int else {
             //TODO: Make it not crash
-            assert(false, "Dictionary doesn't have version tag")
+            displayAlert("Warning", message: "Dictionary doesn't have version tag, which is required for safe opening")
             return
         }
 
@@ -200,15 +204,18 @@ class Tree: CustomStringConvertible {
                 }
             }
         } else if dictFormat > currentFormat {
-            //TODO: Make it not crash
-            assert(false, "Dictionary is (too) new, won't open")
+            displayAlert("Error", message: "Dictionary is (too) new, won't open")
+            return
         }
 
         if let treeName = dict["name"] as? String {
             self.treeName = treeName
         }
 
-        let arr = dict["people"] as! NSArray
+        guard let arr = dict["people"] as? NSArray else {
+            displayAlert("Error", message: "Unable to find people array")
+            return
+        }
         for pDict in arr {
             let p = Person(tree: self)
             if let INDICode = pDict["INDI"] as? Int {

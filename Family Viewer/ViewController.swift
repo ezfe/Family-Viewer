@@ -44,7 +44,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.loadTree), name: "com.ezekielelin.treeIsReady", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.treeDidUpdate), name: "com.ezekielelin.treeDidUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.addedParent(_:)), name: "com.ezekielelin.addedParent", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.addPersonFromNotification), name: "com.ezekielelin.addPerson", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addPersonFromNotification), name: "com.ezekielelin.addPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.deleteCurrentPerson), name: "com.ezekielelin.deleteCurrentPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.removeParentA), name: "com.ezekielelin.removeMother", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.removeParentB), name: "com.ezekielelin.removeFather", object: nil)
