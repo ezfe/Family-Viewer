@@ -83,7 +83,7 @@ class Person: CustomStringConvertible, Comparable {
     
     var parents: [Person] {
         get {
-            var retVal = Array<Person>();
+            var retVal = Array<Person>()
             if let pA = self.parentA {
                 retVal.append(pA)
             }
@@ -296,7 +296,7 @@ class Person: CustomStringConvertible, Comparable {
                     for _ in 3...myDistance {
                         workingString += "great-"
                     }
-                    return workingString + "grand\(referralWord)"
+                    return workingString + "grand-\(referralWord)"
                 }
             } else if myDistance == 0 {
                 switch theirSex {
@@ -315,33 +315,88 @@ class Person: CustomStringConvertible, Comparable {
                     for _ in 3...myDistance {
                         workingString += "great-"
                     }
-                    return workingString + "grand\(referralWord)"
+                    return workingString + "grand-\(referralWord)"
                 }
             }
             return nil
         }
         
-        if theirDistance == 1 && myDistance == 1 {
-            var referralWord: String
+        /*
+         * Some of the code below is based off code found on the following webpage
+         * http://www.searchforancestors.com/utility/cousincalculator.html
+         */
+        
+        let t1 = myDistance - 1
+        let t2 = theirDistance - 1
+        
+        if (myDistance == theirDistance) {
+            if (myDistance == 1) {
+                var relation: String
+                switch theirSex {
+                case .Male:
+                    relation = "brother"
+                case .Female:
+                    relation = "sister"
+                }
+                if p.parentB != self.parentB || p.parentA != self.parentA {
+                    relation = "half-" + relation
+                }
+                return relation
+            } else {
+                return numericalSuffix(t1) + " cousin"
+            }
+        } else if (myDistance == 1 && theirDistance > 1) {
+            var grands = "";
+            if (theirDistance == 3) {
+                grands = "grand-"
+            } else if (theirDistance == 4) {
+                grands = "great grand-"
+            } else if (theirDistance >= 5) {
+                grands = numericalSuffix(theirDistance - 1) + " great grand-"
+            }
             switch theirSex {
             case .Male:
-                referralWord = "brother"
+                return grands + "nephew"
             case .Female:
-                referralWord = "sister"
+                return grands + "niece"
             }
-            if p.parentA != self.parentA || p.parentB != self.parentB {
-                return "half-\(referralWord)"
+        } else if (myDistance > 1 && theirDistance == 1) {
+            var grands = "";
+            if (myDistance == 3) {
+                grands = "grand-"
+            } else if (myDistance == 4) {
+                grands = "great grand-"
+            } else if (myDistance >= 5) {
+                grands = numericalSuffix(t1 - 2) + " great grand-"
+            }
+            switch theirSex {
+            case .Male:
+                return grands + "uncle"
+            case .Female:
+                return grands + "aunt"
+            }
+        } else {
+            var lesser = 1;
+            var removed = 0;
+            if (t1 > t2) {
+                lesser = t2;
+                removed = t1 - t2
             } else {
-                return referralWord
+                lesser = t1;
+                removed = t2 - t1
             }
-        } else if theirDistance == myDistance && theirDistance != 1 {
-            return numericalSuffix(theirDistance) + " cousin"
+            if (removed > 0) {
+                var theirrelation = numericalSuffix(lesser) + " cousins \(removed)";
+                if (removed == 1) {
+                    theirrelation += " time removed";
+                } else {
+                    theirrelation += " times removed"
+                }
+                return theirrelation
+            } else {
+                return numericalSuffix(lesser) + " cousins"
+            }
         }
-        
-        let myArrayIndex = myDistance - 1
-        let theirArrayIndex = theirDistance - 1
-        
-        return relationships[myArrayIndex][theirArrayIndex]
     }
     
     init(tree t: Tree) {
