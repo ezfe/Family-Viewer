@@ -373,9 +373,6 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         
         selectedPerson = person
         
-        print("Relationship Tests:")
-        print(tree.getPerson(givenName: "Ezekiel", familyName: "Elin")!.relationTo(person: person))
-        
         print("Selected \(person)")
         
         nameLabel.stringValue = person.description
@@ -402,6 +399,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
             }
             deathBirthSublabel.stringValue = "\(birthString) - \(deathString)"
         }
+        
+        if let ezekiel = tree.getPerson(givenName: "Ezekiel", familyName: "Elin") {
+            deathBirthSublabel.stringValue = ezekiel.relationTo(person: person) ?? deathBirthSublabel.stringValue
+        }
+
         
         if let sex = person.sex?.rawValue {
             genderLabel.stringValue = sex
