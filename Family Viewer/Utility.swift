@@ -12,7 +12,7 @@ import MapKit
 
 //MARK: App-wide functions and extensions
 
-func == (left: Person?, right: Person?) -> Bool {
+func ==(left: Person?, right: Person?) -> Bool {
     guard let left = left, right = right else {
         return false
     }
@@ -156,10 +156,13 @@ struct Date: CustomStringConvertible {
     var description: String {
         get {
             if let day = self.day, month = self.month, year = self.year {
-                return "\(month.rawValue) \(day), \(year)"
+                return "\(month.rawValue) \(numericalSuffix(day)), \(year)"
             }
             if let month = self.month, year = self.year {
                 return "\(month.rawValue) \(year)"
+            }
+            if let day = self.day, month = self.month {
+                return "\(month.rawValue) \(numericalSuffix(day))"
             }
             if let year = self.year {
                 return "\(year)"
@@ -366,7 +369,8 @@ func displayAlert(title: String, message: String) {
 
 enum XcodeTag: Int {
     case MainBrowserTable  = 20
-    case PersonDetailTable = 60
+    case ParentsTable = 60
+    case ChildrenTable = 80
 }
 
 func getXcodeTag(tag: Int) -> XcodeTag {

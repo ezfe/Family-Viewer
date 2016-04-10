@@ -184,15 +184,21 @@ class Tree: CustomStringConvertible {
             fatalError("No format passed")
         }
 
-        guard let dictFormat = dict["version"] as? Int else {
+        guard var dictFormat = dict["version"] as? Int else {
             //TODO: Make it not crash
             assert(false, "Dictionary doesn't have version tag")
             return
         }
 
         if dictFormat < currentFormat {
-            //TODO: Make it not crash
-            assert(false, "Dictionary is old, cannot open")
+            while dictFormat < currentFormat {
+                print("Upgraded tree from format \(dictFormat) to format \(dictFormat + 1)")
+                if dictFormat == 1 {
+                    //There are no changes needed to convert 1 to 2
+                    dictFormat += 1
+                    continue
+                }
+            }
         } else if dictFormat > currentFormat {
             //TODO: Make it not crash
             assert(false, "Dictionary is (too) new, won't open")
@@ -274,6 +280,10 @@ class Tree: CustomStringConvertible {
                 } else if sexString == "Female" {
                     p.sex = Sex.Female
                 }
+            }
+            
+            if let notes = pDict["notes"] as? String {
+                p.notes = notes
             }
 
             self.people.append(p)

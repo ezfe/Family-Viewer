@@ -30,6 +30,9 @@ class Person: CustomStringConvertible, Comparable {
     ///Maiden name
     var nameAtBirth = NameComponents()
     
+    ///Notes about the person, allows for fields that don't already exist to be easily noted
+    var notes = ""
+    
     ///Get a NameComponents for their current name, filling in blanks with nameAtBirth
     func getNameNow() -> NameComponents {
         let nameNow = self.nameNow
@@ -253,14 +256,6 @@ class Person: CustomStringConvertible, Comparable {
             }
         }
         
-        let relationships = [
-            ["sibling","niece or nephew","grandniece or grandnephew","great grandniece or grandnephew","2nd great grandniece or grandnephew"],
-            ["niece or nephew","1st cousin","1st cousin 1 time removed","1st cousin 2 times removed","1st cousin 3 times removed"],
-            ["grandniece or grandnephew","1st cousin 1 time removed","2nd cousin","2nd cousin 1 time removed","2nd cousin 2 times removed"],
-            ["great grandniece or grandnephew","1st cousin 2 times removed","2nd cousin 1 time removed","3rd cousin","3rd cousin 1 time removed"],
-            ["2nd great grandniece or grandnephew","1st cousin 3 times removed","2nd cousin 2 times removed","3rd cousin 1 time removed","4th cousin"]
-        ];
-        
         guard let lowestCommonAncestor = ancestorsSet.first else {
             return nil
         }
@@ -325,10 +320,7 @@ class Person: CustomStringConvertible, Comparable {
          * Some of the code below is based off code found on the following webpage
          * http://www.searchforancestors.com/utility/cousincalculator.html
          */
-        
-        let t1 = myDistance - 1
-        let t2 = theirDistance - 1
-        
+                
         if (myDistance == theirDistance) {
             if (myDistance == 1) {
                 var relation: String
@@ -343,7 +335,7 @@ class Person: CustomStringConvertible, Comparable {
                 }
                 return relation
             } else {
-                return numericalSuffix(t1) + " cousin"
+                return numericalSuffix(myDistance - 1) + " cousin"
             }
         } else if (myDistance == 1 && theirDistance > 1) {
             var grands = "";
@@ -367,7 +359,7 @@ class Person: CustomStringConvertible, Comparable {
             } else if (myDistance == 4) {
                 grands = "great grand-"
             } else if (myDistance >= 5) {
-                grands = numericalSuffix(t1 - 2) + " great grand-"
+                grands = numericalSuffix(myDistance - 1) + " great grand-"
             }
             switch theirSex {
             case .Male:
@@ -378,14 +370,14 @@ class Person: CustomStringConvertible, Comparable {
         } else {
             var lesser = 1;
             var removed = 0;
-            if (t1 > t2) {
-                lesser = t2;
-                removed = t1 - t2
+            if myDistance > theirDistance {
+                lesser = theirDistance - 1;
+                removed = myDistance - theirDistance
             } else {
-                lesser = t1;
-                removed = t2 - t1
+                lesser = myDistance - 1;
+                removed = theirDistance - myDistance
             }
-            if (removed > 0) {
+            if removed > 0 {
                 var theirrelation = numericalSuffix(lesser) + " cousins \(removed)";
                 if (removed == 1) {
                     theirrelation += " time removed";
@@ -484,6 +476,8 @@ class Person: CustomStringConvertible, Comparable {
             dict["birth"] = self.birth.dictionary
             dict["death"] = self.death.dictionary
             dict["sex"] = self.sex!.rawValue
+            dict["notes"] = self.notes
+            
             if let pA = self.parentA {
                 dict["parentA"] = pA.INDI
             }

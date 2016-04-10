@@ -8,15 +8,28 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewDataSource, NSTableViewDelegate {
+class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate {
     //MARK: Instance Variables
     @IBOutlet weak var filenameLabel: NSTextField!
-    @IBOutlet weak var peopleCountLabel: NSTextField!
     
     @IBOutlet weak var horizontalBar: NSBox!
     
-    @IBOutlet weak var table: NSTableView!
-    @IBOutlet weak var detailTable: NSTableView!
+    @IBOutlet weak var mainBrowserTable: NSTableView!
+    @IBOutlet weak var parentsTable: NSTableView!
+    @IBOutlet weak var childrenTable: NSTableView!
+    
+    @IBOutlet weak var profilePhoto: NSImageView!
+    
+    @IBOutlet weak var nameLabel: NSTextField!
+    @IBOutlet weak var deathBirthSublabel: NSTextField!
+    
+    @IBOutlet weak var genderLabel: NSTextField!
+    @IBOutlet weak var genderEditor: NSPopUpButton!
+    
+    @IBOutlet weak var birthLabel: NSTextField!
+    @IBOutlet weak var deathLabel: NSTextField!
+    
+    @IBOutlet var notesField: NSTextView!
     
     ///The tree
     var tree: Tree? = nil
@@ -33,116 +46,173 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.addedParent(_:)), name: "com.ezekielelin.addedParent", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.addPersonFromNotification), name: "com.ezekielelin.addPerson", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.deleteCurrentPerson), name: "com.ezekielelin.deleteCurrentPerson", object: nil)
-        
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentA", name: "com.ezekielelin.addMother", object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addParentB", name: "com.ezekielelin.addFather", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.removeParentA), name: "com.ezekielelin.removeMother", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.removeParentB), name: "com.ezekielelin.removeFather", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setParentA), name: "com.ezekielelin.addMother", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setParentB), name: "com.ezekielelin.addFather", object: nil)
         
-        detailTable.doubleAction = #selector(ViewController.doubleClickDetail)
+        let sexGesture = NSClickGestureRecognizer()
+        sexGesture.buttonMask = 0x1 // left mouse
+        sexGesture.numberOfClicksRequired = 2
+        sexGesture.target = self
+        sexGesture.action = #selector(startEditSex)
+        genderLabel.addGestureRecognizer(sexGesture)
+        
+        
+        let nameGesture = NSClickGestureRecognizer()
+        nameGesture.buttonMask = 0x1 // left mouse
+        nameGesture.numberOfClicksRequired = 2
+        nameGesture.target = self
+        nameGesture.action = #selector(editName)
+        nameLabel.addGestureRecognizer(nameGesture)
+        
+        let birthGesture = NSClickGestureRecognizer()
+        birthGesture.buttonMask = 0x1 // left mouse
+        birthGesture.numberOfClicksRequired = 2
+        birthGesture.target = self
+        birthGesture.action = #selector(editBirth)
+        birthLabel.addGestureRecognizer(birthGesture)
+        
+        let deathGesture = NSClickGestureRecognizer()
+        deathGesture.buttonMask = 0x1 // left mouse
+        deathGesture.numberOfClicksRequired = 2
+        deathGesture.target = self
+        deathGesture.action = #selector(editDeath)
+        deathLabel.addGestureRecognizer(deathGesture)
+        
     }
     
     //MARK:-
-    //MARK: Table
+    //MARK: Edit Functions
+    
+    func editName() {
+        if let vc = self.storyboard?.instantiateControllerWithIdentifier("EditNameViewController") as? EditNameViewController {
+            vc.person = selectedPerson
+            self.presentViewController(vc, asPopoverRelativeToRect: nameLabel.visibleRect, ofView: nameLabel, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+        }
+    }
+    
+    func editBirth() {
+        if let vc = self.storyboard?.instantiateControllerWithIdentifier("BirthdayViewController") as? BirthdayViewController {
+            vc.person = selectedPerson
+            self.presentViewController(vc, asPopoverRelativeToRect: birthLabel.visibleRect, ofView: birthLabel, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+        }
+    }
+    
+    func editDeath() {
+        if let vc = self.storyboard?.instantiateControllerWithIdentifier("DeathViewController") as? DeathViewController {
+            vc.person = selectedPerson
+            self.presentViewController(vc, asPopoverRelativeToRect: deathLabel.visibleRect, ofView: deathLabel, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+        }
+    }
+    
+    func startEditSex() {
+        genderLabel.hidden = true
+        genderEditor.hidden = false
+        
+        if let selectedSex = selectedPerson?.sex?.rawValue {
+            genderEditor.selectItemWithTitle(selectedSex)
+            genderEditor.performClick(self)
+        }
+    }
+    
+    @IBAction func editSex(sender: AnyObject) {
+        
+        guard let popup = sender as? NSPopUpButton else {
+            return
+        }
+        
+        if let sex = popup.titleOfSelectedItem, sexItem = Sex(rawValue: sex) {
+            selectedPerson?.sex = sexItem
+            
+            genderLabel.hidden = false
+            genderEditor.hidden = true
+            
+            treeDidUpdate()
+        }
+    }
+    
+    func setParentA() {
+        guard let tree = self.tree else {
+            return
+        }
+        
+        let vc = self.storyboard?.instantiateControllerWithIdentifier("AddParentViewController") as! AddParentViewController
+        vc.tree = tree
+        vc.parentTo = selectedPerson
+        vc.A_B = "A"
+        self.presentViewController(vc, asPopoverRelativeToRect: parentsTable.visibleRect, ofView: parentsTable, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+    }
+    
+    func setParentB() {
+        guard let tree = self.tree else {
+            return
+        }
+        
+        let vc = self.storyboard?.instantiateControllerWithIdentifier("AddParentViewController") as! AddParentViewController
+        vc.parentTo = selectedPerson
+        vc.tree = tree
+        vc.A_B = "B"
+        self.presentViewController(vc, asPopoverRelativeToRect: parentsTable.visibleRect, ofView: parentsTable, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+    }
+    
+    func textDidChange(notification: NSNotification) {
+        if let p = self.selectedPerson, n = notesField.string {
+            p.notes = n
+        }
+    }
+    
+    //MARK: -
+    //MARK: Table Functions
     
     func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         switch getXcodeTag(tableView.tag) {
         case .MainBrowserTable:
             selectPerson(person: tree!.people[row], isFromTable: true)
-            return true;
-        case .PersonDetailTable:
-            return true;
-        }
-    }
-    
-    func doubleClickDetail() {
-        
-        if let person = personLinks[detailTable.clickedRow] {
-            selectPerson(person: person)
-            return
-        }
-        
-        guard let tree = self.tree else {
-            treeIsNilError()
-            return
-        }
-        
-        guard let selectedPerson = self.selectedPerson else {
-            print("No selected eperson")
-            return
-        }
-        
-        if let action = actionsTypes[detailTable.clickedRow] {
-            switch action {
-            case .EditName:
-                let vc = self.storyboard?.instantiateControllerWithIdentifier("EditNameViewController") as! EditNameViewController
-                vc.person = selectedPerson
-                self.presentViewController(vc, asPopoverRelativeToRect: detailTable.rectOfRow(detailTable.clickedRow), ofView: detailTable, preferredEdge: NSRectEdge.MaxX, behavior: NSPopoverBehavior.Semitransient)
-            case .EditBirth:
-                let vc = self.storyboard?.instantiateControllerWithIdentifier("BirthdayViewController") as! BirthdayViewController
-                vc.person = selectedPerson
-                self.presentViewController(vc, asPopoverRelativeToRect: detailTable.rectOfRow(detailTable.clickedRow), ofView: detailTable, preferredEdge: NSRectEdge.MaxX, behavior: NSPopoverBehavior.Semitransient)
-            case .EditDeath:
-                let vc = self.storyboard?.instantiateControllerWithIdentifier("DeathViewController") as! DeathViewController
-                vc.person = selectedPerson
-                self.presentViewController(vc, asPopoverRelativeToRect: detailTable.rectOfRow(detailTable.clickedRow), ofView: detailTable, preferredEdge: NSRectEdge.MaxX, behavior: NSPopoverBehavior.Semitransient)
-                return
-            case .SetParentA:
-                let vc = self.storyboard?.instantiateControllerWithIdentifier("AddParentViewController") as! AddParentViewController
-                vc.tree = tree
-                vc.parentTo = selectedPerson
-                vc.A_B = "A"
-                self.presentViewController(vc, asPopoverRelativeToRect: detailTable.rectOfRow(detailTable.clickedRow), ofView: detailTable, preferredEdge: NSRectEdge.MaxX, behavior: NSPopoverBehavior.Semitransient)
-                return
-            case .SetParentB:
-                let vc = self.storyboard?.instantiateControllerWithIdentifier("AddParentViewController") as! AddParentViewController
-                vc.parentTo = selectedPerson
-                vc.tree = tree
-                vc.A_B = "B"
-                self.presentViewController(vc, asPopoverRelativeToRect: detailTable.rectOfRow(detailTable.clickedRow), ofView: detailTable, preferredEdge: NSRectEdge.MaxX, behavior: NSPopoverBehavior.Semitransient)
-                return
-            case .ToggleSex:
-                selectedPerson.sex = (selectedPerson.sex == Sex.Female ? Sex.Male : Sex.Female)
-                updateViewFromTree()
-            case .TreeView:
-                let vc = self.storyboard?.instantiateControllerWithIdentifier("TreeViewController") as! TreeViewController
-                vc.tree = tree
-                self.presentViewControllerAsSheet(vc)
-            }
+            return true
+        case .ChildrenTable, .ParentsTable:
+            return true
         }
     }
     
     @IBAction func tableClick(sender: AnyObject) {
-        if table.selectedRow == -1 {
-            return
+        if let tree = self.tree where mainBrowserTable.selectedRow == -1 {
+            selectPerson(person: tree.people[mainBrowserTable.selectedRow], isFromTable: true)
         }
-        guard let tree = self.tree else {
-            treeIsNilError()
-            return
-        }
-        selectPerson(person: tree.people[table.selectedRow], isFromTable: true)
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         switch getXcodeTag(tableView.tag) {
-        case .PersonDetailTable:
-            personDetail.removeAll()
-            constructPersonDetail()
-            return personDetail.count
+        case .ParentsTable:
+            if let p = selectedPerson {
+                return p.parents.count
+            } else {
+                return 0
+            }
+        case .ChildrenTable:
+            if let p = selectedPerson {
+                return p.children.count
+            } else {
+                return 0
+            }
         case .MainBrowserTable:
-            let appDelegate = NSApplication.sharedApplication().delegate as! AppDelegate
-            return appDelegate.tree.people.count
+            if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+                return appDelegate.tree.people.count
+            } else {
+                return 0
+            }
         }
     }
     
     /**
      This function manages the table view and and populates it with the necessary values.
-    */
+     */
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        
         switch getXcodeTag(tableView.tag) {
         case .MainBrowserTable:
-            let v = tableView.makeViewWithIdentifier("PersonCell", owner: self) as! NSTableCellView
+            guard let v = tableView.makeViewWithIdentifier("PersonCell", owner: self) as? NSTableCellView else {
+                return nil
+            }
             
             guard let tree = self.tree else {
                 treeIsNilError()
@@ -152,25 +222,26 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
             v.textField?.stringValue = tree.people[row].description
             
             return v
-        case .PersonDetailTable:
-            guard let v = tableView.makeViewWithIdentifier("LabelCell", owner: self) as? NSTableCellView else {
-                print("Unable to create LabelCell view in \(#function)@\(#line)")
+        case .ChildrenTable:
+            guard let v = tableView.makeViewWithIdentifier("ChildCell", owner: self) as? NSTableCellView else {
                 return nil
             }
             
-            guard let c = tableView.makeViewWithIdentifier("DataCell", owner: self) as? NSTableCellView else {
-                print("Unable to cerate DataCell view in \(#function)@\(#line)")
+            if let p = selectedPerson {
+                v.textField?.stringValue = p.children[row].description
+            }
+            
+            return v
+        case .ParentsTable:
+            guard let v = tableView.makeViewWithIdentifier("ParentCell", owner: self) as? NSTableCellView else {
                 return nil
             }
             
-            if (tableColumn?.identifier == "LabelColumn") {
-                v.textField?.stringValue = personDetail[row][0]
-                return v
-            } else {
-                c.textField?.stringValue = personDetail[row][1]
-                return c
+            if let p = selectedPerson {
+                v.textField?.stringValue = p.parents[row].description
             }
             
+            return v
         }
     }
     
@@ -179,118 +250,14 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     }
     
     func tableView(tableView: NSTableView, shouldSelectTableColumn tableColumn: NSTableColumn?) -> Bool {
-        tree?.sortPeople(tree!.nextSort)
-        table.reloadData()
+        if let tree = self.tree {
+            tree.sortPeople(tree.nextSort)
+            mainBrowserTable.reloadData()
+        } else {
+            treeIsNilError()
+        }
         
         return false
-    }
-    
-    func constructPersonDetail() {
-        personDetail.removeAll()
-        personLinks.removeAll()
-        actionsTypes.removeAll()
-        
-        guard let selectedPerson = self.selectedPerson else {
-            print("No selected person")
-            return
-        }
-        
-        personDetail.append(Array<String>())
-        personDetail[personDetail.count - 1].append("Name")
-        personDetail[personDetail.count - 1].append(selectedPerson.description)
-        actionsTypes[personDetail.count - 1] = TableActions.EditName
-        
-        personDetail.append(Array<String>())
-        personDetail[personDetail.count - 1].append("Tree")
-        personDetail[personDetail.count - 1].append("")
-        actionsTypes[personDetail.count - 1] = TableActions.TreeView
-        
-        
-        personDetail.append(Array<String>())
-        personDetail[personDetail.count - 1].append("Sex")
-        personDetail[personDetail.count - 1].append(selectedPerson.sex!.rawValue)
-        actionsTypes[personDetail.count - 1] = TableActions.ToggleSex
-        
-        personDetail.append(Array<String>())
-        personDetail[personDetail.count - 1].append("Date of Birth")
-        if selectedPerson.birth.date.isSet() {
-            personDetail[personDetail.count - 1].append(selectedPerson.birth.date.description)
-        } else {
-            personDetail[personDetail.count - 1].append("Date Not Set")
-        }
-        actionsTypes[personDetail.count - 1] = TableActions.EditBirth
-        
-        personDetail.append(Array<String>())
-        personDetail[personDetail.count - 1].append("Location of Birth")
-        if (selectedPerson.birth.location == "") {
-            personDetail[personDetail.count - 1].append("Unknown")
-        } else {
-            personDetail[personDetail.count - 1].append(selectedPerson.birth.location)
-        }
-        actionsTypes[personDetail.count - 1] = TableActions.EditBirth
-        
-        personDetail.append(Array<String>())
-        personDetail[personDetail.count - 1].append("Date of Death")
-        if (!selectedPerson.isAlive) {
-            if selectedPerson.death.date.isSet() {
-                personDetail[personDetail.count - 1].append(selectedPerson.death.date.description)
-            } else {
-                personDetail[personDetail.count - 1].append("Date Not Set")
-            }
-        } else {
-            personDetail[personDetail.count - 1].append("Still Alive")
-        }
-        actionsTypes[personDetail.count - 1] = TableActions.EditDeath
-        
-        if !selectedPerson.isAlive {
-            personDetail.append(Array<String>())
-            personDetail[personDetail.count - 1].append("Location of Death")
-            actionsTypes[personDetail.count - 1] = TableActions.EditDeath
-            personDetail[personDetail.count - 1].append(selectedPerson.death.location)
-        }
-        
-        personDetail.append(Array<String>())
-        personDetail[personDetail.count - 1].append("Mother")
-        if let parentA = selectedPerson.parentA {
-            personDetail[personDetail.count - 1].append(parentA.description)
-            personLinks[personDetail.count - 1] = parentA;
-        } else {
-            personDetail[personDetail.count - 1].append("[No Mother – Double-click to add]")
-            actionsTypes[personDetail.count - 1] = TableActions.SetParentA
-        }
-        
-        personDetail.append(Array<String>())
-        personDetail[personDetail.count - 1].append("Father")
-        if let parentB = selectedPerson.parentB {
-            personDetail[personDetail.count - 1].append(parentB.description)
-            personLinks[personDetail.count - 1] = parentB;
-        } else {
-            personDetail[personDetail.count - 1].append("[No Father – Double-click to add]")
-            actionsTypes[personDetail.count - 1] = TableActions.SetParentB
-        }
-        
-        for (i, child) in selectedPerson.children.enumerate() {
-            personDetail.append(Array<String>())
-            if (i == 0) {
-                personDetail[personDetail.count - 1].append("Children")
-            } else {
-                personDetail[personDetail.count - 1].append("")
-            }
-            personDetail[personDetail.count - 1].append(child.description)
-            personLinks[personDetail.count - 1] = child;
-        }
-        
-        for (i, sibling) in selectedPerson.allSiblings.enumerate() {
-            personDetail.append(Array<String>())
-            if (i == 0) {
-                personDetail[personDetail.count - 1].append("Siblings")
-            } else {
-                personDetail[personDetail.count - 1].append("")
-            }
-            personDetail[personDetail.count - 1].append(sibling.description)
-            personLinks[personDetail.count - 1] = sibling;
-        }
-        
     }
     
     //MARK:-
@@ -321,7 +288,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         
         updateViewFromTree()
         
-        table.reloadData()
+        mainBrowserTable.reloadData()
         
     }
     
@@ -337,13 +304,14 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         if let tree = self.tree {
             self.filenameLabel.stringValue = tree.treeName
         }
+        
         self.horizontalBar.hidden = false
         
         if let selectedPerson = self.selectedPerson {
             self.selectPerson(person: selectedPerson)
         }
-        table.reloadData()
         
+        mainBrowserTable.reloadData()
     }
     
     ///Tree changed
@@ -356,7 +324,11 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     
     var selectedPerson: Person? {
         set (p) {
-            tree!.selectedPerson = p
+            if let tree = self.tree {
+                tree.selectedPerson = p
+            } else {
+                treeIsNilError()
+            }
         }
         
         get {
@@ -379,15 +351,20 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
     ///Show Person ``person``
     func selectPerson(person person: Person, isFromTable: Bool = false) {
         
+        guard let tree = self.tree else {
+            treeIsNilError()
+            return
+        }
+        
         print("Received request to select \(person)")
         
         if !isFromTable {
             print("Not called by table, informing table")
             
-            if let personIndex = tree!.getIndexOfPerson(person) {
+            if let personIndex = tree.getIndexOfPerson(person) {
                 let indexes = NSIndexSet(index: personIndex)
-                table.selectRowIndexes(indexes, byExtendingSelection: false)
-                table.scrollRowToVisible(personIndex)
+                mainBrowserTable.selectRowIndexes(indexes, byExtendingSelection: false)
+                mainBrowserTable.scrollRowToVisible(personIndex)
             } else {
                 print("\(person) doesn't exist in the tree")
                 return
@@ -396,10 +373,64 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         
         selectedPerson = person
         
-        print(tree!.getPerson(givenName: "Ezekiel", familyName: "Elin")!.relationTo(person: person))
+        print("Relationship Tests:")
+        print(tree.getPerson(givenName: "Ezekiel", familyName: "Elin")!.relationTo(person: person))
         
         print("Selected \(person)")
-        detailTable.reloadData()
+        
+        nameLabel.stringValue = person.description
+        
+        if person.isAlive {
+            if person.birth.date.isSet() {
+                deathBirthSublabel.stringValue = "\(person.birth.date.description) - "
+            } else {
+                deathBirthSublabel.stringValue = "Birthday Unknown"
+            }
+        } else {
+            let birthString: String
+            if person.birth.date.isSet() {
+                birthString = person.birth.date.description
+            } else {
+                birthString = "Unknown"
+            }
+            
+            let deathString: String
+            if person.death.date.isSet() {
+                deathString = person.death.date.description
+            } else {
+                deathString = "Unknown"
+            }
+            deathBirthSublabel.stringValue = "\(birthString) - \(deathString)"
+        }
+        
+        if let sex = person.sex?.rawValue {
+            genderLabel.stringValue = sex
+        } else {
+            genderLabel.stringValue = "Sex Unknown"
+        }
+        
+        if person.birth.date.isSet() {
+            birthLabel.stringValue = person.birth.date.description
+        } else if !person.birth.location.isEmpty {
+            birthLabel.stringValue = person.birth.location
+        } else {
+            birthLabel.stringValue = "Date Unknown"
+        }
+        
+        if person.isAlive {
+            deathLabel.stringValue = "Alive"
+        } else if person.death.date.isSet() {
+            deathLabel.stringValue = person.death.date.description
+        } else if !person.death.location.isEmpty {
+            deathLabel.stringValue = person.death.location
+        } else {
+            deathLabel.stringValue = "Date Unknown"
+        }
+        
+        parentsTable.reloadData()
+        childrenTable.reloadData()
+        
+        notesField.string = person.notes
         
         NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.mainViewPersonChange", object: nil, userInfo: ["id": person.INDI])
     }

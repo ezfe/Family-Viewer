@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * Version to save in the file
      * 1: Current version as of Build 759
      */
-    let formatVersion = 1
+    let formatVersion = 2
     var tree = Tree()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
