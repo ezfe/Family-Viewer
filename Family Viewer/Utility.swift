@@ -400,3 +400,24 @@ func centerMapOnLocation(map: MKMapView, location: CLLocation, radius: CLLocatio
 func treeIsNilError() {
     print("The tree is nil, cancelling current operation")
 }
+
+func numericalSuffix(n: Int) -> String {
+    var suffix: String
+    let ones = n % 10;
+    let tens = (n/10) % 10;
+    
+    if tens == 1 {
+        suffix = "th";
+    } else if ones == 1{
+        suffix = "st";
+    } else if ones == 2{
+        suffix = "nd";
+    } else if ones == 3{
+        suffix = "rd";
+    } else {
+        suffix = "th";
+    }
+    
+    return "\(n)\(suffix)";
+
+}

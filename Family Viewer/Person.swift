@@ -8,7 +8,14 @@
 
 import Foundation
 
-class Person: CustomStringConvertible {
+func ==(l: Person, r: Person) -> Bool {
+    return l.INDI == r.INDI
+}
+func <(l: Person, r: Person) -> Bool {
+    return l.INDI < r.INDI
+}
+
+class Person: CustomStringConvertible, Comparable {
     ///Name String
     var description: String {
         get {
@@ -98,7 +105,7 @@ class Person: CustomStringConvertible {
             return to_return
         }
     }
-
+    
     ///List of siblings that share at least one parent (includes half siblings)
     var allSiblings: [Person] {
         get {
@@ -208,13 +215,9 @@ class Person: CustomStringConvertible {
                     if a.person == popPerson {
                         a.visitBy(visitor)
                         if visitor == .Me {
-                            if a.myDistance == nil {
-                                a.myDistance = distance
-                            }
+                            a.myDistance = distance
                         } else if visitor == .Them {
-                            if a.theirDistance == nil {
-                                a.theirDistance = distance
-                            }
+                            a.theirDistance = distance
                         }
                     }
                 }
@@ -251,11 +254,11 @@ class Person: CustomStringConvertible {
         }
         
         let relationships = [
-                ["sibling","niece or nephew","grandniece or grandnephew","great grandniece or grandnephew","2nd great grandniece or grandnephew"],
-                ["niece or nephew","1st cousin","1st cousin 1 time removed","1st cousin 2 times removed","1st cousin 3 times removed"],
-                ["grandniece or grandnephew","1st cousin 1 time removed","2nd cousin","2nd cousin 1 time removed","2nd cousin 2 times removed"],
-                ["great grandniece or grandnephew","1st cousin 2 times removed","2nd cousin 1 time removed","3rd cousin","3rd cousin 1 time removed"],
-                ["2nd great grandniece or grandnephew","1st cousin 3 times removed","2nd cousin 2 times removed","3rd cousin 1 time removed","4th cousin"]
+            ["sibling","niece or nephew","grandniece or grandnephew","great grandniece or grandnephew","2nd great grandniece or grandnephew"],
+            ["niece or nephew","1st cousin","1st cousin 1 time removed","1st cousin 2 times removed","1st cousin 3 times removed"],
+            ["grandniece or grandnephew","1st cousin 1 time removed","2nd cousin","2nd cousin 1 time removed","2nd cousin 2 times removed"],
+            ["great grandniece or grandnephew","1st cousin 2 times removed","2nd cousin 1 time removed","3rd cousin","3rd cousin 1 time removed"],
+            ["2nd great grandniece or grandnephew","1st cousin 3 times removed","2nd cousin 2 times removed","3rd cousin 1 time removed","4th cousin"]
         ];
         
         guard let lowestCommonAncestor = ancestorsSet.first else {
@@ -266,20 +269,79 @@ class Person: CustomStringConvertible {
             return nil
         }
         
-        if theirDistance == 0 || myDistance == 0 {
-            //TODO: Finish this area
+        guard let theirSex = p.sex else {
+            print("\(p.description)'s sex is not set")
             return nil
         }
         
+        
+        print(lowestCommonAncestor)
+        
+        if theirDistance == 0 || myDistance == 0 {
+            var referralWord: String
+            if theirDistance == 0 {
+                switch theirSex {
+                case .Male:
+                    referralWord = "father"
+                case .Female:
+                    referralWord = "mother"
+                }
+                
+                if myDistance == 1 {
+                    return referralWord
+                } else if myDistance == 2 {
+                    return "grand\(referralWord)"
+                } else if myDistance >= 3 {
+                    var workingString = ""
+                    for _ in 3...myDistance {
+                        workingString += "great-"
+                    }
+                    return workingString + "grand\(referralWord)"
+                }
+            } else if myDistance == 0 {
+                switch theirSex {
+                case .Male:
+                    referralWord = "son"
+                case .Female:
+                    referralWord = "daughter"
+                }
+                
+                if myDistance == 1 {
+                    return referralWord
+                } else if myDistance == 2 {
+                    return "grand\(referralWord)"
+                } else if myDistance >= 3 {
+                    var workingString = ""
+                    for _ in 3...myDistance {
+                        workingString += "great-"
+                    }
+                    return workingString + "grand\(referralWord)"
+                }
+            }
+            return nil
+        }
+        
+        if theirDistance == 1 && myDistance == 1 {
+            var referralWord: String
+            switch theirSex {
+            case .Male:
+                referralWord = "brother"
+            case .Female:
+                referralWord = "sister"
+            }
+            if p.parentA != self.parentA || p.parentB != self.parentB {
+                return "half-\(referralWord)"
+            } else {
+                return referralWord
+            }
+        } else if theirDistance == myDistance && theirDistance != 1 {
+            return numericalSuffix(theirDistance) + " cousin"
+        }
+        
         let myArrayIndex = myDistance - 1
-        let theirIndex = theirDistance - 1
+        let theirArrayIndex = theirDistance - 1
         
-        print(myArrayIndex)
-        print(theirIndex)
-        
-        print(relationships[myArrayIndex][theirIndex])
-        
-        return ""
+        return relationships[myArrayIndex][theirArrayIndex]
     }
     
     init(tree t: Tree) {

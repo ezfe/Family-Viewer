@@ -396,7 +396,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSTableViewData
         
         selectedPerson = person
         
-        person.relationTo(person: tree!.getPerson(givenName: "Ezekiel", familyName: "Elin")!)
+        print(tree!.getPerson(givenName: "Ezekiel", familyName: "Elin")!.relationTo(person: person))
         
         print("Selected \(person)")
         detailTable.reloadData()
