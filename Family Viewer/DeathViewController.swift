@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-import MapKit
+//import MapKit
 
 class DeathViewController: NSViewController {
 
@@ -19,7 +19,7 @@ class DeathViewController: NSViewController {
     @IBOutlet weak var locationStringPicker: NSTextField!
     @IBOutlet weak var isAliveCheckbox: NSButton!
     
-    @IBOutlet weak var map: MKMapView!
+//    @IBOutlet weak var map: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,19 +102,19 @@ class DeathViewController: NSViewController {
     }
     
     func updateMap() {
-        let geocoder: CLGeocoder = CLGeocoder()
-        guard let person = person else {
-            return
-        }
-        geocoder.geocodeAddressString(person.death.location, completionHandler: { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
-            guard let placemarks = placemarks else {
-                return
-            }
-            let place = placemarks[0]
-            let location = place.location!;
-            //TODO: This seems like a silly thing to do to avoid "deprecated"
-            let region = place.region! as! CLCircularRegion;
-            centerMapOnLocation(self.map, location: location, radius: region.radius)
-        })
+//        let geocoder: CLGeocoder = CLGeocoder()
+//        guard let person = person else {
+//            return
+//        }
+//        geocoder.geocodeAddressString(person.death.location, completionHandler: { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
+//            guard let placemarks = placemarks else {
+//                return
+//            }
+//            let place = placemarks[0]
+//            let location = place.location!;
+//            //TODO: This seems like a silly thing to do to avoid "deprecated"
+//            let region = place.region! as! CLCircularRegion;
+//            centerMapOnLocation(self.map, location: location, radius: region.radius)
+//        })
     }
 }

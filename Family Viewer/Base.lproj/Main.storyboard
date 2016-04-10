@@ -4,7 +4,6 @@
         <deployment identifier="macosx"/>
         <development version="7000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
-        <plugIn identifier="com.apple.MapKitIBPlugin" version="10116"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -381,7 +380,7 @@ CA
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" tag="60" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="NsL-cQ-qyq" userLabel="Parents Table">
-                                            <rect key="frame" x="0.0" y="0.0" width="249" height="133"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="249" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -460,7 +459,7 @@ CA
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" tag="80" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="KH9-Ss-yKA" userLabel="Children Table">
-                                            <rect key="frame" x="0.0" y="0.0" width="290" height="133"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="290" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -580,15 +579,15 @@ CA
                             </textField>
                             <popUpButton hidden="YES" verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PVh-Zp-uEP">
                                 <rect key="frame" x="356" y="242" width="81" height="26"/>
-                                <popUpButtonCell key="cell" type="push" title="Female" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" borderStyle="border" inset="2" selectedItem="Ri7-t3-r2s" id="TiE-f8-7hC">
+                                <popUpButtonCell key="cell" type="push" title="Female" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" selectedItem="Ri7-t3-r2s" id="TiE-f8-7hC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="VXY-Vc-7H1">
                                         <items>
-                                            <menuItem title="Male" state="on" keyEquivalent="m" id="ely-zg-ZmH">
+                                            <menuItem title="Male" keyEquivalent="m" id="ely-zg-ZmH">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
-                                            <menuItem title="Female" keyEquivalent="f" id="Ri7-t3-r2s">
+                                            <menuItem title="Female" state="on" keyEquivalent="f" id="Ri7-t3-r2s">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
                                         </items>
@@ -829,19 +828,12 @@ CA
                                     <action selector="update:" target="6TP-j7-g8D" id="H6v-6U-Omg"/>
                                 </connections>
                             </textField>
-                            <mapView mapType="hybrid" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kZ4-N9-k2I">
-                                <rect key="frame" x="0.0" y="0.0" width="224" height="172"/>
-                            </mapView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="0PM-Bj-BZe" firstAttribute="leading" secondItem="Q0V-MY-KGL" secondAttribute="leading" constant="20" id="2HC-is-KQe"/>
-                            <constraint firstAttribute="trailing" secondItem="kZ4-N9-k2I" secondAttribute="trailing" id="Eod-Df-Nfd"/>
-                            <constraint firstItem="kZ4-N9-k2I" firstAttribute="leading" secondItem="Q0V-MY-KGL" secondAttribute="leading" id="QIi-Q1-EcL"/>
                             <constraint firstItem="0PM-Bj-BZe" firstAttribute="top" secondItem="Q0V-MY-KGL" secondAttribute="top" constant="20" id="SAS-FY-W8n"/>
                             <constraint firstItem="HnX-XK-eTc" firstAttribute="top" secondItem="Q0V-MY-KGL" secondAttribute="top" constant="20" id="T9q-zC-hFo"/>
                             <constraint firstItem="KHF-hR-a3f" firstAttribute="leading" secondItem="Q0V-MY-KGL" secondAttribute="leading" constant="20" id="VCs-23-s5E"/>
-                            <constraint firstItem="kZ4-N9-k2I" firstAttribute="top" secondItem="KHF-hR-a3f" secondAttribute="bottom" constant="8" id="WGt-j1-pit"/>
-                            <constraint firstAttribute="bottom" secondItem="kZ4-N9-k2I" secondAttribute="bottom" id="XnY-eb-8PI"/>
                             <constraint firstItem="Sni-hy-CiY" firstAttribute="top" secondItem="Q0V-MY-KGL" secondAttribute="top" constant="21" id="Xuw-tg-W3L"/>
                             <constraint firstItem="Sni-hy-CiY" firstAttribute="leading" secondItem="0PM-Bj-BZe" secondAttribute="trailing" constant="8" id="bQH-Et-XYR"/>
                             <constraint firstAttribute="trailing" secondItem="HnX-XK-eTc" secondAttribute="trailing" constant="20" id="eaM-fW-08F"/>
@@ -853,7 +845,6 @@ CA
                     <connections>
                         <outlet property="datePicker" destination="0PM-Bj-BZe" id="UMc-OZ-7BD"/>
                         <outlet property="locationStringPicker" destination="KHF-hR-a3f" id="qMu-KH-waf"/>
-                        <outlet property="map" destination="kZ4-N9-k2I" id="DFF-Cd-dSV"/>
                         <outlet property="monthPicker" destination="Sni-hy-CiY" id="HmO-38-XQl"/>
                         <outlet property="yearPicker" destination="HnX-XK-eTc" id="yw2-wk-blB"/>
                     </connections>
@@ -1564,16 +1555,12 @@ CA
                                     <action selector="update:" target="ImP-sn-5V4" id="nbG-BG-dul"/>
                                 </connections>
                             </textField>
-                            <mapView fixedFrame="YES" mapType="hybrid" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hma-qo-TnM">
-                                <rect key="frame" x="0.0" y="0.0" width="224" height="181"/>
-                            </mapView>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="datePicker" destination="FmG-OX-J99" id="E2N-2E-lTw"/>
                         <outlet property="isAliveCheckbox" destination="VHV-Jf-HfC" id="wpb-fl-GON"/>
                         <outlet property="locationStringPicker" destination="44g-ua-Khs" id="zH6-sY-XGO"/>
-                        <outlet property="map" destination="hma-qo-TnM" id="OLv-G9-Ljr"/>
                         <outlet property="monthPicker" destination="Piy-dx-H4W" id="t5E-EF-Ua8"/>
                         <outlet property="yearPicker" destination="LAs-QA-Gbq" id="qAo-Bp-ADM"/>
                     </connections>

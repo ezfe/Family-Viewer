@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-import MapKit
+//import MapKit
 
 class BirthdayViewController: NSViewController {
 
@@ -16,7 +16,7 @@ class BirthdayViewController: NSViewController {
     @IBOutlet weak var datePicker: NSTextField!
     @IBOutlet weak var monthPicker: NSPopUpButton!
     @IBOutlet weak var yearPicker: NSTextField!
-    @IBOutlet weak var map: MKMapView!
+//    @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var locationStringPicker: NSTextField!
     
     override func viewDidLoad() {
@@ -46,20 +46,20 @@ class BirthdayViewController: NSViewController {
     }
     
     func updateMap() {
-        let geocoder: CLGeocoder = CLGeocoder()
-        guard let person = person else {
-            return
-        }
-        geocoder.geocodeAddressString(person.birth.location, completionHandler: { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
-            guard let placemarks = placemarks else {
-                return
-            }
-            let place = placemarks[0]
-            let location = place.location!;
-            //TODO: This seems like a silly thing to do to avoid "deprecated"
-            let region = place.region! as! CLCircularRegion;
-            centerMapOnLocation(self.map, location: location, radius: region.radius)
-        })
+//        let geocoder: CLGeocoder = CLGeocoder()
+//        guard let person = person else {
+//            return
+//        }
+//        geocoder.geocodeAddressString(person.birth.location, completionHandler: { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
+//            guard let placemarks = placemarks else {
+//                return
+//            }
+//            let place = placemarks[0]
+//            let location = place.location!;
+//            //TODO: This seems like a silly thing to do to avoid "deprecated"
+//            let region = place.region! as! CLCircularRegion;
+//            centerMapOnLocation(self.map, location: location, radius: region.radius)
+//        })
     }
     
     @IBAction func update(sender: AnyObject) {
