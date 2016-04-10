@@ -115,7 +115,7 @@ class Tree: CustomStringConvertible {
             let dict = NSMutableDictionary()
             let arr = NSMutableArray()
             for person in people {
-                print("Added \(person.INDI) to the array")
+                print("Imported \(person.description)")
                 arr.addObject(person.dictionary)
             }
             dict["people"] = arr
@@ -231,10 +231,10 @@ class Tree: CustomStringConvertible {
                     }
                 }
                 if let location = birthDict["location"] as? String {
-                    print("Imported birth location")
+                    print("Imported birth location for \(p.description)")
                     p.birth.location = location
                 } else {
-                    print("Couldn't import birth location. Here's the dictionary")
+                    print("Couldn't import birth location for \(p.description). Here's the dictionary")
                     print(birthDict)
                 }
             }
@@ -252,26 +252,26 @@ class Tree: CustomStringConvertible {
                     }
                 }
                 if let location = deathDict["location"] as? String {
-                    print("Imported death location")
+                    print("Imported death location for \(p.description)")
                     p.death.location = location
                 } else {
-                    print("Couldn't import death location. Here's the dictionary")
+                    print("Couldn't import death location for \(p.description). Here's the dictionary")
                     print(deathDict)
                 }
                 if let hasDied = deathDict["hasDied"] as? Bool {
-                    print("Imported hasDied attribute")
+                    print("Imported hasDied attribute for \(p.description)")
                     p.isAlive = !hasDied
                 }
             }
 
             if let nameAtBirthDict = pDict["nameAtBirth"] as? NSDictionary {
                 p.nameAtBirth.setupFromDict(dictionary: nameAtBirthDict)
-                print("Imported name at birth")
+                print("Imported name at birth for \(p.description)")
             }
 
             if let nameNowDict = pDict["nameNow"] as? NSDictionary {
                 p.nameNow.setupFromDict(dictionary: nameNowDict)
-                print("Imported name now")
+                print("Imported name now for \(p.description)")
             }
 
             if let sexString = pDict["sex"] as? String {

@@ -19,7 +19,7 @@ class Person: CustomStringConvertible, Comparable {
     ///Name String
     var description: String {
         get {
-            let ret = self.getNameNow().isSet() ? self.getNameNow().description : "Person"
+            let ret = self.getNameNow().isSet() ? self.getNameNow().description : "Person \(self.INDI)"
             let Str = "test"
             Str.characters.count
             return ret
@@ -148,43 +148,19 @@ class Person: CustomStringConvertible, Comparable {
             case Me, Them
         }
         
-        enum VisitState {
-            case Me
-            case Them
-            case Both
-            case None
-        }
-        
         class AncestorPerson: CustomStringConvertible {
             let person: Person
             var myDistance: Int?
             var theirDistance: Int?
-            var visitState: VisitState
+            var visitState: Int //0, 1, 2 (2 being both)
             
-            init(person p: Person, visitState v: VisitState) {
+            init(person p: Person) {
                 self.person = p
-                self.visitState = v
+                self.visitState = 0
             }
             
-            func visitBy(visitor: Visitor) {
-                switch visitState {
-                case .Both:
-                    break
-                case .Me:
-                    if visitor == .Them {
-                        visitState = .Both
-                    }
-                case .Them:
-                    if visitor == .Me {
-                        visitState = .Both
-                    }
-                case .None:
-                    if visitor == .Me {
-                        visitState = .Me
-                    } else if visitor == .Them {
-                        visitState = .Them
-                    }
-                }
+            func visit() {
+                self.visitState += 1
             }
             
             var description: String {
@@ -200,13 +176,8 @@ class Person: CustomStringConvertible, Comparable {
         
         func populateAncestors(from popPerson: Person, distance: Int, visitor: Visitor) {
             if !personInSet(popPerson) {
-                var visitState: VisitState = .None
-                if visitor == .Me {
-                    visitState = .Me
-                } else if visitor == .Them {
-                    visitState = .Them
-                }
-                let ap = AncestorPerson(person: popPerson, visitState: visitState)
+                let ap = AncestorPerson(person: popPerson)
+                ap.visit()
                 if visitor == .Me {
                     ap.myDistance = distance
                 } else if visitor == .Them {
@@ -216,7 +187,7 @@ class Person: CustomStringConvertible, Comparable {
             } else {
                 for a in ancestorsSet {
                     if a.person == popPerson {
-                        a.visitBy(visitor)
+                        a.visit()
                         if visitor == .Me {
                             a.myDistance = distance
                         } else if visitor == .Them {
@@ -243,7 +214,7 @@ class Person: CustomStringConvertible, Comparable {
         populateAncestors(from: p, distance: 0, visitor: .Them)
         
         for (i, a) in ancestorsSet.enumerate().reverse() {
-            if (a.visitState != .Both) {
+            if (a.visitState != 2) {
                 ancestorsSet.removeAtIndex(i)
             }
         }
