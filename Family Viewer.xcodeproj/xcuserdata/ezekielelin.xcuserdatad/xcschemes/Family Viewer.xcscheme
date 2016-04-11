@@ -42,6 +42,16 @@
                referenceType = "1">
             </LocationScenarioReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "666167741CBAB0F600C8939F"
+               BuildableName = "Family Viewer UITests.xctest"
+               BlueprintName = "Family Viewer UITests"
+               ReferencedContainer = "container:Family Viewer.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

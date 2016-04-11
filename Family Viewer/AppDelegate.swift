@@ -135,6 +135,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func saveFile(sender: AnyObject) {
+        return
         createAppSupportFolder()
 
         let fm = NSFileManager.defaultManager()
