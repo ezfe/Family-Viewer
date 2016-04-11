@@ -36,14 +36,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     //MARK:-
     
     override func viewDidLoad() {
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.treeDidUpdate), name: "com.ezekielelin.treeDidUpdate", object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.addedParent(_:)), name: "com.ezekielelin.addedParent", object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addPersonFromNotification), name: "com.ezekielelin.addPerson", object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.deleteCurrentPerson), name: "com.ezekielelin.deleteCurrentPerson", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.removeParentA), name: "com.ezekielelin.removeMother", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.removeParentB), name: "com.ezekielelin.removeFather", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setParentA), name: "com.ezekielelin.addMother", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(setParentB), name: "com.ezekielelin.addFather", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(treeDidUpdate), name: "com.ezekielelin.treeDidUpdate", object: nil)
         
         let sexGesture = NSClickGestureRecognizer()
         sexGesture.buttonMask = 0x1 // left mouse
@@ -84,67 +77,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
         print("Opening \(person)")
         
-        nameLabel.stringValue = person.description
-        
-        if person.isAlive {
-            if person.birth.date.isSet() {
-                deathBirthSublabel.stringValue = "\(person.birth.date.description) - "
-            } else {
-                deathBirthSublabel.stringValue = "Birthday Unknown"
-            }
-        } else {
-            let birthString: String
-            if person.birth.date.isSet() {
-                birthString = person.birth.date.description
-            } else {
-                birthString = "Unknown"
-            }
-            
-            let deathString: String
-            if person.death.date.isSet() {
-                deathString = person.death.date.description
-            } else {
-                deathString = "Unknown"
-            }
-            deathBirthSublabel.stringValue = "\(birthString) - \(deathString)"
-        }
-        
-        if let ezekiel = person.tree.getPerson(givenName: "Ezekiel", familyName: "Elin") {
-            deathBirthSublabel.stringValue = ezekiel.relationTo(person: person) ?? deathBirthSublabel.stringValue
-        }
-        
-        
-        if let sex = person.sex?.rawValue {
-            genderLabel.stringValue = sex
-        } else {
-            genderLabel.stringValue = "Sex Unknown"
-        }
-        
-        if person.birth.date.isSet() {
-            birthLabel.stringValue = person.birth.date.description
-        } else if !person.birth.location.isEmpty {
-            birthLabel.stringValue = person.birth.location
-        } else {
-            birthLabel.stringValue = "Date Unknown"
-        }
-        
-        if person.isAlive {
-            deathLabel.stringValue = "Alive"
-        } else if person.death.date.isSet() {
-            deathLabel.stringValue = person.death.date.description
-        } else if !person.death.location.isEmpty {
-            deathLabel.stringValue = person.death.location
-        } else {
-            deathLabel.stringValue = "Date Unknown"
-        }
-        
-        parentsTable.reloadData()
-        childrenTable.reloadData()
-        
-        notesField.string = person.notes
-        
-//        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.mainViewPersonChange", object: nil, userInfo: ["id": person.INDI])
-
+        setupView()
     }
     
     //MARK:-
@@ -193,9 +126,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             genderLabel.hidden = false
             genderEditor.hidden = true
             
-            genderLabel.stringValue = "UPDATED"
-            
-//            treeDidUpdate()
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
+
         }
     }
     
@@ -228,6 +160,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     func textDidChange(notification: NSNotification) {
         if let p = self.person, n = notesField.string {
             p.notes = n
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
         }
     }
     
@@ -240,10 +173,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
         
         switch getXcodeTag(tableView.tag) {
-        case .ParentsTable: break
-//            selectPerson(person: selectedPerson.parents[parentsTable.selectedRow])
-        case .ChildrenTable: break
-//            selectPerson(person: selectedPerson.children[childrenTable.selectedRow])
+        case .ParentsTable:
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: selectedPerson.parents[parentsTable.selectedRow])
+        case .ChildrenTable:
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: selectedPerson.parents[childrenTable.selectedRow])
         default:
             return
         }
@@ -304,14 +237,6 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
     //MARK:-
     
-    //TODO: This
-//    func addPersonFromNotification() {
-//        let p = Person(tree: self.tree!)
-//        self.tree!.people.append(p)
-//        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
-////        selectPerson(person: p)
-//    }
-    
     func removeParentA() {
         if let person = self.person {
             person.parentA = nil
@@ -323,12 +248,6 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         if let person = self.person {
             person.parentB = nil
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
-        }
-    }
-    
-    func addedParent(notification: NSNotification) {
-        if let p = notification.userInfo?["newPerson"] as? Person {
-            //TODO: Finish this
         }
     }
     
@@ -363,15 +282,73 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
     }
     
-    //TODO: Finish this
-//    func deleteCurrentPerson() {
-//        print("Received request to delete current person")
-//        print("Deleting \(selectedPerson)")
-//        if let tree = self.tree, selectedPerson = self.selectedPerson where tree.removePerson(selectedPerson) {
-//            print("Success")
-//            updateViewFromTree()
-//        } else {
-//            displayAlert("Error", message: "An unexpected error occurred")
-//        }
-//    }
+    func treeDidUpdate() {
+        setupView()
+    }
+    
+    func setupView() {
+        guard let person = self.person else {
+            print("No person to show")
+            return
+        }
+        
+        nameLabel.stringValue = person.description
+        
+        if person.isAlive {
+            if person.birth.date.isSet() {
+                deathBirthSublabel.stringValue = "\(person.birth.date.description) - "
+            } else {
+                deathBirthSublabel.stringValue = "Birthday Unknown"
+            }
+        } else {
+            let birthString: String
+            if person.birth.date.isSet() {
+                birthString = person.birth.date.description
+            } else {
+                birthString = "Unknown"
+            }
+            
+            let deathString: String
+            if person.death.date.isSet() {
+                deathString = person.death.date.description
+            } else {
+                deathString = "Unknown"
+            }
+            deathBirthSublabel.stringValue = "\(birthString) - \(deathString)"
+        }
+        
+        if let ezekiel = person.tree.getPerson(givenName: "Ezekiel", familyName: "Elin") {
+            deathBirthSublabel.stringValue = ezekiel.relationTo(person: person) ?? deathBirthSublabel.stringValue
+        }
+        
+        
+        if let sex = person.sex?.rawValue {
+            genderLabel.stringValue = sex
+        } else {
+            genderLabel.stringValue = "Sex Unknown"
+        }
+        
+        if person.birth.date.isSet() {
+            birthLabel.stringValue = person.birth.date.description
+        } else if !person.birth.location.isEmpty {
+            birthLabel.stringValue = person.birth.location
+        } else {
+            birthLabel.stringValue = "Date Unknown"
+        }
+        
+        if person.isAlive {
+            deathLabel.stringValue = "Alive"
+        } else if person.death.date.isSet() {
+            deathLabel.stringValue = person.death.date.description
+        } else if !person.death.location.isEmpty {
+            deathLabel.stringValue = person.death.location
+        } else {
+            deathLabel.stringValue = "Date Unknown"
+        }
+        
+        notesField.string = person.notes
+        
+        parentsTable.reloadData()
+        childrenTable.reloadData()
+    }
 }

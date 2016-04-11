@@ -153,23 +153,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func addPerson(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addPerson", object: nil)
-    }
-    @IBAction func deletePerson(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.deleteCurrentPerson", object: nil)
-    }
-    
-    @IBAction func addMother(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addMother", object: nil)
-    }
-    @IBAction func addFather(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addFather", object: nil)
-    }
-    
-    @IBAction func removeMother(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.removeMother", object: nil)
-    }
-    @IBAction func removeFather(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.removeFather", object: nil)
+        let p = Person(tree: tree)
+        tree.people.append(p)
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: p)
     }
 }
