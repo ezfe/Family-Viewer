@@ -40,8 +40,6 @@ class BirthdayViewController: NSViewController {
             self.locationStringPicker.stringValue = person.birth.location
 
             updateMap()
-        } else {
-            assert(false, "person is nil")
         }
     }
     
@@ -64,7 +62,7 @@ class BirthdayViewController: NSViewController {
     
     @IBAction func update(sender: AnyObject) {
         guard let person = person else {
-            assert(false, "person is nil")
+            self.dismissController(self)
             return
         }
         

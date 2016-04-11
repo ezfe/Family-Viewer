@@ -8,13 +8,11 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate {
+class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate {
     //MARK: Instance Variables
     @IBOutlet weak var filenameLabel: NSTextField!
     
-    @IBOutlet weak var horizontalBar: NSBox!
-    
-    @IBOutlet weak var parentsTable: NSTableView!
+    @IBOutlet weak var partnersTable: NSTableView!
     @IBOutlet weak var childrenTable: NSTableView!
     
     @IBOutlet weak var profilePhoto: NSImageView!
@@ -29,6 +27,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     @IBOutlet weak var deathLabel: NSTextField!
     
     @IBOutlet var notesField: NSTextView!
+    
+    @IBOutlet weak var setFatherButton: NSButton!
+    @IBOutlet weak var removeFatherButton: NSButton!
+    @IBOutlet weak var setMotherButton: NSButton!
+    @IBOutlet weak var removeMotherButton: NSButton!
+    @IBOutlet weak var motherLabel: NSTextField!
+    @IBOutlet weak var fatherLabel: NSTextField!
     
     ///The tree
     var person: Person? = nil
@@ -67,7 +72,21 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         deathGesture.action = #selector(editDeath)
         deathLabel.addGestureRecognizer(deathGesture)
         
-        parentsTable.doubleAction = #selector(doubleClick)
+        let motherGesture = NSClickGestureRecognizer()
+        motherGesture.buttonMask = 0x1 // left mouse
+        motherGesture.numberOfClicksRequired = 2
+        motherGesture.target = self
+        motherGesture.action = #selector(viewMother)
+        motherLabel.addGestureRecognizer(motherGesture)
+        
+        let fatherGesture = NSClickGestureRecognizer()
+        fatherGesture.buttonMask = 0x1 // left mouse
+        fatherGesture.numberOfClicksRequired = 2
+        fatherGesture.target = self
+        fatherGesture.action = #selector(viewFather)
+        fatherLabel.addGestureRecognizer(fatherGesture)
+        
+        partnersTable.doubleAction = #selector(doubleClick)
         childrenTable.doubleAction = #selector(doubleClick)
         
         guard let person = self.person else {
@@ -131,7 +150,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
     }
     
-    func setParentA() {
+    @IBAction func setMother(sender: AnyObject) {
         guard let person = self.person else {
             return
         }
@@ -141,10 +160,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         vc.tree = tree
         vc.parentTo = person
         vc.A_B = "A"
-        self.presentViewController(vc, asPopoverRelativeToRect: parentsTable.visibleRect, ofView: parentsTable, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+        self.presentViewController(vc, asPopoverRelativeToRect: setMotherButton.visibleRect, ofView: setMotherButton, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
     }
     
-    func setParentB() {
+    @IBAction func setFather(sender: AnyObject) {
         guard let person = self.person else {
             return
         }
@@ -154,13 +173,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         vc.parentTo = person
         vc.tree = tree
         vc.A_B = "B"
-        self.presentViewController(vc, asPopoverRelativeToRect: parentsTable.visibleRect, ofView: parentsTable, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+        self.presentViewController(vc, asPopoverRelativeToRect: setFatherButton.visibleRect, ofView: setFatherButton, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
     }
     
     func textDidChange(notification: NSNotification) {
         if let p = self.person, n = notesField.string {
             p.notes = n
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
+//            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
         }
     }
     
@@ -173,10 +192,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
         
         switch getXcodeTag(tableView.tag) {
-        case .ParentsTable:
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: selectedPerson.parents[parentsTable.selectedRow])
+        case .PartnersTable:
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: selectedPerson.partners[partnersTable.selectedRow])
         case .ChildrenTable:
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: selectedPerson.parents[childrenTable.selectedRow])
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: selectedPerson.children[childrenTable.selectedRow])
         default:
             return
         }
@@ -184,9 +203,9 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         switch getXcodeTag(tableView.tag) {
-        case .ParentsTable:
+        case .PartnersTable:
             if let p = self.person {
-                return p.parents.count
+                return p.partners.count
             } else {
                 return 0
             }
@@ -216,13 +235,13 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             }
             
             return v
-        case .ParentsTable:
-            guard let v = tableView.makeViewWithIdentifier("ParentCell", owner: self) as? NSTableCellView else {
+        case .PartnersTable:
+            guard let v = tableView.makeViewWithIdentifier("PartnerCell", owner: self) as? NSTableCellView else {
                 return nil
             }
             
             if let p = self.person {
-                v.textField?.stringValue = p.parents[row].description
+                v.textField?.stringValue = p.partners[row].description
             }
             
             return v
@@ -237,14 +256,14 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
     //MARK:-
     
-    func removeParentA() {
+    @IBAction func removeParentA(sender: AnyObject) {
         if let person = self.person {
             person.parentA = nil
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
         }
     }
     
-    func removeParentB() {
+    @IBAction func removeParentB(sender: AnyObject) {
         if let person = self.person {
             person.parentB = nil
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
@@ -284,6 +303,37 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func treeDidUpdate() {
         setupView()
+    }
+    
+    func viewFather() {
+        if let father = self.person?.parentB {
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: father)
+        }
+    }
+    
+    func viewMother() {
+        if let mother = self.person?.parentA {
+            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: mother)
+        }
+    }
+    
+    @IBAction func deletePerson(sender: AnyObject) {
+        guard let person = self.person else {
+            return
+        }
+        let alert = NSAlert()
+        alert.addButtonWithTitle("Delete")
+        alert.addButtonWithTitle("Cancel")
+        alert.messageText = "Delete \(person.description)?"
+        alert.informativeText = "This cannot be undone"
+        alert.alertStyle = .CriticalAlertStyle
+        
+        if alert.runModal() == NSAlertFirstButtonReturn {
+            self.person = nil
+            person.tree.removePerson(person)
+        } else {
+            print("Cancel")
+        }
     }
     
     func setupView() {
@@ -346,9 +396,31 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             deathLabel.stringValue = "Date Unknown"
         }
         
+        if let mother = person.parentA {
+            self.motherLabel.stringValue = mother.description
+            self.motherLabel.hidden = false
+            self.setMotherButton.hidden = true
+            self.removeMotherButton.hidden = false
+        } else {
+            self.motherLabel.hidden = true
+            self.setMotherButton.hidden = false
+            self.removeMotherButton.hidden = true
+        }
+        
+        if let father = person.parentB {
+            self.fatherLabel.stringValue = father.description
+            self.fatherLabel.hidden = false
+            self.setFatherButton.hidden = true
+            self.removeFatherButton.hidden = false
+        } else {
+            self.fatherLabel.hidden = true
+            self.setFatherButton.hidden = false
+            self.removeFatherButton.hidden = true
+        }
+        
         notesField.string = person.notes
         
-        parentsTable.reloadData()
+        partnersTable.reloadData()
         childrenTable.reloadData()
     }
 }

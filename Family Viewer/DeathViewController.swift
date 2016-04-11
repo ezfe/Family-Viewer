@@ -45,14 +45,12 @@ class DeathViewController: NSViewController {
             self.update(self)
             
             updateMap()
-        } else {
-            assert(false, "person is nil")
         }
     }
     
     @IBAction func update(sender: AnyObject) {
         guard let person = person else {
-            assert(false, "person is nil")
+            self.dismissController(self)
             return
         }
         

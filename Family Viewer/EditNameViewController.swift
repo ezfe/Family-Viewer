@@ -36,7 +36,6 @@ class EditNameViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let person = person else {
-            assert(false, "Unexpectedly found nil for person:Person?")
             return
         }
         
@@ -153,6 +152,8 @@ class EditNameViewController: NSViewController {
             }
             
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+        } else {
+            self.dismissController(self)
         }
     }
 }

@@ -19,9 +19,7 @@ class Person: CustomStringConvertible, Comparable {
     ///Name String
     var description: String {
         get {
-            let ret = self.getNameNow().isSet() ? self.getNameNow().description : "Person \(self.INDI)"
-            let Str = "test"
-            Str.characters.count
+            let ret = self.getNameNow().isSet() ? "\(self.getNameNow().description) (#\(self.INDI))" : "Person \(self.INDI)"
             return ret
         }
     }
@@ -105,6 +103,32 @@ class Person: CustomStringConvertible, Comparable {
                     to_return.append(p)
                 }
             }
+            return to_return
+        }
+    }
+    
+    ///List the people this person has had children with
+    var partners: [Person] {
+        get {
+            var to_return = [Person]()
+            
+            peopleLoop: for p in self.children {
+                guard let parentA = p.parentA, let parentB = p.parentB else {
+                    continue
+                }
+                if parentA == self {
+                    for parent in to_return where parent == parentB {
+                        continue peopleLoop
+                    }
+                    to_return.append(parentB)
+                } else if parentB == self {
+                    for parent in to_return where parent == parentA {
+                        continue peopleLoop
+                    }
+                    to_return.append(parentA)
+                }
+            }
+            
             return to_return
         }
     }

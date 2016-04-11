@@ -369,7 +369,7 @@ func displayAlert(title: String, message: String) {
 
 enum XcodeTag: Int {
     case MainBrowserTable  = 20
-    case ParentsTable = 60
+    case PartnersTable = 60
     case ChildrenTable = 80
 }
 

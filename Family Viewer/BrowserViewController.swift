@@ -56,7 +56,7 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
             //TODO: Select Person
             //            selectPerson(person: tree!.people[row], isFromTable: true)
             return true
-        case .ChildrenTable, .ParentsTable:
+        default:
             return true
         }
     }
@@ -114,12 +114,14 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
     
     func viewPerson(person: Person) {
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("MainViewController") as? ViewController {
+        if let vc = self.storyboard?.instantiateControllerWithIdentifier("MainViewController") as? PersonDetailViewController {
             vc.person = person
             
             let myWindow = NSWindow(contentViewController: vc)
             myWindow.makeKeyAndOrderFront(self)
             let wc = NSWindowController(window: myWindow)
+            
+            //TODO: Cascade
             
             wc.showWindow(self)
             
