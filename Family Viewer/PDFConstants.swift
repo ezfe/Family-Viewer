@@ -237,10 +237,13 @@ class FamilyDetail: BasePDFPage {
 
         for yMultiplier in 1...21 {
             let height = self.pdfHeight - 45 - CGFloat(16 * yMultiplier)
-            let fromPoint = NSMakePoint(92, height)
+            var fromPoint = NSMakePoint(92, height)
             var toPoint = NSMakePoint(self.pdfWidth, height)
             if yMultiplier == 11 {
                toPoint.x = 290
+            }
+            if yMultiplier == 21 {
+                fromPoint.x = 66
             }
             drawLine(fromPoint, toPoint: toPoint)
         }
@@ -263,8 +266,26 @@ class FamilyDetail: BasePDFPage {
         drawLine(X1: 66, Y1: topY - 3, X2: self.pdfWidth, Y2: topY - 3)
         drawLine(X1: 66, Y1: topY - 3 - 16, X2: self.pdfWidth, Y2: topY - 3 - 16)
         drawLine(X1: 66, Y1: topY - 3 - 16 - 3, X2: self.pdfWidth, Y2: topY - 3 - 16 - 3)
+        
         let newY = topY - 3 - 16 - 3
         
+        for yMultiplier in 1...40 {
+            let h = newY - CGFloat(yMultiplier * 16)
+            if yMultiplier % 4 == 0 {
+                //TODO: Bold
+                drawLine(X1: 66, Y1: h, X2: self.pdfWidth, Y2: h)
+            } else if yMultiplier % 2 == 0 {
+                drawLine(X1: 92, Y1: h, X2: self.pdfWidth, Y2: h)
+            } else {
+                drawLine(X1: 290, Y1: h, X2: self.pdfWidth, Y2: h)
+            }
+        }
+        
+        let bottomY = newY - CGFloat(40 * 16)
+        
+        for x in [92, 290, 322, 428, 733] {
+            drawLine(X1: CGFloat(x), Y1: topY, X2: CGFloat(x), Y2: bottomY)
+        }
 //        
 //        for var i=0 ; i < self.columnsArray.count; i++ {
 //            let columnHeader = self.columnsArray[i]
