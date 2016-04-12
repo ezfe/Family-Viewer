@@ -20,10 +20,10 @@
 		66223B711B30A050004132B6 /* AddParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B6F1B30A050004132B6 /* AddParentViewController.swift */; };
 		66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B701B30A050004132B6 /* EditNameViewController.swift */; };
 		6629607F1CBB1205006B54E3 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629607E1CBB1205006B54E3 /* BrowserViewController.swift */; };
-		666707D31CBBE610002F2598 /* PDFConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666707D21CBBE610002F2598 /* PDFConstants.swift */; };
 		669485BA1B9B9DDD002FB335 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669485B91B9B9DDD002FB335 /* Errors.swift */; };
 		66E5A44F1B9B2E1500B492B5 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A44E1B9B2E1500B492B5 /* Tree.swift */; };
 		66E5A4521B9B2EF900B492B5 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A4511B9B2EF900B492B5 /* Person.swift */; };
+		66FADC401CBC3D6B00AEA7CC /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FADC3F1CBC3D6B00AEA7CC /* Relationship.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,10 +42,10 @@
 		66223B6F1B30A050004132B6 /* AddParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddParentViewController.swift; sourceTree = "<group>"; };
 		66223B701B30A050004132B6 /* EditNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
 		6629607E1CBB1205006B54E3 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
-		666707D21CBBE610002F2598 /* PDFConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFConstants.swift; sourceTree = "<group>"; };
 		669485B91B9B9DDD002FB335 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		66E5A44E1B9B2E1500B492B5 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		66E5A4511B9B2EF900B492B5 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		66FADC3F1CBC3D6B00AEA7CC /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,6 @@
 				6616711E1B2E64D100714530 /* AppDelegate.swift */,
 				661A2AFB1B9BE22E004A4FEF /* NameComponents.swift */,
 				661671301B2E6DC800714530 /* Utility.swift */,
-				666707D21CBBE610002F2598 /* PDFConstants.swift */,
 				669485B91B9B9DDD002FB335 /* Errors.swift */,
 				66E5A4531B9B32C800B492B5 /* Classes */,
 				66E5A4501B9B2E3900B492B5 /* View Controllers */,
@@ -110,6 +109,7 @@
 		66E5A4531B9B32C800B492B5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				66FADC3F1CBC3D6B00AEA7CC /* Relationship.swift */,
 				66E5A4511B9B2EF900B492B5 /* Person.swift */,
 				66E5A44E1B9B2E1500B492B5 /* Tree.swift */,
 			);
@@ -223,11 +223,11 @@
 				661A2AFE1B9BE23B004A4FEF /* DeathViewController.swift in Sources */,
 				661A2AFA1B9BE21D004A4FEF /* BirthdayViewController.swift in Sources */,
 				66E5A44F1B9B2E1500B492B5 /* Tree.swift in Sources */,
-				666707D31CBBE610002F2598 /* PDFConstants.swift in Sources */,
 				661A2AFC1B9BE22E004A4FEF /* NameComponents.swift in Sources */,
 				6616711F1B2E64D100714530 /* AppDelegate.swift in Sources */,
 				66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */,
 				66131ACC1C027DE10069AE80 /* TreeView.swift in Sources */,
+				66FADC401CBC3D6B00AEA7CC /* Relationship.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

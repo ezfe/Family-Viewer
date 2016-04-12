@@ -71,6 +71,28 @@ class Person: CustomStringConvertible, Comparable {
         }
     }
     
+    var mostProbableSpouse: Person? {
+        var possibilities = self.partners
+        possibilities.sortInPlace { (person1, person2) -> Bool in
+            var p1Children = person1.children.filter({ (child) -> Bool in
+                return (child.parentA == self || child.parentB == self)
+            })
+            p1Children.sortInPlace({ (child1, child2) -> Bool in
+                return child1.birth.date > child2.birth.date
+            })
+            var p2Children = person2.children.filter({ (child) -> Bool in
+                return (child.parentA == self || child.parentB == self)
+            })
+            p2Children.sortInPlace({ (child1, child2) -> Bool in
+                return child1.birth.date > child2.birth.date
+            })
+            guard let child1 = p1Children.first, child2 = p2Children.first else {
+                return false
+            }
+            return child1.birth.date > child2.birth.date
+        }
+        return possibilities.first
+    }
     
     var death = Death()
     var sex: Sex?
@@ -313,7 +335,7 @@ class Person: CustomStringConvertible, Comparable {
          * Some of the code below is based off code found on the following webpage
          * http://www.searchforancestors.com/utility/cousincalculator.html
          */
-                
+        
         if (myDistance == theirDistance) {
             if (myDistance == 1) {
                 var relation: String
@@ -458,7 +480,99 @@ class Person: CustomStringConvertible, Comparable {
         }
     }
     
-    ///Dictionary representation
+    //MARK:- Print Tree
+    
+    func describe() {
+        print("*------------- PERSON #\(self.INDI) DETAIL -------------*")
+        
+        print("         Name Now: ", terminator: "")
+        if self.nameNow.isSet() {
+            print(self.nameNow.description)
+        } else if self.nameAtBirth.isSet() {
+            print(self.nameAtBirth.description)
+        } else {
+            print("Name unknown")
+        }
+        
+        print("    Date of Birth: ", terminator: "")
+        if self.birth.date.isSet() {
+            print(self.birth.date.description)
+        } else {
+            print("Unknown")
+        }
+        
+        print("Location of Birth: ", terminator: "")
+        print(self.birth.location)
+        if !self.isAlive {
+            print("")
+            print("    Date of Death: ", terminator: "")
+            if self.death.date.isSet() {
+                print(self.death.date.description)
+            } else {
+                print("Unknown")
+            }
+            
+            print("Location of Death: ", terminator: "")
+            print(self.death.location)
+        }
+        print("")
+        print("              Sex: \(self.sex?.rawValue ?? "Unknown")")
+        print("")
+        print("        Partners*: ", terminator: "")
+        
+        let partners = self.partners
+        let currentPartner = self.mostProbableSpouse
+        
+        for (i, partner) in partners.enumerate() {
+            if i == 0 {
+                if partner == currentPartner && partners.count > 1 {
+                    print(partner.description + " [Current?]")
+                } else {
+                    print(partner.description + "")
+                }
+            } else {
+                if partner == currentPartner && partners.count > 1 {
+                    print("                   " + partner.description + " [Current?]")
+                } else {
+                    print("                   " + partner.description)
+                }
+            }
+        }
+        
+        if partners.count == 0 {
+            print("None known")
+        }
+        
+        print("")
+        print("         Children: ", terminator: "")
+        
+        let children = self.children
+        
+        for (i, child) in children.enumerate() {
+            if i == 0 {
+                print(child.description + "")
+            } else {
+                    print("                   " + child.description)
+            }
+        }
+        
+        if children.count == 0 {
+            print("None")
+        }
+        
+        print("")
+
+        if let mother = self.parentA {
+            print("           Mother: \(mother.description)")
+        }
+        if let father = self.parentB {
+            print("           Father: \(father.description)")
+        }
+    }
+    
+    //MARK:- Dictionary Tools
+    
+    ///Dictionary representation of self
     var dictionary: NSMutableDictionary {
         get {
             let dict = NSMutableDictionary()

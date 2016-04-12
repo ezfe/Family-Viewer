@@ -8,7 +8,6 @@
 
 import Cocoa
 import AppKit
-import Quartz
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -19,47 +18,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      */
     let formatVersion = 2
     var tree = Tree()
-
-    //MARK:- PDF DEMO
-    @IBAction func generatePDF(sender: AnyObject) {
-        let aPDFDocument = PDFDocument()
-        
-        let today = NSDate()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.FullStyle
-        let convertedDate = dateFormatter.stringFromDate(today)
-        
-        let coverPage = CoverPDFPage(hasMargin: true,
-                                     title: "Family Tree Report",
-                                     creditInformation: "Created By: Family Viewer \r \(convertedDate)",
-                                     headerText: tree.treeName,
-                                     footerText: "ezekielelin.com/family-viewer",
-                                     pageWidth: CGFloat(900.0),
-                                     pageHeight: CGFloat(1200.0),
-                                     hasPageNumber: true,
-                                     pageNumber: 1)
-        
-        
-        
-        aPDFDocument.insertPage(coverPage, atIndex: 0)
-        
-        for i in 0..<tree.people.count {
-            
-            let tabularDataPDF = FamilyDetail(hasMargin: true,
-                                                 headerText: "confidential info...",
-                                                 footerText: "www.knowstack.com",
-                                                 pageWidth: CGFloat(850),
-                                                 pageHeight: CGFloat(1100),
-                                                 hasPageNumber: true,
-                                                 pageNumber: i+1,
-                                                 person: tree.people[i  ])
-            
-            aPDFDocument.insertPage(tabularDataPDF, atIndex: i+1)
-        }
-        
-        aPDFDocument.writeToFile("/Users/ezekielelin/Desktop/sample1.pdf")
-    }
-    //MARK:-
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         

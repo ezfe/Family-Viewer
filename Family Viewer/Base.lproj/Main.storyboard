@@ -56,18 +56,6 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="PDF" id="bxe-Bu-4yw">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="PDF" id="1xz-Gf-fb8">
-                                    <items>
-                                        <menuItem title="PDF" keyEquivalent="P" id="bvx-6K-8sy">
-                                            <connections>
-                                                <action selector="generatePDF:" target="Voe-Tx-rLC" id="UD9-ca-YXI"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
                             <menuItem title="File" id="dMs-cI-mzQ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
@@ -215,7 +203,7 @@
                                     <rect key="frame" x="1" y="0.0" width="408" height="259"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" tag="20" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="ssJ-nm-IBA" viewBased="YES" id="MH9-hN-Za1" userLabel="Main Browser Table">
+                                        <tableView verticalHuggingPriority="750" tag="20" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="ssJ-nm-IBA" viewBased="YES" id="MH9-hN-Za1" userLabel="Main Browser Table">
                                             <rect key="frame" x="0.0" y="0.0" width="408" height="236"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>

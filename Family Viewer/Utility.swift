@@ -110,7 +110,11 @@ extension NameComponents {
 
 //MARK: - Dates
 
-enum Month: String {
+func <(m1: Month, m2: Month) -> Bool {
+    return (m1.toIndex() < m2.toIndex())
+}
+
+enum Month: String, Comparable {
     case January = "January"
     case February = "February"
     case March = "March"
@@ -125,7 +129,23 @@ enum Month: String {
     case December = "December"
 }
 
-struct Date: CustomStringConvertible {
+func ==(date1: Date, date2: Date) -> Bool {
+    return date1.day == date2.day && date1.month == date2.month && date1.year == date2.year
+}
+
+func <(date1: Date, date2: Date) -> Bool {
+    if date1.year == date2.year {
+        if date1.month == date2.month {
+            return date1.day < date2.day
+        } else {
+            return date1.month < date2.month
+        }
+    } else {
+        return date1.year < date2.year
+    }
+}
+
+struct Date: CustomStringConvertible, Comparable {
     var day: Int? = nil
     var month: Month? = nil
     var year: Int? = nil
@@ -230,6 +250,24 @@ func monthFromRaw(month mo: String) -> Month? {
         return Month.December
     default:
         return nil
+    }
+}
+extension Month {
+    func toIndex() -> Int {
+        switch self {
+        case .January: return 1
+        case .February: return 2
+        case .March: return 3
+        case .April: return 4
+        case .May: return 5
+        case .June: return 6
+        case .July: return 7
+        case .August: return 8
+        case .September: return 9
+        case .October: return 10
+        case .November: return 11
+        case .December: return 12
+        }
     }
 }
 ///Converts DD MMM YYYY to Date() object

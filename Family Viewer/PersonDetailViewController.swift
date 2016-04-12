@@ -371,6 +371,8 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
             deathBirthSublabel.stringValue = ezekiel.relationTo(person: person) ?? deathBirthSublabel.stringValue
         }
         
+        person.describe()
+        
         
         if let sex = person.sex?.rawValue {
             genderLabel.stringValue = sex
@@ -417,6 +419,8 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
             self.setFatherButton.hidden = false
             self.removeFatherButton.hidden = true
         }
+        
+        print(person.mostProbableSpouse)
         
         notesField.string = person.notes
         

@@ -14,14 +14,14 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     var tree: Tree? = nil
     
     @IBOutlet weak var mainBrowserTable: NSTableView!
-    var windowControllers = Array<NSWindowController>()
+    var windowControllers = Dictionary<Int, NSWindowController>()
     
     override func viewDidLoad() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loadTree), name: "com.ezekielelin.treeIsReady", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateTable), name: "com.ezekielelin.treeDidUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addedParent(_:)), name: "com.ezekielelin.addedParent", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showPerson(_:)), name: "com.ezekielelin.showPerson", object: nil)
-
+        
         super.viewDidLoad()
         // Do view setup here.
     }
@@ -37,6 +37,9 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.tree = appDelegate.tree
         
         mainBrowserTable.reloadData()
+        
+        tree?.describe()
+        print("*: May not be exhaustive")
     }
     
     func addedParent(notification: NSNotification) {
@@ -63,7 +66,9 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     
     @IBAction func tableClick(sender: AnyObject) {
         if let tree = self.tree where mainBrowserTable.selectedRow != -1 {
-            viewPerson(tree.people[mainBrowserTable.selectedRow])
+            for i in mainBrowserTable.selectedRowIndexes {
+                viewPerson(tree.people[i])
+            }
         }
     }
     
@@ -117,16 +122,21 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         if let vc = self.storyboard?.instantiateControllerWithIdentifier("MainViewController") as? PersonDetailViewController {
             vc.person = person
             
-            let myWindow = NSWindow(contentViewController: vc)
-            myWindow.makeKeyAndOrderFront(self)
-            let wc = NSWindowController(window: myWindow)
-            
-            //TODO: Cascade
-            
-            wc.showWindow(self)
-            
-            //TODO: Do this better
-            windowControllers.append(wc)
+            if let wc = windowControllers[person.INDI] {
+                wc.window?.makeKeyAndOrderFront(self)
+            } else {
+                
+                let myWindow = NSWindow(contentViewController: vc)
+                myWindow.makeKeyAndOrderFront(self)
+                let wc = NSWindowController(window: myWindow)
+                
+                //TODO: Cascade
+                
+                wc.showWindow(self)
+                
+                //TODO: Do this better
+                windowControllers[person.INDI] = wc
+            }
         }
     }
     

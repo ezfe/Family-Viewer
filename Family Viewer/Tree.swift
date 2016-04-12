@@ -143,6 +143,14 @@ class Tree: CustomStringConvertible {
         return INDIGen
     }
 
+    func describe() {
+        for person in self.people.sort({ (p1, p2) -> Bool in
+            p1.birth.date > p2.birth.date
+        }) {
+            person.describe()
+        }
+    }
+    
     ///Deletes duplicate INDI codes and assigns missing ones.
     func cleanupINDICodes() {
         for (i,p) in people.enumerate() {
