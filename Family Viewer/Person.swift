@@ -455,7 +455,7 @@ class Person: CustomStringConvertible, Comparable {
                     }
                     if row.rangeOfString("DATE") != nil {
                         let dateString = row.stringByReplacingOccurrencesOfString("2 DATE ", withString: "")
-                        self.death.date = convertFEDate(date: dateString)
+                        self.death.dateOfDeath = convertFEDate(date: dateString)
                     } else if row.rangeOfString("PLAC") != nil {
                         //                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
                         //                        Don't parse location for now, just have that entered later in UI
@@ -506,14 +506,14 @@ class Person: CustomStringConvertible, Comparable {
         if !self.isAlive {
             print("")
             print("    Date of Death: ", terminator: "")
-            if self.death.date.isSet() {
-                print(self.death.date.description)
+            if self.death.dateOfDeath.isSet() {
+                print(self.death.dateOfDeath.description)
             } else {
                 print("Unknown")
             }
             
             print("Location of Death: ", terminator: "")
-            print(self.death.location)
+            print(self.death.locationOfDeath)
         }
         print("")
         print("              Sex: \(self.sex?.rawValue ?? "Unknown")")

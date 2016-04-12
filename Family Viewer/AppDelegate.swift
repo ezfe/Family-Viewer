@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      * Version to save in the file
      * 1: Current version as of Build 759
      */
-    let formatVersion = 2
+    let formatVersion = 3
     var tree = Tree()
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -82,7 +82,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let dict = NSDictionary(contentsOfFile: path)
         if let dict = dict, treeVersion = dict["version"] as? Int {
             if treeVersion > 0 {
-                self.tree.loadDictionary(dict, appFormat: self.formatVersion)
+                guard let mutableDict = dict.mutableCopy() as? NSMutableDictionary else {
+                    return
+                }
+                self.tree.loadDictionary(mutableDict, appFormat: self.formatVersion)
             } else {
                 fatalError("Version wasn't greater than 0")
             }

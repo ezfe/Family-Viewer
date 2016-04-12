@@ -24,23 +24,23 @@ class DeathViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let person = self.person {
-            if let date = person.death.date.day {
+            if let date = person.death.dateOfDeath.day {
                 self.datePicker.integerValue = date
             } else {
                 self.datePicker.stringValue = ""
             }
-            if let month = person.death.date.month?.rawValue {
+            if let month = person.death.dateOfDeath.month?.rawValue {
                 self.monthPicker.selectItemWithTitle(month)
             } else {
                 self.monthPicker.selectItemAtIndex(0)
             }
-            if let year = person.death.date.year {
+            if let year = person.death.dateOfDeath.year {
                 self.yearPicker.integerValue = year
             } else {
                 self.yearPicker.stringValue = ""
             }
             self.isAliveCheckbox.isChecked = person.isAlive
-            self.locationStringPicker.stringValue = person.death.location
+            self.locationStringPicker.stringValue = person.death.locationOfDeath
             
             self.update(self)
             
@@ -74,25 +74,25 @@ class DeathViewController: NSViewController {
         
         let date = datePicker.integerValue
         if date <= 31 && date >= 1 {
-            person.death.date.day = date
+            person.death.dateOfDeath.day = date
         } else {
-            person.death.date.day = nil
+            person.death.dateOfDeath.day = nil
             datePicker.stringValue = ""
         }
         
         if let month = monthPicker.titleOfSelectedItem {
-            person.death.date.month = monthFromRaw(month: month)
+            person.death.dateOfDeath.month = monthFromRaw(month: month)
         }
         
         let year = yearPicker.integerValue
         if year <= 3000 && year >= 1 {
-            person.death.date.year = year
+            person.death.dateOfDeath.year = year
         } else {
-            person.death.date.year = nil
+            person.death.dateOfDeath.year = nil
             yearPicker.stringValue = ""
         }
         
-        person.death.location = self.locationStringPicker.stringValue
+        person.death.locationOfDeath = self.locationStringPicker.stringValue
         
         
         updateMap()

@@ -359,8 +359,8 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
             }
             
             let deathString: String
-            if person.death.date.isSet() {
-                deathString = person.death.date.description
+            if person.death.dateOfDeath.isSet() {
+                deathString = person.death.dateOfDeath.description
             } else {
                 deathString = "Unknown"
             }
@@ -390,10 +390,10 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
         
         if person.isAlive {
             deathLabel.stringValue = "Alive"
-        } else if person.death.date.isSet() {
-            deathLabel.stringValue = person.death.date.description
-        } else if !person.death.location.isEmpty {
-            deathLabel.stringValue = person.death.location
+        } else if person.death.dateOfDeath.isSet() {
+            deathLabel.stringValue = person.death.dateOfDeath.description
+        } else if !person.death.locationOfDeath.isEmpty {
+            deathLabel.stringValue = person.death.locationOfDeath
         } else {
             deathLabel.stringValue = "Date Unknown"
         }

@@ -302,18 +302,27 @@ struct Birth {
 }
 
 struct Death {
-    ///Has died
+    ///Has this person died
     var hasDied = false
+    
     ///Date of death
-    var date: Date = Date(day: nil, month: nil, year: nil)
+    var dateOfDeath: Date = Date(day: nil, month: nil, year: nil)
     ///Place of death
-    var location: String = ""
+    var locationOfDeath: String = ""
+    
+    ///Date of burial
+    var dateOfBurial: Date = Date(day: nil, month: nil, year: nil)
+    ///Place of burial
+    var locationOfBurial: String = ""
+    
     
     var dictionary: NSMutableDictionary {
         get {
             let dict = NSMutableDictionary()
-            dict["date"] = date.dictionary
-            dict["location"] = location
+            dict["dateOfDeath"] = dateOfDeath.dictionary
+            dict["locationOfDeath"] = locationOfDeath
+            dict["dateOfBurial"] = dateOfBurial.dictionary
+            dict["locationOfBurial"] = locationOfBurial
             dict["hasDied"] = hasDied
             return dict
         }

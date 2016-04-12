@@ -188,7 +188,7 @@ class Tree: CustomStringConvertible {
         return false
     }
 
-    func loadDictionary(dict: NSDictionary, appFormat: Int?) {
+    func loadDictionary(dict: NSMutableDictionary, appFormat: Int?) {
         realTree = true;
         
         guard let currentFormat = appFormat else {
@@ -201,12 +201,49 @@ class Tree: CustomStringConvertible {
             displayAlert("Warning", message: "Dictionary doesn't have version tag, which is required for safe opening")
             return
         }
-
+        
         if dictFormat < currentFormat {
             while dictFormat < currentFormat {
                 print("Upgraded tree from format \(dictFormat) to format \(dictFormat + 1)")
                 if dictFormat == 1 {
                     //There are no changes needed to convert 1 to 2
+                    dictFormat += 1
+                    continue
+                } else if dictFormat == 2 {
+                    //Changes in Death Dictionary
+                    /*
+                     people[x][death][date] ==> people[x][death][dateOfDeath]
+                     people[x][death][location] ==> people[x][death][locationOfDeath]
+                    */
+                    
+                    if let arr = dict["people"] as? NSArray {
+                        guard let mutablePeopleArr = arr.mutableCopy() as? NSMutableArray else {
+                            return
+                        }
+                        for (i, personDictionary) in arr.enumerate() {
+                            guard let mutablePerson = personDictionary.mutableCopy() as? NSMutableDictionary else {
+                                return
+                            }
+                            if let deathDict = personDictionary["death"] as? NSDictionary {
+                                guard let mutableDeathDict = deathDict.mutableCopy() as? NSMutableDictionary else {
+                                    return
+                                }
+                                guard let date = deathDict["date"], let location = deathDict["location"] else {
+                                    return
+                                }
+                                mutableDeathDict.setObject(date, forKey: "dateOfDeath")
+                                mutableDeathDict.setObject(location, forKey: "locationOfDeath")
+                                mutablePerson.setObject(mutableDeathDict, forKey: "death")
+                            }
+                            //No need to else{} because no death dictionary will be created with the right format
+                            
+                            mutablePeopleArr.removeObjectAtIndex(i)
+                            mutablePeopleArr.addObject(mutablePerson)
+                        }
+                        dict.setObject(mutablePeopleArr, forKey: "people")
+                    }
+                    //No need to else{}, because the dictionary won't open anyways, so the version doesn't matter
+                    
                     dictFormat += 1
                     continue
                 }
@@ -220,11 +257,11 @@ class Tree: CustomStringConvertible {
             self.treeName = treeName
         }
 
-        guard let arr = dict["people"] as? NSArray else {
+        guard let peopleArray = dict["people"] as? NSArray else {
             displayAlert("Error", message: "Unable to find people array")
             return
         }
-        for pDict in arr {
+        for pDict in peopleArray {
             let p = Person(tree: self)
             if let INDICode = pDict["INDI"] as? Int {
                 p.INDI = INDICode
@@ -255,22 +292,40 @@ class Tree: CustomStringConvertible {
             }
 
             if let deathDict = pDict["death"] as? NSDictionary {
-                if let dateDict = deathDict["date"] as? NSDictionary {
+                if let dateDict = deathDict["dateOfDeath"] as? NSDictionary {
                     if let day = dateDict["day"] as? Int {
-                        p.death.date.day = day
+                        p.death.dateOfDeath.day = day
                     }
                     if let monthString = dateDict["month"] as? String {
-                        p.death.date.month = monthFromRaw(month: monthString)
+                        p.death.dateOfDeath.month = monthFromRaw(month: monthString)
                     }
                     if let year = dateDict["year"] as? Int {
-                        p.death.date.year = year
+                        p.death.dateOfDeath.year = year
                     }
                 }
-                if let location = deathDict["location"] as? String {
+                if let dateDict = deathDict["dateOfBurial"] as? NSDictionary {
+                    if let day = dateDict["day"] as? Int {
+                        p.death.dateOfBurial.day = day
+                    }
+                    if let monthString = dateDict["month"] as? String {
+                        p.death.dateOfBurial.month = monthFromRaw(month: monthString)
+                    }
+                    if let year = dateDict["year"] as? Int {
+                        p.death.dateOfBurial.year = year
+                    }
+                }
+                if let location = deathDict["locationOfDeath"] as? String {
                     print("Imported death location for \(p.description)")
-                    p.death.location = location
+                    p.death.locationOfDeath = location
                 } else {
                     print("Couldn't import death location for \(p.description). Here's the dictionary")
+                    print(deathDict)
+                }
+                if let location = deathDict["locationOfBurial"] as? String {
+                    print("Imported burial location for \(p.description)")
+                    p.death.locationOfBurial = location
+                } else {
+                    print("Couldn't import burial location for \(p.description). Here's the dictionary")
                     print(deathDict)
                 }
                 if let hasDied = deathDict["hasDied"] as? Bool {
@@ -304,7 +359,7 @@ class Tree: CustomStringConvertible {
             self.people.append(p)
         }
         //Second loop to add parents
-        for pDict in arr {
+        for pDict in peopleArray {
             if let INDICode = pDict["INDI"] as? Int, let p = self.getPerson(id: INDICode) {
                 if let parentA_INDI = pDict["parentA"] as? Int {
                     print("Imported Parent A (\(parentA_INDI) for \(p.INDI))")
