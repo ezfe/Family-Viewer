@@ -16,7 +16,7 @@ class Tree: CustomStringConvertible {
     var people = [Person]() {
         didSet {
             realTree = true;
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self)
+            NotificationCenter.default.post(name: .FVTreeDidUpdate, object: self)
         }
     }
 
@@ -29,7 +29,7 @@ class Tree: CustomStringConvertible {
     var nextSort: SortingTypes = .A_FIRST
 
     func sortPeople(sortType: SortingTypes = .A_FIRST) {
-        self.people.sortInPlace { (p1, p2) -> Bool in
+        self.people.sort { (p1, p2) -> Bool in
             if sortType == .A_FIRST {
                 return p1.description > p2.description
             } else if sortType == .Z_FIRST {
@@ -71,7 +71,7 @@ class Tree: CustomStringConvertible {
     (Use person.INDI for this)
     */
     func getIndexOfPerson(person: Person) -> Int? {
-        for (i,p) in self.people.enumerate() {
+        for (i,p) in self.people.enumerated() {
             if p == person {
                 return i
             }
@@ -82,10 +82,10 @@ class Tree: CustomStringConvertible {
     ///Get a person by their name, either name works: Kezia Lind, Kezia Sørbøe
     func getPerson(givenName firstName: String, familyName lastName: String) -> Person? {
         for p in self.people {
-            if let givenNameNow = p.nameNow.givenName, let familyNameNow = p.nameNow.familyName, givenNameNow.lowercaseString == firstName.lowercaseString && familyNameNow.lowercaseString == lastName.lowercaseString {
+            if let givenNameNow = p.nameNow.givenName, let familyNameNow = p.nameNow.familyName, givenNameNow.lowercased() == firstName.lowercased() && familyNameNow.lowercased() == lastName.lowercased() {
                 return p
             }
-            if let givenNameNow = p.nameAtBirth.givenName, let familyNameNow = p.nameAtBirth.familyName, givenNameNow.lowercaseString == firstName.lowercaseString && familyNameNow.lowercaseString == lastName.lowercaseString {
+            if let givenNameNow = p.nameAtBirth.givenName, let familyNameNow = p.nameAtBirth.familyName, givenNameNow.lowercased() == firstName.lowercased() && familyNameNow.lowercased() == lastName.lowercased() {
                 return p
             }
         }
@@ -112,10 +112,10 @@ class Tree: CustomStringConvertible {
             let arr = NSMutableArray()
             for person in people {
                 print("Imported \(person.description)")
-                arr.addObject(person.dictionary)
+                arr.add(person.dictionary)
             }
             dict["people"] = arr
-            if let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate {
+            if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
                 //If there's no app delegate, than more problems are present than a missing version tag
                 //Just save it and hope the rest of the app works
                 dict["version"] = appDelegate.formatVersion
@@ -140,7 +140,7 @@ class Tree: CustomStringConvertible {
     }
 
     func describe() {
-        for person in self.people.sort({ (p1, p2) -> Bool in
+        for person in self.people.sorted(by: { (p1, p2) -> Bool in
             p1.birth.date > p2.birth.date
         }) {
             person.describe()
@@ -149,8 +149,8 @@ class Tree: CustomStringConvertible {
     
     ///Deletes duplicate INDI codes and assigns missing ones.
     func cleanupINDICodes() {
-        for (i,p) in people.enumerate() {
-            for (x,p2) in people.enumerate() where x != i {
+        for (i,p) in people.enumerated() {
+            for (x,p2) in people.enumerated() where x != i {
                 if p == p2 {
                     p2.INDI = self.getUniqueINDI()
                     print("Assigned new INDI (\(p2.INDI)) to \(p2.description)")
@@ -171,9 +171,9 @@ class Tree: CustomStringConvertible {
     func removePerson(p: Person) -> Bool {
         print("Tree recevied request to delete \(p)")
         
-        for (i, p2) in people.enumerate() {
+        for (i, p2) in people.enumerated() {
             if p == p2 {
-                people.removeAtIndex(i)
+                people.remove(at: i)
                 if !(self.people.count > 0) {
                     self.people.append(Person(tree: self))
                 }
@@ -188,16 +188,17 @@ class Tree: CustomStringConvertible {
         realTree = true;
         
         guard let currentFormat = appFormat else {
-            displayAlert("Warning", message: "Unable to read application version, which is required for safe opening")
+            displayAlert(title: "Warning", message: "Unable to read application version, which is required for safe opening")
             return
         }
 
         guard var dictFormat = dict["version"] as? Int else {
             //TODO: Make it not crash
-            displayAlert("Warning", message: "Dictionary doesn't have version tag, which is required for safe opening")
+            displayAlert(title: "Warning", message: "Dictionary doesn't have version tag, which is required for safe opening")
             return
         }
         
+        /*
         if dictFormat < currentFormat {
             while dictFormat < currentFormat {
                 print("Upgraded tree from format \(dictFormat) to format \(dictFormat + 1)")
@@ -216,8 +217,8 @@ class Tree: CustomStringConvertible {
                         guard let mutablePeopleArr = arr.mutableCopy() as? NSMutableArray else {
                             return
                         }
-                        for (i, personDictionary) in arr.enumerate() {
-                            guard let mutablePerson = personDictionary.mutableCopy() as? NSMutableDictionary else {
+                        for (i, personDictionary) in arr.enumerated() {
+                            guard let mutablePerson = (personDictionary as? AnyObject)?.mutableCopy() as? NSMutableDictionary else {
                                 return
                             }
                             if let deathDict = personDictionary["death"] as? NSDictionary {
@@ -233,7 +234,7 @@ class Tree: CustomStringConvertible {
                             }
                             //No need to else{} because no death dictionary will be created with the right format
                             
-                            mutablePeopleArr.removeObjectAtIndex(i)
+                            mutablePeopleArr.removeObject(at: i)
                             mutablePeopleArr.addObject(mutablePerson)
                         }
                         dict.setObject(mutablePeopleArr, forKey: "people")
@@ -248,13 +249,14 @@ class Tree: CustomStringConvertible {
             displayAlert("Error", message: "Dictionary is (too) new, won't open")
             return
         }
+         */
 
         if let treeName = dict["name"] as? String {
             self.treeName = treeName
         }
 
-        guard let peopleArray = dict["people"] as? NSArray else {
-            displayAlert("Error", message: "Unable to find people array")
+        guard let peopleArray = dict["people"] as? [[String: Any]] else {
+            displayAlert(title: "Error", message: "Unable to find people array")
             return
         }
         for pDict in peopleArray {

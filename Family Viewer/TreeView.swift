@@ -33,33 +33,33 @@ class TreeView: NSView {
         super.draw(dirtyRect)
         
         if let p = tree.selectedPerson {
-            drawPerson(dirtyRect.midpoint.x, y: dirtyRect.midpoint.y, person: p, level: 1, drawParents: true, drawChildren: true)
+            drawPerson(x: dirtyRect.midpoint.x, y: dirtyRect.midpoint.y, person: p, level: 1, drawParents: true, drawChildren: true)
         }
     }
     
     func drawPerson(x: CGFloat, y: CGFloat, person: Person, level: Int, drawParents: Bool, drawChildren: Bool) {
         let path = NSBezierPath(rect: rectAround(centerX: x, centerY: y, width: 10, height: 10))
         if person.sex == .Male {
-            NSColor.blueColor().setFill()
+            NSColor.blue.setFill()
         } else {
-            NSColor.redColor().setFill()
+            NSColor.red.setFill()
         }
         path.fill()
         
         if drawParents {
             if let pa = person.parentA {
                 let nx = x - (50 / CGFloat(level))
-                drawPerson(nx, y: y + 22, person: pa, level: level + 1, drawParents: true, drawChildren: false)
+                drawPerson(x: nx, y: y + 22, person: pa, level: level + 1, drawParents: true, drawChildren: false)
             }
             if let pb = person.parentB {
                 let nx = x + (50 / CGFloat(level))
-                drawPerson(nx, y: y + 22, person: pb, level: level + 1, drawParents: true, drawChildren: false)
+                drawPerson(x: nx, y: y + 22, person: pb, level: level + 1, drawParents: true, drawChildren: false)
             }
         }
         if drawChildren {
             let children = person.children
             Swift.print(children)
-            for (i, child) in children.enumerate() {
+            for (i, child) in children.enumerated() {
                 let mx = ((CGFloat(i / 2) * 12) - (CGFloat(children.count / 2) * 12 / 2)) * CGFloat(abs(level));
                 let nx: CGFloat
                 if (i < children.count / 2) {
@@ -67,7 +67,7 @@ class TreeView: NSView {
                 } else {
                     nx = x + mx
                 }
-                drawPerson(nx, y: y - 22, person: child, level: level - 1, drawParents: false, drawChildren: false)
+                drawPerson(x: nx, y: y - 22, person: child, level: level - 1, drawParents: false, drawChildren: false)
             }
         }
 

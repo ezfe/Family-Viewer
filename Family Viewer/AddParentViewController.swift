@@ -21,7 +21,7 @@ class AddParentViewController: NSViewController {
         self.popupChooser.addItems(withTitles: self.tree.people.map { $0.description })
     }
 
-    @IBAction func setParent(sender: AnyObject) {
+    @IBAction func setParent(_ sender: AnyObject) {
         guard let parentTo = parentTo else {
             return
         }
@@ -45,7 +45,7 @@ class AddParentViewController: NSViewController {
         self.dismiss(self)
     }
 
-    @IBAction func createNewPerson(sender: AnyObject) {
+    @IBAction func createNewPerson(_ sender: AnyObject) {
         guard let parentTo = parentTo else {
             return
         }

@@ -21,16 +21,22 @@ func ==(left: Person?, right: Person?) -> Bool {
 
 extension String {
     
+    @available(*, deprecated: 0.9.0, message: "Use proper string methods")
     subscript (i: Int) -> Character {
         return self[self.index(self.startIndex, offsetBy: i)]
     }
     
+    @available(*, deprecated: 0.9.0, message: "Use proper string methods")
     subscript (i: Int) -> String {
         return String(self[i] as Character)
     }
     
+    @available(*, deprecated: 0.9.0, message: "Use proper string methods")
     subscript (r: Range<Int>) -> String {
-//        return substringWithRange(Range(startIndex.advancedBy(r.startIndex) ..< startIndex.advancedBy(r.endIndex)))
+        let start = self.index(self.startIndex, offsetBy: r.lowerBound)
+        let end = self.index(self.startIndex, offsetBy: r.upperBound)
+        let range = Range(start ..< end)
+        return substring(with: range)
     }
 }
 
@@ -271,19 +277,30 @@ extension Month {
     }
 }
 ///Converts DD MMM YYYY to Date() object
-func convertFEDate(date d: String) -> Date {
-    if d.characters.count == 10 {
-        let day = Int(d[0..<1])
-        let monthString = d[2...4]
-        let year = Int(d[6...9])
-        return Date(day: day, month: monthFromFEString(month: monthString), year: year)
-    } else if d.characters.count == 11 {
-        let day = Int(d[0..<2])
-        let monthString = d[3...5]
-        let year = Int(d[7...10])
-        return Date(day: day, month: monthFromFEString(month: monthString), year: year)
+func convertFEDate(dateString: String) -> Date {
+    let dayStart = dateString.startIndex
+    let dayEnd: String.Index
+    
+    if dateString.count == 10 {
+        dayEnd = dateString.index(after: dayStart)
+    } else {
+        dayEnd = dateString.index(dayStart, offsetBy: 2)
+        
     }
-    return Date(day: nil, month: nil, year: nil)
+    
+    let day = Int(String(dateString[dayStart..<dayEnd]))
+    
+    let monthStart = dateString.index(after: dayEnd)
+    let monthEnd = dateString.index(monthStart, offsetBy: 3)
+    
+    let monthString = dateString[monthStart..<monthEnd]
+    
+    let yearStart = dateString.index(after: monthEnd)
+    let yearEnd = dateString.endIndex
+    
+    let year = Int(String(dateString[yearStart..<yearEnd]))
+    
+    return Date(day: day, month: monthFromFEString(month: String(monthString)), year: year)
 }
 
 //MARK: Birth and Death
@@ -335,7 +352,7 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
     let tree = Tree()
     var rows = inputData.components(separatedBy: "\n")
     rows.removeLast()
-    if (rows[0][0] != "0") {
+    if (rows[0].first != "0") {
         //TODO: Make it not crash, just cancel import
         assert(false, "First row isn't Level:0")
     }
@@ -387,10 +404,10 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
                     }
                     children.append(child)
                 }
-//                Type note used right now
-//                } else if row.rangeOfString("MARR") != nil {
-//                    self.type = FamilyType.Married
-//                }
+                //                Type note used right now
+                //                } else if row.rangeOfString("MARR") != nil {
+                //                    self.type = FamilyType.Married
+                //                }
             }
             
             for child in children {
@@ -425,6 +442,7 @@ func getXcodeTag(tag: Int) -> XcodeTag {
         return xctag
     } else {
         assertionFailure("Unable to initialize XcodeTag")
+        return XcodeTag.MainBrowserTable
     }
 }
 
@@ -439,11 +457,11 @@ enum TableActions {
 }
 
 /*
-* http://www.raywenderlich.com/90971/introduction-mapkit-swift-tutorial
-*/
+ * http://www.raywenderlich.com/90971/introduction-mapkit-swift-tutorial
+ */
 func centerMapOnLocation(map: MKMapView, location: CLLocation, radius: CLLocationDistance) {
     let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
-        radius * 2.0, radius * 2.0)
+                                                              radius * 2.0, radius * 2.0)
     map.setRegion(coordinateRegion, animated: true)
 }
 
@@ -469,5 +487,5 @@ func numericalSuffix(_ n: Int) -> String {
     }
     
     return "\(n)\(suffix)";
-
+    
 }

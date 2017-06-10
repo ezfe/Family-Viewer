@@ -133,7 +133,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
         }
     }
     
-    @IBAction func editSex(sender: AnyObject) {
+    @IBAction func editSex(_ sender: AnyObject) {
         
         guard let popup = sender as? NSPopUpButton else {
             return
@@ -150,7 +150,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
         }
     }
     
-    @IBAction func setMother(sender: AnyObject) {
+    @IBAction func setMother(_ sender: AnyObject) {
         guard let person = self.person else {
             return
         }
@@ -163,7 +163,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
         self.presentViewController(vc, asPopoverRelativeTo: setMotherButton.visibleRect, of: setMotherButton, preferredEdge: NSRectEdge.minX, behavior: NSPopover.Behavior.semitransient)
     }
     
-    @IBAction func setFather(sender: AnyObject) {
+    @IBAction func setFather(_ sender: AnyObject) {
         guard let person = self.person else {
             return
         }
@@ -177,8 +177,8 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
     }
     
     func textDidChange(_ notification: Notification) {
-        if let p = self.person, let n = notesField.string {
-            p.notes = n
+        if let p = self.person {
+            p.notes = notesField.string
 //            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
         }
     }
@@ -186,7 +186,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
     //MARK: -
     //MARK: Table Functions
     
-    @objc func doubleClick(sender: AnyObject) {
+    @objc func doubleClick(_ sender: AnyObject) {
         guard let selectedPerson = self.person, let tableView = sender as? NSTableView else {
             return
         }
@@ -201,7 +201,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
         }
     }
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         switch getXcodeTag(tag: tableView.tag) {
         case .PartnersTable:
             if let p = self.person {
@@ -256,14 +256,14 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
         
     //MARK:-
     
-    @IBAction func removeParentA(sender: AnyObject) {
+    @IBAction func removeParentA(_ sender: AnyObject) {
         if let person = self.person {
             person.parentA = nil
             NotificationCenter.default.post(name: .FVTreeDidUpdate, object: self.person?.tree)
         }
     }
     
-    @IBAction func removeParentB(sender: AnyObject) {
+    @IBAction func removeParentB(_ sender: AnyObject) {
         if let person = self.person {
             person.parentB = nil
             NotificationCenter.default.post(name: .FVTreeDidUpdate, object: self.person?.tree)
@@ -319,7 +319,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
         }
     }
     
-    @IBAction func deletePerson(sender: AnyObject) {
+    @IBAction func deletePerson(_ sender: AnyObject) {
         guard let person = self.person else {
             return
         }
@@ -422,7 +422,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
             self.removeFatherButton.isHidden = true
         }
         
-        print(person.mostProbableSpouse)
+        print(person.mostProbableSpouse ?? "No spouse returned")
         
         notesField.string = person.notes
         

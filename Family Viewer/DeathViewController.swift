@@ -30,9 +30,9 @@ class DeathViewController: NSViewController {
                 self.datePicker.stringValue = ""
             }
             if let month = person.death.dateOfDeath.month?.rawValue {
-                self.monthPicker.selectItemWithTitle(month)
+                self.monthPicker.selectItem(withTitle: month)
             } else {
-                self.monthPicker.selectItemAtIndex(0)
+                self.monthPicker.selectItem(at: 0)
             }
             if let year = person.death.dateOfDeath.year {
                 self.yearPicker.integerValue = year
@@ -48,26 +48,26 @@ class DeathViewController: NSViewController {
         }
     }
     
-    @IBAction func update(sender: AnyObject) {
+    @IBAction func update(_ sender: AnyObject) {
         guard let person = person else {
-            self.dismissController(self)
+            self.dismiss(self)
             return
         }
         
         if (isAliveCheckbox.isChecked) {
             isAliveCheckbox.title = "\(person.description) is alive"
-            datePicker.enabled = false
-            monthPicker.enabled = false
-            yearPicker.enabled = false
-            locationStringPicker.enabled = false
+            datePicker.isEnabled = false
+            monthPicker.isEnabled = false
+            yearPicker.isEnabled = false
+            locationStringPicker.isEnabled = false
             
             person.isAlive = true
         } else {
             isAliveCheckbox.title = "\(person.description) is dead"
-            datePicker.enabled = true
-            monthPicker.enabled = true
-            yearPicker.enabled = true
-            locationStringPicker.enabled = true
+            datePicker.isEnabled = true
+            monthPicker.isEnabled = true
+            yearPicker.isEnabled = true
+            locationStringPicker.isEnabled = true
             
             person.isAlive = false
         }

@@ -11,7 +11,7 @@ import AppKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    
     /*
      * Version to save in the file
      * 1: Current version as of Build 759
@@ -28,10 +28,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         let verificationURL = "https://ezekielelin.com/family-viewer/beta-verification?v=\(appVersion)"
-        if let verificationURL = NSURL(string: verificationURL) {
+        if let verificationURL = URL(string: verificationURL) {
             do {
-                let myHTMLString = try NSString(contentsOfURL: verificationURL, encoding: NSUTF8StringEncoding)
-
+                let myHTMLString = try String.init(contentsOf: verificationURL)
+                
                 if myHTMLString != "OK" {
                     displayAlert(title: "Error", message: "This build cannot run due to an unexpected server response\n\nYou may need to update this application to continue using it")
                     NSApp.terminate(self)
@@ -39,45 +39,41 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } catch {
                 displayAlert(title: "Error", message: "An unexpected error occured making a network request")
             }
-
+            
         } else {
             fatalError("Verification URL is not valid")
         }
-
+        
         //Create AppSupport directory if it doesn't exist already
         createAppSupportFolder()
-
-        let fm = NSFileManager.defaultManager()
         
-        if let fpath = dataFileURL.path {
-            if !fm.fileExistsAtPath(fpath) {
-                saveFile(self)
-            } else {
-                readSavedData(dataFileURL.path!)
-            }
+        let fm = FileManager.default
+        
+        let fpath = dataFileURL.path
+        if !fm.fileExists(atPath: fpath) {
+            saveFile(self)
         } else {
-            displayAlert("Error", message: "Unable to get data file path")
-            NSApp.terminate(self)
-            return
+            readSavedData(path: dataFileURL.path)
         }
-
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeIsReady", object: nil)
-
-        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        
+        NotificationCenter.default.post(name: .FVTreeIsReady, object: nil)
+        
+        let defaults = UserDefaults.standard
         var showAlert = true
-        if defaults.boolForKey("betaAlertShown") {
+        if defaults.bool(forKey: "betaAlertShown") {
             showAlert = false
         }
         if showAlert {
-            displayAlert("Notice!", message: "This is a beta build. Saved files may not be compatible with future versions, data loss may occur.")
+            displayAlert(title: "Notice!", message: "This is a beta build. Saved files may not be compatible with future versions, data loss may occur.")
         }
-        defaults.setBool(true, forKey: "betaAlertShown")
+        defaults.set(true, forKey: "betaAlertShown")
     }
-
+    
     func applicationWillTerminate(aNotification: NSNotification) {
         saveFile(self)
     }
-
+    
     func readSavedData(path: String) {
         let dict = NSDictionary(contentsOfFile: path)
         if let dict = dict, let treeVersion = dict["version"] as? Int {
@@ -85,7 +81,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 guard let mutableDict = dict.mutableCopy() as? NSMutableDictionary else {
                     return
                 }
-                self.tree.loadDictionary(mutableDict, appFormat: self.formatVersion)
+                self.tree.loadDictionary(dict: mutableDict, appFormat: self.formatVersion)
             } else {
                 fatalError("Version wasn't greater than 0")
             }
@@ -93,58 +89,52 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("Error reading from path (\(path))")
         }
     }
-
+    
     //MARK:-
     //MARK: Paths
-
-    func appSupportURL() -> NSURL {
-        let supportDirPath = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0]
-
-        return NSURL(fileURLWithPath: supportDirPath).URLByAppendingPathComponent(NSBundle.mainBundle().bundleIdentifier!)
+    
+    func appSupportURL() -> URL {
+        let supportDirPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)[0]
+        
+        return URL(fileURLWithPath: supportDirPath).appendingPathComponent(Bundle.main.bundleIdentifier!)
     }
-
+    
     func createAppSupportFolder() {
         do {
-            let fm = NSFileManager.defaultManager()
-            try fm.createDirectoryAtURL(appSupportURL(), withIntermediateDirectories: true, attributes: nil)
+            let fm = FileManager.default
+            try fm.createDirectory(at: appSupportURL(), withIntermediateDirectories: true, attributes: nil)
         } catch {
             fatalError("Could not create directory at \(appSupportURL())")
         }
     }
-
-    var dataFileURL: NSURL {
+    
+    var dataFileURL: URL {
         get {
-            return appSupportURL().URLByAppendingPathComponent("data.plist")
+            return appSupportURL().appendingPathComponent("data.plist")
         }
-    }
-
-    var dataFilePath: String {
-        get {
-            guard let path = dataFileURL.path else {
-                fatalError("Could not get dataFileURL")
-            }
-            return path
-        }
-    }
-
-    //MARK:-
-
-    func dataFileExists() -> Bool {
-        let fm = NSFileManager.defaultManager()
-        guard let fpath = dataFileURL.path else {
-            print("Warning: dataFileURL.path is nil at \(#function) on line \(#line)")
-            return false
-        }
-        return fm.fileExistsAtPath(fpath)
     }
     
-    @IBAction func saveFile(sender: AnyObject) {
+    var dataFilePath: String {
+        get {
+            return dataFileURL.path
+        }
+    }
+    
+    //MARK:-
+    
+    func dataFileExists() -> Bool {
+        let fm = FileManager.default
+        let fpath = dataFileURL.path
+        return fm.fileExists(atPath: fpath)
+    }
+    
+    @IBAction func saveFile(_ sender: AnyObject) {
         createAppSupportFolder()
-        let fm = NSFileManager.defaultManager()
+        let fm = FileManager.default
         if tree.realTree {
-            tree.dictionary.writeToFile(dataFilePath, atomically: true)
+            tree.dictionary.write(to: dataFileURL, atomically: true)
             
-            if !fm.fileExistsAtPath(dataFilePath) {
+            if !fm.fileExists(atPath: dataFilePath) {
                 print("File wasn't written for unknown reason")
                 print(tree.dictionary)
             }
@@ -152,11 +142,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("Tree wasn't written because it's not real")
         }
     }
-
-    @IBAction func addPerson(sender: AnyObject) {
+    
+    @IBAction func addPerson(_ sender: AnyObject) {
         let p = Person(tree: tree)
         tree.people.append(p)
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: p)
+        NotificationCenter.default.post(name: .FVTreeDidUpdate, object: nil)
+        NotificationCenter.default.post(name: .FVShowPerson, object: p)
     }
 }

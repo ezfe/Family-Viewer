@@ -28,9 +28,9 @@ class BirthdayViewController: NSViewController {
                 self.datePicker.stringValue = ""
             }
             if let month = person.birth.date.month?.rawValue {
-                self.monthPicker.selectItemWithTitle(month)
+                self.monthPicker.selectItem(withTitle: month)
             } else {
-                self.monthPicker.selectItemAtIndex(0)
+                self.monthPicker.selectItem(at: 0)
             }
             if let year = person.birth.date.year {
                 self.yearPicker.integerValue = year
@@ -60,9 +60,9 @@ class BirthdayViewController: NSViewController {
 //        })
     }
     
-    @IBAction func update(sender: AnyObject) {
+    @IBAction func update(_ sender: AnyObject) {
         guard let person = person else {
-            self.dismissController(self)
+            self.dismiss(self)
             return
         }
         
@@ -90,6 +90,6 @@ class BirthdayViewController: NSViewController {
         
         updateMap()
         
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+        NotificationCenter.default.post(name: .FVTreeDidUpdate, object: nil)
     }
 }

@@ -64,7 +64,7 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
     
-    @IBAction func tableClick(sender: AnyObject) {
+    @IBAction func tableClick(_ sender: AnyObject) {
         if let tree = self.tree, mainBrowserTable.selectedRow != -1 {
             for i in mainBrowserTable.selectedRowIndexes {
                 viewPerson(person: tree.people[i])
@@ -72,7 +72,7 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if let tree = self.tree {
             return tree.people.count
         } else {

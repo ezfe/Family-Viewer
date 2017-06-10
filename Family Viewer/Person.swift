@@ -8,14 +8,7 @@
 
 import Foundation
 
-func ==(l: Person, r: Person) -> Bool {
-    return l.INDI == r.INDI
-}
-func <(l: Person, r: Person) -> Bool {
-    return l.INDI < r.INDI
-}
-
-class Person: CustomStringConvertible, Comparable {
+class Person: CustomStringConvertible {
     ///Name String
     var description: String {
         get {
@@ -221,7 +214,7 @@ class Person: CustomStringConvertible, Comparable {
         var ancestorsSet = Array<AncestorPerson>()
         
         func populateAncestors(from popPerson: Person, distance: Int, visitor: Visitor) {
-            if !personInSet(popPerson) {
+            if !personInSet(person: popPerson) {
                 let ap = AncestorPerson(person: popPerson)
                 ap.visit()
                 if visitor == .Me {
@@ -440,7 +433,7 @@ class Person: CustomStringConvertible, Comparable {
                     }
                     if row.range(of: "DATE") != nil {
                         let dateString = row.replacingOccurrences(of: "2 DATE ", with: "")
-                        self.birth.date = convertFEDate(date: dateString)
+                        self.birth.date = convertFEDate(dateString: dateString)
                     } else if row.range(of: "PLAC") != nil {
 //                        let placeString = row.replacingOccurrences(of: "2 PLAC ", with: "")
 //                        Don't parse location for now, just have that entered later in UI
@@ -454,7 +447,7 @@ class Person: CustomStringConvertible, Comparable {
                     }
                     if row.range(of: "DATE") != nil {
                         let dateString = row.replacingOccurrences(of: "2 DATE ", with: "")
-                        self.death.dateOfDeath = convertFEDate(date: dateString)
+                        self.death.dateOfDeath = convertFEDate(dateString: dateString)
                     } else if row.range(of: "PLAC") != nil {
 //                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
 //                        Don't parse location for now, just have that entered later in UI
@@ -593,5 +586,16 @@ class Person: CustomStringConvertible, Comparable {
             
             return dict
         }
+    }
+}
+
+
+extension Person: Comparable {
+    static func ==(l: Person, r: Person) -> Bool {
+        return l.INDI == r.INDI
+    }
+    
+    static func <(l: Person, r: Person) -> Bool {
+        return l.INDI < r.INDI
     }
 }

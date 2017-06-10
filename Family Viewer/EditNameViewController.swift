@@ -84,7 +84,7 @@ class EditNameViewController: NSViewController {
         }
     }
     
-    @IBAction func updateSecondFields(sender: AnyObject) {
+    @IBAction func updateSecondFields(_ sender: AnyObject) {
         secondPrefixField.isEnabled = secondPrefixEnabled.isChecked
         secondGivenNameField.isEnabled = secondGivenNameEnabled.isChecked
         secondMiddleNameField.isEnabled = secondMiddleNameEnabled.isChecked
@@ -151,9 +151,9 @@ class EditNameViewController: NSViewController {
                 person.nameNow.nickname = nil
             }
             
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+            NotificationCenter.default.post(name: .FVTreeDidUpdate, object: nil)
         } else {
-            self.dismissController(self)
+            self.dismiss(self)
         }
     }
 }
