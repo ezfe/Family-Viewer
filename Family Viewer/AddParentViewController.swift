@@ -18,7 +18,7 @@ class AddParentViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.popupChooser.addItemsWithTitles(tree.peopleNameList)
+        self.popupChooser.addItems(withTitles: self.tree.people.map { $0.description })
     }
 
     @IBAction func setParent(sender: AnyObject) {
@@ -32,7 +32,7 @@ class AddParentViewController: NSViewController {
         let parent = self.tree.people[self.popupChooser.indexOfSelectedItem - 1]
 
         if parentTo == parent {
-            displayAlert("Operation not Permitted", message: "You may not be your own parent")
+            displayAlert(title: "Operation not Permitted", message: "You may not be your own parent")
             return
         }
 
@@ -41,8 +41,8 @@ class AddParentViewController: NSViewController {
         } else if self.A_B == "B" {
             parentTo.parentB = parent
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
-        self.dismissController(self)
+        NotificationCenter.default.post(name: .FVTreeDidUpdate, object: nil)
+        self.dismiss(self)
     }
 
     @IBAction func createNewPerson(sender: AnyObject) {
@@ -58,8 +58,8 @@ class AddParentViewController: NSViewController {
             parentTo.parentB = newPerson
             newPerson.sex = .Male
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil, userInfo: nil)
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.addedParent", object: nil, userInfo: ["newPerson":newPerson,"parentTo":parentTo,"A_B": A_B])
-        self.dismissController(self)
+        NotificationCenter.default.post(name: .FVTreeDidUpdate, object: nil)
+        NotificationCenter.default.post(name: .FVAddedParent, object: nil, userInfo: ["newPerson": newPerson, "parentTo": parentTo, "A_B": A_B])
+        self.dismiss(self)
     }
 }

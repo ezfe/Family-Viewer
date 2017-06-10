@@ -21,7 +21,11 @@ class NameComponents: CustomStringConvertible {
     
     var lastInitial: String? {
         get {
-            return familyName![0]
+            if let familyName = self.familyName {
+                return String(familyName.first ?? "?")
+            } else {
+                return "?"
+            }
         }
     }
     

@@ -101,11 +101,7 @@ class Tree: CustomStringConvertible {
     ///List of Person objects in [Name, Name, Name] format
     var peopleNameList: [String] {
         get {
-            var to_return = [String]()
-            for p in people {
-                to_return.append(p.description)
-            }
-            return to_return
+            return self.people.map { $0.description }
         }
     }
 

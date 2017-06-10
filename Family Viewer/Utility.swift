@@ -22,7 +22,7 @@ func ==(left: Person?, right: Person?) -> Bool {
 extension String {
     
     subscript (i: Int) -> Character {
-        return self[self.startIndex.advancedBy(i)]
+        return self[self.index(self.startIndex, offsetBy: i)]
     }
     
     subscript (i: Int) -> String {
@@ -30,7 +30,7 @@ extension String {
     }
     
     subscript (r: Range<Int>) -> String {
-        return substringWithRange(Range(startIndex.advancedBy(r.startIndex) ..< startIndex.advancedBy(r.endIndex)))
+//        return substringWithRange(Range(startIndex.advancedBy(r.startIndex) ..< startIndex.advancedBy(r.endIndex)))
     }
 }
 
@@ -136,12 +136,12 @@ func ==(date1: Date, date2: Date) -> Bool {
 func <(date1: Date, date2: Date) -> Bool {
     if date1.year == date2.year {
         if date1.month == date2.month {
-            return date1.day < date2.day
+            return date1.day ?? 0 < date2.day ?? 0
         } else {
-            return date1.month < date2.month
+            return date1.month ?? .January < date2.month ?? .January
         }
     } else {
-        return date1.year < date2.year
+        return date1.year ?? 0 < date2.year ?? 0
     }
 }
 
@@ -176,18 +176,18 @@ struct Date: CustomStringConvertible, Comparable {
     var description: String {
         get {
             if let day = self.day, let month = self.month, let year = self.year {
-                return "\(month.rawValue) \(numericalSuffix(n: day)), \(year)"
+                return "\(month.rawValue) \(numericalSuffix(day)), \(year)"
             }
             if let month = self.month, let year = self.year {
                 return "\(month.rawValue) \(year)"
             }
             if let day = self.day, let month = self.month {
-                return "\(month.rawValue) \(numericalSuffix(n: day))"
+                return "\(month.rawValue) \(numericalSuffix(day))"
             }
             if let year = self.year {
                 return "\(year)"
             }
-            return "\(month) \(day), \(year)"
+            return "Month ##th, ####"
         }
     }
 }
@@ -333,24 +333,24 @@ struct Death {
 
 func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
     let tree = Tree()
-    var rows = (inputData.componentsSeparatedByString("\n"))
+    var rows = inputData.components(separatedBy: "\n")
     rows.removeLast()
     if (rows[0][0] != "0") {
         //TODO: Make it not crash, just cancel import
         assert(false, "First row isn't Level:0")
     }
-    for (i,row) in rows.enumerate() {
+    for (i,row) in rows.enumerated() {
         if (row.characters.count == 0) {
             //TODO: Make it not crash, just cancel import
             assert(false, "Empty row!")
         }
-        rows[i] = row.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        rows[i] = row.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     var firstLevelObjects = [[String]]()
     var workingEntity = [String]()
     
-    for (i,row) in rows.enumerate() {
+    for (i,row) in rows.enumerated() {
         let rowLevel = Int(row[0])!
         if i != 0 && rowLevel == 0 {
             firstLevelObjects.append(workingEntity)
@@ -360,13 +360,13 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
     }
     
     for entity in firstLevelObjects {
-        if entity[0].rangeOfString("INDI") != nil {
+        if entity[0].range(of: "INDI") != nil {
             let p = Person(gedcomEntity: entity, tree: tree)
             tree.people.append(p)
         }
     }
     for entity in firstLevelObjects {
-        if entity[0].rangeOfString("FAM") != nil {
+        if entity[0].range(of: "FAM") != nil {
             
             let ge = entity
             var husband: Person?
@@ -374,14 +374,14 @@ func GEDCOMToFamilyObject(gedcomString inputData: String) -> Tree {
             var children = [Person]()
             
             for row in ge {
-                if row.rangeOfString("HUSB") != nil {
-                    let husbandID = Int(row.stringByReplacingOccurrencesOfString("1 HUSB @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
+                if row.range(of: "HUSB") != nil {
+                    let husbandID = Int(row.replacingOccurrences(of: "1 HUSB @I", with: "").replacingOccurrences(of: "@", with: ""))!
                     husband = tree.getPerson(id: husbandID)
-                } else if row.rangeOfString("WIFE") != nil {
-                    let wifeID = Int(row.stringByReplacingOccurrencesOfString("1 WIFE @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
+                } else if row.range(of: "WIFE") != nil {
+                    let wifeID = Int(row.replacingOccurrences(of: "1 WIFE @I", with: "").replacingOccurrences(of: "@", with: ""))!
                     wife = tree.getPerson(id: wifeID)
-                } else if row.rangeOfString("CHIL") != nil {
-                    let childID = Int(row.stringByReplacingOccurrencesOfString("1 CHIL @I", withString: "").stringByReplacingOccurrencesOfString("@", withString: ""))!
+                } else if row.range(of: "CHIL") != nil {
+                    let childID = Int(row.replacingOccurrences(of: "1 CHIL @I", with: "").replacingOccurrences(of: "@", with: ""))!
                     guard let child = tree.getPerson(id: childID) else {
                         continue
                     }
@@ -424,8 +424,7 @@ func getXcodeTag(tag: Int) -> XcodeTag {
     if let xctag = XcodeTag(rawValue: tag) {
         return xctag
     } else {
-        assert(false, "Unable to initialize XcodeTag")
-        return Optional()!
+        assertionFailure("Unable to initialize XcodeTag")
     }
 }
 

@@ -17,19 +17,19 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     var windowControllers = Dictionary<Int, NSWindowController>()
     
     override func viewDidLoad() {
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(loadTree), name: "com.ezekielelin.treeIsReady", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateTable), name: "com.ezekielelin.treeDidUpdate", object: nil)
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(addedParent(_:)), name: "com.ezekielelin.addedParent", object: nil)
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(showPerson(_:)), name: "com.ezekielelin.showPerson", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadTree), name: .FVTreeIsReady, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: .FVTreeDidUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addedParent(notification:)), name: .FVAddedParent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showPerson(notification:)), name: .FVShowPerson, object: nil)
         
         super.viewDidLoad()
         // Do view setup here.
     }
     
-    func loadTree() {
+    @objc func loadTree() {
         print("Loading tree...")
         
-        guard let appDelegate = NSApplication.shared().delegate as? AppDelegate else {
+        guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else {
             print("\(#function)@\(#line): unable to find App Delegate")
             return
         }
@@ -42,13 +42,13 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         print("*: May not be exhaustive")
     }
     
-    func addedParent(notification: NSNotification) {
+    @objc func addedParent(notification: NSNotification) {
         if let p = notification.userInfo?["newPerson"] as? Person {
             viewPerson(person: p)
         }
     }
     
-    func updateTable() {
+    @objc func updateTable() {
         mainBrowserTable.reloadData()
     }
     
@@ -86,7 +86,7 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         switch getXcodeTag(tag: tableView.tag) {
         case .MainBrowserTable:
-            guard let v = tableView.make(withIdentifier: "PersonCell", owner: self) as? NSTableCellView else {
+            guard let v = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "PersonCell"), owner: self) as? NSTableCellView else {
                 return nil
             }
             
@@ -119,7 +119,7 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
     
     func viewPerson(person: Person) {
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("MainViewController") as? PersonDetailViewController {
+        if let vc = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "MainViewController")) as? PersonDetailViewController {
             vc.person = person
             
             if let wc = windowControllers[person.INDI] {
@@ -140,9 +140,9 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
     
-    func showPerson(notification: NSNotification) {
+    @objc func showPerson(notification: NSNotification) {
         if let p = notification.object as? Person {
-            viewPerson(p)
+            viewPerson(person: p)
         }
     }
     

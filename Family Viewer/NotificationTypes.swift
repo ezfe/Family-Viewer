@@ -9,6 +9,9 @@
 import Foundation
 
 extension Notification.Name {
-    public static let FVTreeDidUpdate: NSNotification.Name = NSNotification.Name("com.ezekielelin.treeDidUpdate")
+    public static let FVTreeDidUpdate = NSNotification.Name("com.ezekielelin.treeDidUpdate")
+    public static let FVTreeIsReady = NSNotification.Name("com.ezekielelin.treeIsReady")
+    public static let FVAddedParent = NSNotification.Name("com.ezekielelin.addedParent")
+    public static let FVShowPerson = NSNotification.Name("com.ezekielelin.showPerson")
 }
 

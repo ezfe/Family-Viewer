@@ -416,53 +416,52 @@ class Person: CustomStringConvertible, Comparable {
     init(gedcomEntity ge: [String], tree t: Tree) {
         self.tree = t
         self.INDI = tree.getUniqueINDI()
-        for (i,row) in ge.enumerate() {
-            if row.rangeOfString("INDI") != nil {
-                self.INDI = Int(row.stringByReplacingOccurrencesOfString("0 @I", withString: "").stringByReplacingOccurrencesOfString("@ INDI", withString: ""))!
-            } else if row.rangeOfString("NAME") != nil {
-                for (x,row) in ge.enumerate() where x > i {
+        for (i, row) in ge.enumerated() {
+            if row.range(of: "INDI") != nil {
+                self.INDI = Int(row.replacingOccurrences(of: "0 @I", with: "").replacingOccurrences(of: "@ INDI", with: ""))!
+            } else if row.range(of: "NAME") != nil {
+                for (x,row) in ge.enumerated() where x > i {
                     if row[0] == "1" {
                         break
                     }
-                    if row.rangeOfString("GIVN") != nil {
-                        let givenName = row.stringByReplacingOccurrencesOfString("2 GIVN ", withString: "")
+                    if row.range(of: "GIVN") != nil {
+                        let givenName = row.replacingOccurrences(of: "2 GIVN ", with: "")
                         self.nameAtBirth.givenName = givenName
-                    } else if row.rangeOfString("_MARNM") != nil {
-                        self.nameNow.familyName = row.stringByReplacingOccurrencesOfString("2 _MARNM ", withString: "")
-                    } else if row.rangeOfString("SURN") != nil {
-                        self.nameAtBirth.familyName = row.stringByReplacingOccurrencesOfString("2 SURN ", withString: "")
+                    } else if row.range(of: "_MARNM") != nil {
+                        self.nameNow.familyName = row.replacingOccurrences(of: "2 _MARNM", with: "")
+                    } else if row.range(of: "SURN") != nil {
+                        self.nameAtBirth.familyName = row.replacingOccurrences(of: "2 SURN ", with: "")
                     }
                 }
-            } else if row.rangeOfString("BIRT") != nil {
-                for (x,row) in ge.enumerate() where x > i {
+            } else if row.range(of: "BIRT") != nil {
+                for (x,row) in ge.enumerated() where x > i {
                     if row[0] == "1" {
                         break
                     }
-                    if row.rangeOfString("DATE") != nil {
-                        let dateString = row.stringByReplacingOccurrencesOfString("2 DATE ", withString: "")
+                    if row.range(of: "DATE") != nil {
+                        let dateString = row.replacingOccurrences(of: "2 DATE ", with: "")
                         self.birth.date = convertFEDate(date: dateString)
-                    } else if row.rangeOfString("PLAC") != nil {
-                        //                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
-                        //                        Don't parse location for now, just have that entered later in UI
-                        
+                    } else if row.range(of: "PLAC") != nil {
+//                        let placeString = row.replacingOccurrences(of: "2 PLAC ", with: "")
+//                        Don't parse location for now, just have that entered later in UI
                     }
                 }
-            } else if row.rangeOfString("DEAT Y") != nil {
+            } else if row.range(of: "DEAT Y") != nil {
                 self.isAlive = false
-                for (x,row) in ge.enumerate() where x > i {
+                for (x,row) in ge.enumerated() where x > i {
                     if row[0] == "1" {
                         break
                     }
-                    if row.rangeOfString("DATE") != nil {
-                        let dateString = row.stringByReplacingOccurrencesOfString("2 DATE ", withString: "")
+                    if row.range(of: "DATE") != nil {
+                        let dateString = row.replacingOccurrences(of: "2 DATE ", with: "")
                         self.death.dateOfDeath = convertFEDate(date: dateString)
-                    } else if row.rangeOfString("PLAC") != nil {
-                        //                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
-                        //                        Don't parse location for now, just have that entered later in UI
+                    } else if row.range(of: "PLAC") != nil {
+//                        let placeString = row.stringByReplacingOccurrencesOfString("2 PLAC ", withString: "")
+//                        Don't parse location for now, just have that entered later in UI
                     }
                 }
-            } else if row.rangeOfString("SEX") != nil {
-                switch row.stringByReplacingOccurrencesOfString("1 SEX ", withString: "") {
+            } else if row.range(of: "SEX") != nil {
+                switch row.replacingOccurrences(of: "1 SEX ", with: "") {
                 case "M":
                     self.sex = Sex.Male
                 case "F":
@@ -523,7 +522,7 @@ class Person: CustomStringConvertible, Comparable {
         let partners = self.partners
         let currentPartner = self.mostProbableSpouse
         
-        for (i, partner) in partners.enumerate() {
+        for (i, partner) in partners.enumerated() {
             if i == 0 {
                 if partner == currentPartner && partners.count > 1 {
                     print(partner.description + " [Current?]")
@@ -548,11 +547,11 @@ class Person: CustomStringConvertible, Comparable {
         
         let children = self.children
         
-        for (i, child) in children.enumerate() {
+        for (i, child) in children.enumerated() {
             if i == 0 {
                 print(child.description + "")
             } else {
-                    print("                   " + child.description)
+                print("                   " + child.description)
             }
         }
         
@@ -561,7 +560,7 @@ class Person: CustomStringConvertible, Comparable {
         }
         
         print("")
-
+        
         if let mother = self.parentA {
             print("           Mother: \(mother.description)")
         }

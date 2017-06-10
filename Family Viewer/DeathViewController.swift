@@ -96,7 +96,7 @@ class DeathViewController: NSViewController {
         
         
         updateMap()
-        NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: nil)
+        NotificationCenter.default.post(name: .FVTreeDidUpdate, object: nil)
     }
     
     func updateMap() {

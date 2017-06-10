@@ -153,6 +153,7 @@
 					6616711A1B2E64D000714530 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = 39QG79F7FD;
+						LastSwiftMigration = 0900;
 						SystemCapabilities = {
 							com.apple.Maps.Mac = {
 								enabled = 0;
@@ -359,7 +360,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -376,7 +378,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

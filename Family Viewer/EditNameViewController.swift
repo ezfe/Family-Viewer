@@ -85,12 +85,12 @@ class EditNameViewController: NSViewController {
     }
     
     @IBAction func updateSecondFields(sender: AnyObject) {
-        secondPrefixField.enabled = secondPrefixEnabled.isChecked
-        secondGivenNameField.enabled = secondGivenNameEnabled.isChecked
-        secondMiddleNameField.enabled = secondMiddleNameEnabled.isChecked
-        secondFamilyNameField.enabled = secondFamilyNameEnabled.isChecked
-        secondSuffixField.enabled = secondSuffixEnabled.isChecked
-        secondNickNameField.enabled = secondNickNameEnabled.isChecked
+        secondPrefixField.isEnabled = secondPrefixEnabled.isChecked
+        secondGivenNameField.isEnabled = secondGivenNameEnabled.isChecked
+        secondMiddleNameField.isEnabled = secondMiddleNameEnabled.isChecked
+        secondFamilyNameField.isEnabled = secondFamilyNameEnabled.isChecked
+        secondSuffixField.isEnabled = secondSuffixEnabled.isChecked
+        secondNickNameField.isEnabled = secondNickNameEnabled.isChecked
         
         if !secondPrefixEnabled.isChecked {
             secondPrefixField.stringValue = prefixAtBirthField.stringValue
