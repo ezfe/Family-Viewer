@@ -17,10 +17,10 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     var windowControllers = Dictionary<Int, NSWindowController>()
     
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loadTree), name: "com.ezekielelin.treeIsReady", object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(loadTree), name: "com.ezekielelin.treeIsReady", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateTable), name: "com.ezekielelin.treeDidUpdate", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(addedParent(_:)), name: "com.ezekielelin.addedParent", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showPerson(_:)), name: "com.ezekielelin.showPerson", object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(addedParent(_:)), name: "com.ezekielelin.addedParent", object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(showPerson(_:)), name: "com.ezekielelin.showPerson", object: nil)
         
         super.viewDidLoad()
         // Do view setup here.
@@ -29,7 +29,7 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     func loadTree() {
         print("Loading tree...")
         
-        guard let appDelegate = NSApplication.sharedApplication().delegate as? AppDelegate else {
+        guard let appDelegate = NSApplication.shared().delegate as? AppDelegate else {
             print("\(#function)@\(#line): unable to find App Delegate")
             return
         }
@@ -44,7 +44,7 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     
     func addedParent(notification: NSNotification) {
         if let p = notification.userInfo?["newPerson"] as? Person {
-            viewPerson(p)
+            viewPerson(person: p)
         }
     }
     
@@ -52,8 +52,8 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         mainBrowserTable.reloadData()
     }
     
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        switch getXcodeTag(tableView.tag) {
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        switch getXcodeTag(tag: tableView.tag) {
         case .MainBrowserTable:
             //TODO: Move this to another function, causes false selections
             //TODO: Select Person
@@ -65,9 +65,9 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     }
     
     @IBAction func tableClick(sender: AnyObject) {
-        if let tree = self.tree where mainBrowserTable.selectedRow != -1 {
+        if let tree = self.tree, mainBrowserTable.selectedRow != -1 {
             for i in mainBrowserTable.selectedRowIndexes {
-                viewPerson(tree.people[i])
+                viewPerson(person: tree.people[i])
             }
         }
     }
@@ -83,10 +83,10 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     /**
      This function manages the table view and and populates it with the necessary values.
      */
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        switch getXcodeTag(tableView.tag) {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        switch getXcodeTag(tag: tableView.tag) {
         case .MainBrowserTable:
-            guard let v = tableView.makeViewWithIdentifier("PersonCell", owner: self) as? NSTableCellView else {
+            guard let v = tableView.make(withIdentifier: "PersonCell", owner: self) as? NSTableCellView else {
                 return nil
             }
             
@@ -103,13 +103,13 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
     
-    func tableView(tableView: NSTableView, shouldEditTableColumn tableColumn: NSTableColumn?, row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
         return false
     }
     
-    func tableView(tableView: NSTableView, shouldSelectTableColumn tableColumn: NSTableColumn?) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldSelect tableColumn: NSTableColumn?) -> Bool {
         if let tree = self.tree {
-            tree.sortPeople(tree.nextSort)
+            tree.sortPeople(sortType: tree.nextSort)
             mainBrowserTable.reloadData()
         } else {
             treeIsNilError()

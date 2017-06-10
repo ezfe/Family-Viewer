@@ -54,7 +54,7 @@ class Tree: CustomStringConvertible {
     private let DEFAULT_TREE_NAME = "Family Tree"
     var treeName: String
 
-    func getPerson(id id: Int) -> Person? {
+    func getPerson(id: Int) -> Person? {
         for p in self.people {
             if p.INDI == id {
                 return p
@@ -82,10 +82,10 @@ class Tree: CustomStringConvertible {
     ///Get a person by their name, either name works: Kezia Lind, Kezia Sørbøe
     func getPerson(givenName firstName: String, familyName lastName: String) -> Person? {
         for p in self.people {
-            if let givenNameNow = p.nameNow.givenName, familyNameNow = p.nameNow.familyName where givenNameNow.lowercaseString == firstName.lowercaseString && familyNameNow.lowercaseString == lastName.lowercaseString {
+            if let givenNameNow = p.nameNow.givenName, let familyNameNow = p.nameNow.familyName, givenNameNow.lowercaseString == firstName.lowercaseString && familyNameNow.lowercaseString == lastName.lowercaseString {
                 return p
             }
-            if let givenNameNow = p.nameAtBirth.givenName, familyNameNow = p.nameAtBirth.familyName where givenNameNow.lowercaseString == firstName.lowercaseString && familyNameNow.lowercaseString == lastName.lowercaseString {
+            if let givenNameNow = p.nameAtBirth.givenName, let familyNameNow = p.nameAtBirth.familyName, givenNameNow.lowercaseString == firstName.lowercaseString && familyNameNow.lowercaseString == lastName.lowercaseString {
                 return p
             }
         }

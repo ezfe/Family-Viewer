@@ -15,13 +15,13 @@ extension NSRect {
         }
     }
     
-    func rectCenteredAt(width width: CGFloat, height: CGFloat) -> NSRect {
+    func rectCenteredAt(width: CGFloat, height: CGFloat) -> NSRect {
         let midpoint = self.midpoint
         return NSMakeRect(midpoint.x - (width / 2), midpoint.y - (height / 2), width, height)
     }
 }
 
-func rectAround(centerX centerX: CGFloat, centerY: CGFloat, width: CGFloat, height: CGFloat) -> NSRect {
+func rectAround(centerX: CGFloat, centerY: CGFloat, width: CGFloat, height: CGFloat) -> NSRect {
     return NSMakeRect(centerX - (width / 2), centerY - (height / 2), width, height)
 }
 
@@ -29,8 +29,8 @@ class TreeView: NSView {
     
     var tree: Tree = Tree()
     
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
         
         if let p = tree.selectedPerson {
             drawPerson(dirtyRect.midpoint.x, y: dirtyRect.midpoint.y, person: p, level: 1, drawParents: true, drawChildren: true)

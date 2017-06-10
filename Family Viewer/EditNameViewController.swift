@@ -58,27 +58,27 @@ class EditNameViewController: NSViewController {
             self.nicknameAtBirthField.stringValue = nickname
         }
         
-        if let namePrefix = person.nameNow.namePrefix where person.nameNow.namePrefix != person.nameAtBirth.namePrefix {
+        if let namePrefix = person.nameNow.namePrefix, person.nameNow.namePrefix != person.nameAtBirth.namePrefix {
             self.secondPrefixEnabled.isChecked = true
             self.secondPrefixField.stringValue = namePrefix
         }
-        if let givenName = person.nameNow.givenName where person.nameNow.givenName != person.nameAtBirth.givenName {
+        if let givenName = person.nameNow.givenName, person.nameNow.givenName != person.nameAtBirth.givenName {
             self.secondGivenNameEnabled.isChecked = true
             self.secondGivenNameField.stringValue = givenName
         }
-        if let middleName = person.nameNow.middleName where person.nameNow.middleName != person.nameAtBirth.middleName {
+        if let middleName = person.nameNow.middleName, person.nameNow.middleName != person.nameAtBirth.middleName {
             self.secondMiddleNameEnabled.isChecked = true
             self.secondMiddleNameField.stringValue = middleName
         }
-        if let familyName = person.nameNow.familyName where person.nameNow.familyName != person.nameAtBirth.familyName {
+        if let familyName = person.nameNow.familyName, person.nameNow.familyName != person.nameAtBirth.familyName {
             self.secondFamilyNameEnabled.isChecked = true
             self.secondFamilyNameField.stringValue = familyName
         }
-        if let nameSuffix = person.nameNow.nameSuffix where person.nameNow.nameSuffix != person.nameAtBirth.nameSuffix {
+        if let nameSuffix = person.nameNow.nameSuffix, person.nameNow.nameSuffix != person.nameAtBirth.nameSuffix {
             self.secondSuffixEnabled.isChecked = true
             self.secondSuffixField.stringValue = nameSuffix
         }
-        if let nickname = person.nameNow.nickname where person.nameNow.nickname != person.nameAtBirth.nickname {
+        if let nickname = person.nameNow.nickname, person.nameNow.nickname != person.nameAtBirth.nickname {
             self.secondNickNameEnabled.isChecked = true
             self.secondNickNameField.stringValue = nickname
         }

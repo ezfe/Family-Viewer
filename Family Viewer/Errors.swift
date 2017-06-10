@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum SaveError: ErrorType {
-    case NotLoaded
+enum SaveError: Error {
+    case notLoaded
 }

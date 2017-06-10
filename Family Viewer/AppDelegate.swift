@@ -80,7 +80,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func readSavedData(path: String) {
         let dict = NSDictionary(contentsOfFile: path)
-        if let dict = dict, treeVersion = dict["version"] as? Int {
+        if let dict = dict, let treeVersion = dict["version"] as? Int {
             if treeVersion > 0 {
                 guard let mutableDict = dict.mutableCopy() as? NSMutableDictionary else {
                     return

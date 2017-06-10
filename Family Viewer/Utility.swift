@@ -13,7 +13,7 @@ import MapKit
 //MARK: App-wide functions and extensions
 
 func ==(left: Person?, right: Person?) -> Bool {
-    guard let left = left, right = right else {
+    guard let left = left, let right = right else {
         return false
     }
     return left.INDI == right.INDI
@@ -75,32 +75,32 @@ extension NameComponents {
     }
     
     func setupFromDict(dictionary dict: NSDictionary) {
-        if let namePrefix = dict["namePrefix"] as? String where namePrefix != "##nil##" {
+        if let namePrefix = dict["namePrefix"] as? String, namePrefix != "##nil##" {
             self.namePrefix = namePrefix
         } else {
             self.namePrefix = nil
         }
-        if let givenName = dict["givenName"] as? String where givenName != "##nil##" {
+        if let givenName = dict["givenName"] as? String, givenName != "##nil##" {
             self.givenName = givenName
         } else {
             self.givenName = nil
         }
-        if let middleName = dict["middleName"] as? String where middleName != "##nil##" {
+        if let middleName = dict["middleName"] as? String, middleName != "##nil##" {
             self.middleName = middleName
         } else {
             self.middleName = nil
         }
-        if let familyName = dict["familyName"] as? String where familyName != "##nil##" {
+        if let familyName = dict["familyName"] as? String, familyName != "##nil##" {
             self.familyName = familyName
         } else {
             self.familyName = nil
         }
-        if let nameSuffix = dict["nameSuffix"] as? String where nameSuffix != "##nil##" {
+        if let nameSuffix = dict["nameSuffix"] as? String, nameSuffix != "##nil##" {
             self.nameSuffix = nameSuffix
         } else {
             self.nameSuffix = nil
         }
-        if let nickname = dict["nickname"] as? String where nickname != "##nil##" {
+        if let nickname = dict["nickname"] as? String, nickname != "##nil##" {
             self.nickname = nickname
         } else {
             self.nickname = nil
@@ -175,14 +175,14 @@ struct Date: CustomStringConvertible, Comparable {
     
     var description: String {
         get {
-            if let day = self.day, month = self.month, year = self.year {
-                return "\(month.rawValue) \(numericalSuffix(day)), \(year)"
+            if let day = self.day, let month = self.month, let year = self.year {
+                return "\(month.rawValue) \(numericalSuffix(n: day)), \(year)"
             }
-            if let month = self.month, year = self.year {
+            if let month = self.month, let year = self.year {
                 return "\(month.rawValue) \(year)"
             }
-            if let day = self.day, month = self.month {
-                return "\(month.rawValue) \(numericalSuffix(day))"
+            if let day = self.day, let month = self.month {
+                return "\(month.rawValue) \(numericalSuffix(n: day))"
             }
             if let year = self.year {
                 return "\(year)"
@@ -452,7 +452,7 @@ func treeIsNilError() {
     print("The tree is nil, cancelling current operation")
 }
 
-func numericalSuffix(n: Int) -> String {
+func numericalSuffix(_ n: Int) -> String {
     var suffix: String
     let ones = n % 10;
     let tens = (n/10) % 10;

@@ -41,7 +41,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
     //MARK:-
     
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(treeDidUpdate), name: "com.ezekielelin.treeDidUpdate", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(treeDidUpdate), name: .FVTreeDidUpdate, object: nil)
         
         let sexGesture = NSClickGestureRecognizer()
         sexGesture.buttonMask = 0x1 // left mouse
@@ -90,7 +90,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
         childrenTable.doubleAction = #selector(doubleClick)
         
         guard let person = self.person else {
-            self.dismissController(self)
+            self.dismiss(self)
             return
         }
         
@@ -103,32 +103,32 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
     //MARK: Edit Functions
     
     func editName() {
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("EditNameViewController") as? EditNameViewController {
+        if let vc = self.storyboard?.instantiateController(withIdentifier: "EditNameViewController") as? EditNameViewController {
             vc.person = self.person
-            self.presentViewController(vc, asPopoverRelativeToRect: nameLabel.visibleRect, ofView: nameLabel, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+            self.presentViewController(vc, asPopoverRelativeTo: nameLabel.visibleRect, of: nameLabel, preferredEdge: NSRectEdge.minX, behavior: NSPopoverBehavior.semitransient)
         }
     }
     
     func editBirth() {
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("BirthdayViewController") as? BirthdayViewController {
+        if let vc = self.storyboard?.instantiateController(withIdentifier: "BirthdayViewController") as? BirthdayViewController {
             vc.person = self.person
-            self.presentViewController(vc, asPopoverRelativeToRect: birthLabel.visibleRect, ofView: birthLabel, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+            self.presentViewController(vc, asPopoverRelativeTo: birthLabel.visibleRect, of: birthLabel, preferredEdge: NSRectEdge.minX, behavior: NSPopoverBehavior.semitransient)
         }
     }
     
     func editDeath() {
-        if let vc = self.storyboard?.instantiateControllerWithIdentifier("DeathViewController") as? DeathViewController {
+        if let vc = self.storyboard?.instantiateController(withIdentifier: "DeathViewController") as? DeathViewController {
             vc.person = self.person
-            self.presentViewController(vc, asPopoverRelativeToRect: deathLabel.visibleRect, ofView: deathLabel, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+            self.presentViewController(vc, asPopoverRelativeToRect: deathLabel.visibleRect, ofView: deathLabel, preferredEdge: NSRectEdge.minX, behavior: NSPopoverBehavior.semitransient)
         }
     }
     
     func startEditSex() {
-        genderLabel.hidden = true
-        genderEditor.hidden = false
+        genderLabel.isHidden = true
+        genderEditor.isHidden = false
         
         if let selectedSex = self.person?.sex?.rawValue {
-            genderEditor.selectItemWithTitle(selectedSex)
+            genderEditor.selectItem(withTitle: selectedSex)
             genderEditor.performClick(self)
         }
     }
@@ -139,11 +139,11 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
             return
         }
         
-        if let sex = popup.titleOfSelectedItem, sexItem = Sex(rawValue: sex) {
+        if let sex = popup.titleOfSelectedItem, let sexItem = Sex(rawValue: sex) {
             self.person?.sex = sexItem
             
-            genderLabel.hidden = false
-            genderEditor.hidden = true
+            genderLabel.isHidden = false
+            genderEditor.isHidden = true
             
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
 
@@ -169,15 +169,15 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
         }
         let tree = person.tree
         
-        let vc = self.storyboard?.instantiateControllerWithIdentifier("AddParentViewController") as! AddParentViewController
+        let vc = self.storyboard?.instantiateController(withIdentifier: "AddParentViewController") as! AddParentViewController
         vc.parentTo = person
         vc.tree = tree
         vc.A_B = "B"
-        self.presentViewController(vc, asPopoverRelativeToRect: setFatherButton.visibleRect, ofView: setFatherButton, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.Semitransient)
+        self.presentViewController(vc, asPopoverRelativeToRect: setFatherButton.visibleRect, ofView: setFatherButton, preferredEdge: NSRectEdge.MinX, behavior: NSPopoverBehavior.semitransient)
     }
     
-    func textDidChange(notification: NSNotification) {
-        if let p = self.person, n = notesField.string {
+    func textDidChange(_ notification: Notification) {
+        if let p = self.person, let n = notesField.string {
             p.notes = n
 //            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
         }
@@ -187,11 +187,11 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
     //MARK: Table Functions
     
     func doubleClick(sender: AnyObject) {
-        guard let selectedPerson = self.person, tableView = sender as? NSTableView else {
+        guard let selectedPerson = self.person, let tableView = sender as? NSTableView else {
             return
         }
         
-        switch getXcodeTag(tableView.tag) {
+        switch getXcodeTag(tag: tableView.tag) {
         case .PartnersTable:
             NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.showPerson", object: selectedPerson.partners[partnersTable.selectedRow])
         case .ChildrenTable:
@@ -202,7 +202,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
     }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        switch getXcodeTag(tableView.tag) {
+        switch getXcodeTag(tag: tableView.tag) {
         case .PartnersTable:
             if let p = self.person {
                 return p.partners.count
@@ -223,10 +223,10 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
     /**
      This function manages the table view and and populates it with the necessary values.
      */
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        switch getXcodeTag(tableView.tag) {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        switch getXcodeTag(tag: tableView.tag) {
         case .ChildrenTable:
-            guard let v = tableView.makeViewWithIdentifier("ChildCell", owner: self) as? NSTableCellView else {
+            guard let v = tableView.make(withIdentifier: "ChildCell", owner: self) as? NSTableCellView else {
                 return nil
             }
             
@@ -236,7 +236,7 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
             
             return v
         case .PartnersTable:
-            guard let v = tableView.makeViewWithIdentifier("PartnerCell", owner: self) as? NSTableCellView else {
+            guard let v = tableView.make(withIdentifier: "PartnerCell", owner: self) as? NSTableCellView else {
                 return nil
             }
             
@@ -259,18 +259,18 @@ class PersonDetailViewController: NSViewController, NSTableViewDataSource, NSTab
     @IBAction func removeParentA(sender: AnyObject) {
         if let person = self.person {
             person.parentA = nil
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
+            NotificationCenter.default.post(name: .FVTreeDidUpdate, object: self.person?.tree)
         }
     }
     
     @IBAction func removeParentB(sender: AnyObject) {
         if let person = self.person {
             person.parentB = nil
-            NSNotificationCenter.defaultCenter().postNotificationName("com.ezekielelin.treeDidUpdate", object: self.person?.tree)
+            NotificationCenter.default.post(name: .FVTreeDidUpdate, object: self.person?.tree)
         }
     }
     
-    override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if let sender = sender as? NSButton {
             guard let tree = self.person?.tree, let person = self.person else {
                 print("People and trees not there")

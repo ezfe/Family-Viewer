@@ -20,6 +20,7 @@
 		66223B711B30A050004132B6 /* AddParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B6F1B30A050004132B6 /* AddParentViewController.swift */; };
 		66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66223B701B30A050004132B6 /* EditNameViewController.swift */; };
 		6629607F1CBB1205006B54E3 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629607E1CBB1205006B54E3 /* BrowserViewController.swift */; };
+		664F1BCC1EEC76D600443369 /* NotificationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664F1BCB1EEC76D600443369 /* NotificationTypes.swift */; };
 		669485BA1B9B9DDD002FB335 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669485B91B9B9DDD002FB335 /* Errors.swift */; };
 		66E5A44F1B9B2E1500B492B5 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A44E1B9B2E1500B492B5 /* Tree.swift */; };
 		66E5A4521B9B2EF900B492B5 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A4511B9B2EF900B492B5 /* Person.swift */; };
@@ -42,6 +43,7 @@
 		66223B6F1B30A050004132B6 /* AddParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddParentViewController.swift; sourceTree = "<group>"; };
 		66223B701B30A050004132B6 /* EditNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
 		6629607E1CBB1205006B54E3 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
+		664F1BCB1EEC76D600443369 /* NotificationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTypes.swift; sourceTree = "<group>"; };
 		669485B91B9B9DDD002FB335 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		66E5A44E1B9B2E1500B492B5 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		66E5A4511B9B2EF900B492B5 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		6616711D1B2E64D100714530 /* Family Viewer */ = {
 			isa = PBXGroup;
 			children = (
+				664F1BCB1EEC76D600443369 /* NotificationTypes.swift */,
 				6616711E1B2E64D100714530 /* AppDelegate.swift */,
 				661A2AFB1B9BE22E004A4FEF /* NameComponents.swift */,
 				661671301B2E6DC800714530 /* Utility.swift */,
@@ -144,7 +147,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Ezekiel Elin";
 				TargetAttributes = {
 					6616711A1B2E64D000714530 = {
@@ -227,6 +230,7 @@
 				6616711F1B2E64D100714530 /* AppDelegate.swift in Sources */,
 				66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */,
 				66131ACC1C027DE10069AE80 /* TreeView.swift in Sources */,
+				664F1BCC1EEC76D600443369 /* NotificationTypes.swift in Sources */,
 				66FADC401CBC3D6B00AEA7CC /* Relationship.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,13 +257,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -281,7 +293,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -297,13 +309,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -319,9 +339,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -334,10 +355,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Family Viewer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -350,10 +372,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Family Viewer/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezekielelin.Family-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

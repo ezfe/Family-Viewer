@@ -73,20 +73,20 @@ class Person: CustomStringConvertible, Comparable {
     
     var mostProbableSpouse: Person? {
         var possibilities = self.partners
-        possibilities.sortInPlace { (person1, person2) -> Bool in
-            var p1Children = person1.children.filter({ (child) -> Bool in
+        possibilities.sort { (person1, person2) -> Bool in
+            var p1Children = person1.children.filter { (child) -> Bool in
                 return (child.parentA == self || child.parentB == self)
-            })
-            p1Children.sortInPlace({ (child1, child2) -> Bool in
+            }
+            p1Children.sort { (child1, child2) -> Bool in
                 return child1.birth.date > child2.birth.date
-            })
-            var p2Children = person2.children.filter({ (child) -> Bool in
+            }
+            var p2Children = person2.children.filter { (child) -> Bool in
                 return (child.parentA == self || child.parentB == self)
-            })
-            p2Children.sortInPlace({ (child1, child2) -> Bool in
+            }
+            p2Children.sort { (child1, child2) -> Bool in
                 return child1.birth.date > child2.birth.date
-            })
-            guard let child1 = p1Children.first, child2 = p2Children.first else {
+            }
+            guard let child1 = p1Children.first, let child2 = p2Children.first else {
                 return false
             }
             return child1.birth.date > child2.birth.date
@@ -257,14 +257,14 @@ class Person: CustomStringConvertible, Comparable {
         populateAncestors(from: self, distance: 0, visitor: .Me)
         populateAncestors(from: p, distance: 0, visitor: .Them)
         
-        for (i, a) in ancestorsSet.enumerate().reverse() {
+        for (i, a) in ancestorsSet.enumerated().reversed() {
             if (a.visitState != 2) {
-                ancestorsSet.removeAtIndex(i)
+                ancestorsSet.remove(at: i)
             }
         }
         
-        ancestorsSet.sortInPlace { (a1, a2) -> Bool in
-            if let a1d1 = a1.theirDistance, a1d2 = a1.myDistance, a2d1 = a2.theirDistance, a2d2 = a2.myDistance {
+        ancestorsSet.sort { (a1, a2) -> Bool in
+            if let a1d1 = a1.theirDistance, let a1d2 = a1.myDistance, let a2d1 = a2.theirDistance, let a2d2 = a2.myDistance {
                 return (a1d1 + a1d2 < a2d1 + a2d2)
             } else {
                 return false
@@ -275,7 +275,7 @@ class Person: CustomStringConvertible, Comparable {
             return nil
         }
         
-        guard let theirDistance = lowestCommonAncestor.theirDistance, myDistance = lowestCommonAncestor.myDistance else {
+        guard let theirDistance = lowestCommonAncestor.theirDistance, let myDistance = lowestCommonAncestor.myDistance else {
             return nil
         }
         
