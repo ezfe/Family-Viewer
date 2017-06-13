@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class Tree: CustomStringConvertible {
+class Tree: CustomStringConvertible, Codable {
     ///Wether this tree should be saved, expected to have values, etc.
     var realTree = false;
     
@@ -20,7 +20,7 @@ class Tree: CustomStringConvertible {
         }
     }
 
-    enum SortingTypes {
+    enum SortingTypes: String, Codable {
         case A_FIRST
         case Z_FIRST
         case ID_SORT
@@ -112,7 +112,7 @@ class Tree: CustomStringConvertible {
             let arr = NSMutableArray()
             for person in people {
                 print("Imported \(person.description)")
-                arr.add(person.dictionary)
+//                arr.add(person.dictionary)
             }
             dict["people"] = arr
             if let appDelegate = NSApplication.shared.delegate as? AppDelegate {

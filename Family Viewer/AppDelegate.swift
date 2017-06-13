@@ -128,6 +128,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func saveFile(_ sender: AnyObject) {
+        print("Saving disabled...")
+        /*
         createAppSupportFolder()
         let fm = FileManager.default
         if tree.realTree {
@@ -140,6 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             print("Tree wasn't written because it's not real")
         }
+         */
     }
     
     @IBAction func addPerson(_ sender: AnyObject) {

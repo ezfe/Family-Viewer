@@ -10,7 +10,7 @@ import Foundation
 
 //Temporary Placeholder
 
-class NameComponents: CustomStringConvertible {
+class NameComponents: CustomStringConvertible, Codable {
     
     var namePrefix: String?
     var givenName: String?

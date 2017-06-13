@@ -9,6 +9,7 @@
 import Foundation
 
 class Person: CustomStringConvertible, Codable {
+    
     ///Name String
     var description: String {
         get {
@@ -400,6 +401,7 @@ class Person: CustomStringConvertible, Codable {
     }
     
     required init(from decoder: Decoder) throws {
+        //TODO: Implement decoding
         self.tree = Tree()
         self.INDI = tree.getUniqueINDI()
         self.sex = Sex.male
@@ -568,46 +570,15 @@ class Person: CustomStringConvertible, Codable {
         if let father = self.parentB {
             print("           Father: \(father.description)")
         }
-    }
-    
-    //MARK:- Dictionary Tools
-    
-    ///Dictionary representation of self
-    var dictionary: NSMutableDictionary {
-        get {
-            let dict = NSMutableDictionary()
-            
-            dict["nameNow"] = self.nameNow.dictionary
-            dict["nameAtBirth"] = self.nameAtBirth.dictionary
-            dict["INDI"] = self.INDI
-            dict["birth"] = self.birth.dictionary
-            dict["death"] = self.death.dictionary
-            dict["sex"] = self.sex!.rawValue
-            dict["notes"] = self.notes
-            
-            if let pA = self.parentA {
-                dict["parentA"] = pA.INDI
-            }
-            if let pB = self.parentB {
-                dict["parentB"] = pB.INDI
-            }
-            
-            return dict
+        
+        let encoder = JSONEncoder()
+        do {
+            let data = try encoder.encode(self)
+            print(String(data: data, encoding: .utf8) ?? "Unknown coding")
+        } catch let err {
+            print(err.localizedDescription)
         }
     }
-    
-    enum CodingKeys: String, CodingKey {
-        case INDI
-        case sex
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.INDI, forKey: .INDI)
-        try container.encode(self.sex, forKey: .sex)
-    }
-    
-    
 }
 
 
@@ -618,5 +589,32 @@ extension Person: Comparable {
     
     static func <(l: Person, r: Person) -> Bool {
         return l.INDI < r.INDI
+    }
+}
+
+extension Person {
+    enum CodingKeys: String, CodingKey {
+        case nameNow
+        case nameAtBirth
+        case notes
+        case INDI
+        case birth
+        case death
+        case sex
+        case parentA
+        case parentB
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.nameNow, forKey: .nameNow)
+        try container.encode(self.nameAtBirth, forKey: .nameAtBirth)
+        try container.encode(self.notes, forKey: .notes)
+        try container.encode(self.INDI, forKey: .INDI)
+        try container.encode(self.birth, forKey: .birth)
+        try container.encode(self.death, forKey: .death)
+        try container.encode(self.sex, forKey: .sex)
+        try container.encode(self.parentA?.INDI, forKey: .parentA)
+        try container.encode(self.parentB?.INDI, forKey: .parentB)
     }
 }

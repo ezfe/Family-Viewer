@@ -19,7 +19,7 @@ func ==(left: Person?, right: Person?) -> Bool {
     return left.INDI == right.INDI
 }
 
-enum Sex: String {
+enum Sex: String, Codable {
     case male = "Male"
     case female = "Female"
 }
@@ -34,17 +34,17 @@ func <(m1: Month, m2: Month) -> Bool {
     return (m1.toIndex() < m2.toIndex())
 }
 
-enum Month: String, Comparable {
+enum Month: String, Comparable, Codable {
     case january = "January"
     case february = "February"
-    case March = "March"
-    case April = "April"
-    case May = "May"
-    case June = "June"
-    case July = "July"
-    case August = "August"
-    case September = "September"
-    case October = "October"
+    case march = "March"
+    case april = "April"
+    case may = "May"
+    case june = "June"
+    case july = "July"
+    case august = "August"
+    case september = "September"
+    case october = "October"
     case November = "November"
     case December = "December"
 }
@@ -67,26 +67,10 @@ extension Date {
     }
 }
 
-struct Date: CustomStringConvertible, Comparable {
+struct Date: Codable, Comparable {
     var day: Int? = nil
     var month: Month? = nil
     var year: Int? = nil
-    
-    var dictionary: NSMutableDictionary {
-        get {
-            let dict = NSMutableDictionary()
-            if let day = day {
-                dict["day"] = day
-            }
-            if let month = month {
-                dict["month"] = month.rawValue
-            }
-            if let year = year {
-                dict["year"] = year
-            }
-            return dict
-        }
-    }
     
     func isSet() -> Bool {
         if self.day == nil && self.month == nil && self.year == nil {
@@ -121,21 +105,21 @@ func monthFromFEString(month mo: String) -> Month? {
     case "FEB":
         return Month.february
     case "MAR":
-        return Month.March
+        return Month.march
     case "APR":
-        return Month.April
+        return Month.april
     case "MAY":
-        return Month.May
+        return Month.may
     case "JUN":
-        return Month.June
+        return Month.june
     case "JUL":
-        return Month.July
+        return Month.july
     case "AUG":
-        return Month.August
+        return Month.august
     case "SEP":
-        return Month.September
+        return Month.september
     case "OCT":
-        return Month.October
+        return Month.october
     case "NOV":
         return Month.November
     case "DEC":
@@ -151,21 +135,21 @@ func monthFromRaw(month mo: String) -> Month? {
     case "February":
         return Month.february
     case "March":
-        return Month.March
+        return Month.march
     case "April":
-        return Month.April
+        return Month.april
     case "May":
-        return Month.May
+        return Month.may
     case "June":
-        return Month.June
+        return Month.june
     case "July":
-        return Month.July
+        return Month.july
     case "August":
-        return Month.August
+        return Month.august
     case "September":
-        return Month.September
+        return Month.september
     case "October":
-        return Month.October
+        return Month.october
     case "November":
         return Month.November
     case "December":
@@ -179,14 +163,14 @@ extension Month {
         switch self {
         case .january: return 1
         case .february: return 2
-        case .March: return 3
-        case .April: return 4
-        case .May: return 5
-        case .June: return 6
-        case .July: return 7
-        case .August: return 8
-        case .September: return 9
-        case .October: return 10
+        case .march: return 3
+        case .april: return 4
+        case .may: return 5
+        case .june: return 6
+        case .july: return 7
+        case .august: return 8
+        case .september: return 9
+        case .october: return 10
         case .November: return 11
         case .December: return 12
         }
@@ -221,20 +205,12 @@ func convertFEDate(dateString: String) -> Date {
 
 //MARK: Birth and Death
 
-struct Birth {
+struct Birth: Codable {
     var date: Date = Date(day: nil, month: nil, year: nil)
     var location: String = ""
-    var dictionary: NSMutableDictionary {
-        get {
-            let dict = NSMutableDictionary()
-            dict["date"] = date.dictionary
-            dict["location"] = location
-            return dict
-        }
-    }
 }
 
-struct Death {
+struct Death: Codable {
     ///Has this person died
     var hasDied = false
     
@@ -247,19 +223,6 @@ struct Death {
     var dateOfBurial: Date = Date(day: nil, month: nil, year: nil)
     ///Place of burial
     var locationOfBurial: String = ""
-    
-    
-    var dictionary: NSMutableDictionary {
-        get {
-            let dict = NSMutableDictionary()
-            dict["dateOfDeath"] = dateOfDeath.dictionary
-            dict["locationOfDeath"] = locationOfDeath
-            dict["dateOfBurial"] = dateOfBurial.dictionary
-            dict["locationOfBurial"] = locationOfBurial
-            dict["hasDied"] = hasDied
-            return dict
-        }
-    }
 }
 
 //MARK: - GEDCOM Compatibility
