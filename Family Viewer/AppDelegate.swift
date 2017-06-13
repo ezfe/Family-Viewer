@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let formatVersion = 3
     var tree = Tree()
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ notification: Notification) {
         
         guard let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
             displayAlert(title: "Error", message: "No application version")
@@ -56,7 +56,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             readSavedData(path: dataFileURL.path)
         }
         
-        
         NotificationCenter.default.post(name: .FVTreeIsReady, object: nil)
         
         let defaults = UserDefaults.standard
@@ -70,7 +69,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         defaults.set(true, forKey: "betaAlertShown")
     }
     
-    func applicationWillTerminate(aNotification: NSNotification) {
+    func applicationWillTerminate(_ notification: Notification) {
         saveFile(self)
     }
     

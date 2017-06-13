@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Person: CustomStringConvertible {
+class Person: CustomStringConvertible, Codable {
     ///Name String
     var description: String {
         get {
@@ -284,9 +284,9 @@ class Person: CustomStringConvertible {
             var referralWord: String
             if theirDistance == 0 {
                 switch theirSex {
-                case .Male:
+                case .male:
                     referralWord = "father"
-                case .Female:
+                case .female:
                     referralWord = "mother"
                 }
                 
@@ -303,9 +303,9 @@ class Person: CustomStringConvertible {
                 }
             } else if myDistance == 0 {
                 switch theirSex {
-                case .Male:
+                case .male:
                     referralWord = "son"
-                case .Female:
+                case .female:
                     referralWord = "daughter"
                 }
                 
@@ -333,9 +333,9 @@ class Person: CustomStringConvertible {
             if (myDistance == 1) {
                 var relation: String
                 switch theirSex {
-                case .Male:
+                case .male:
                     relation = "brother"
-                case .Female:
+                case .female:
                     relation = "sister"
                 }
                 if p.parentB != self.parentB || p.parentA != self.parentA {
@@ -355,9 +355,9 @@ class Person: CustomStringConvertible {
                 grands = numericalSuffix(theirDistance - 1) + " great grand-"
             }
             switch theirSex {
-            case .Male:
+            case .male:
                 return grands + "nephew"
-            case .Female:
+            case .female:
                 return grands + "niece"
             }
         } else if (myDistance > 1 && theirDistance == 1) {
@@ -370,9 +370,9 @@ class Person: CustomStringConvertible {
                 grands = numericalSuffix(myDistance - 1) + " great grand-"
             }
             switch theirSex {
-            case .Male:
+            case .male:
                 return grands + "uncle"
-            case .Female:
+            case .female:
                 return grands + "aunt"
             }
         } else {
@@ -399,11 +399,17 @@ class Person: CustomStringConvertible {
         }
     }
     
+    required init(from decoder: Decoder) throws {
+        self.tree = Tree()
+        self.INDI = tree.getUniqueINDI()
+        self.sex = Sex.male
+    }
+    
     init(tree t: Tree) {
         self.tree = t
         self.INDI = tree.getUniqueINDI()
         //TODO: Better solution than storing male by default
-        self.sex = Sex.Male
+        self.sex = Sex.male
     }
     
     init(gedcomEntity ge: [String], tree t: Tree) {
@@ -456,9 +462,9 @@ class Person: CustomStringConvertible {
             } else if row.range(of: "SEX") != nil {
                 switch row.replacingOccurrences(of: "1 SEX ", with: "") {
                 case "M":
-                    self.sex = Sex.Male
+                    self.sex = Sex.male
                 case "F":
-                    self.sex = Sex.Female
+                    self.sex = Sex.female
                 default:
                     self.sex = nil
                 }
@@ -535,8 +541,10 @@ class Person: CustomStringConvertible {
             print("None known")
         }
         
-        print("")
-        print("         Children: ", terminator: "")
+        print("""
+        
+                 Children:
+        """, terminator: "")
         
         let children = self.children
         
@@ -587,6 +595,19 @@ class Person: CustomStringConvertible {
             return dict
         }
     }
+    
+    enum CodingKeys: String, CodingKey {
+        case INDI
+        case sex
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.INDI, forKey: .INDI)
+        try container.encode(self.sex, forKey: .sex)
+    }
+    
+    
 }
 
 

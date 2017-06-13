@@ -75,3 +75,53 @@ class NameComponents: CustomStringConvertible {
         }
     }
 }
+
+extension NameComponents {
+    var dictionary: NSDictionary {
+        get {
+            let dict = NSMutableDictionary()
+            
+            dict["namePrefix"] = (self.namePrefix == nil ? "##nil##" : self.namePrefix!)
+            dict["givenName"] = (self.givenName == nil ? "##nil##" : self.givenName!)
+            dict["middleName"] = (self.middleName == nil ? "##nil##" : self.middleName!)
+            dict["familyName"] = (self.familyName == nil ? "##nil##" : self.familyName!)
+            dict["nameSuffix"] = (self.nameSuffix == nil ? "##nil##" : self.nameSuffix!)
+            dict["nickname"] = (self.nickname == nil ? "##nil##" : self.nickname!)
+            
+            return dict
+        }
+    }
+    
+    func setupFromDict(dictionary dict: NSDictionary) {
+        if let namePrefix = dict["namePrefix"] as? String, namePrefix != "##nil##" {
+            self.namePrefix = namePrefix
+        } else {
+            self.namePrefix = nil
+        }
+        if let givenName = dict["givenName"] as? String, givenName != "##nil##" {
+            self.givenName = givenName
+        } else {
+            self.givenName = nil
+        }
+        if let middleName = dict["middleName"] as? String, middleName != "##nil##" {
+            self.middleName = middleName
+        } else {
+            self.middleName = nil
+        }
+        if let familyName = dict["familyName"] as? String, familyName != "##nil##" {
+            self.familyName = familyName
+        } else {
+            self.familyName = nil
+        }
+        if let nameSuffix = dict["nameSuffix"] as? String, nameSuffix != "##nil##" {
+            self.nameSuffix = nameSuffix
+        } else {
+            self.nameSuffix = nil
+        }
+        if let nickname = dict["nickname"] as? String, nickname != "##nil##" {
+            self.nickname = nickname
+        } else {
+            self.nickname = nil
+        }
+    }
+}

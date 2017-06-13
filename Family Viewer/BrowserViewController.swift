@@ -84,6 +84,7 @@ class BrowserViewController: NSViewController, NSTableViewDelegate, NSTableViewD
      This function manages the table view and and populates it with the necessary values.
      */
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        
         switch getXcodeTag(tag: tableView.tag) {
         case .MainBrowserTable:
             guard let v = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "PersonCell"), owner: self) as? NSTableCellView else {

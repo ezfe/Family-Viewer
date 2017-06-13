@@ -19,99 +19,13 @@ func ==(left: Person?, right: Person?) -> Bool {
     return left.INDI == right.INDI
 }
 
-extension String {
-    
-    @available(*, deprecated: 0.9.0, message: "Use proper string methods")
-    subscript (i: Int) -> Character {
-        return self[self.index(self.startIndex, offsetBy: i)]
-    }
-    
-    @available(*, deprecated: 0.9.0, message: "Use proper string methods")
-    subscript (i: Int) -> String {
-        return String(self[i] as Character)
-    }
-    
-    @available(*, deprecated: 0.9.0, message: "Use proper string methods")
-    subscript (r: Range<Int>) -> String {
-        let start = self.index(self.startIndex, offsetBy: r.lowerBound)
-        let end = self.index(self.startIndex, offsetBy: r.upperBound)
-        let range = Range(start ..< end)
-        return substring(with: range)
-    }
-}
-
-extension NSButton {
-    var isChecked: Bool {
-        get {
-            return (self.stringValue == "1")
-        }
-        set {
-            if newValue {
-                self.stringValue = "1"
-            } else {
-                self.stringValue = "0"
-            }
-        }
-    }
-}
-
 enum Sex: String {
-    case Male = "Male"
-    case Female = "Female"
+    case male = "Male"
+    case female = "Female"
 }
 
 enum FamilyType {
     case Married, Engaged, Relationship, Seperated, Divorced, Annulled
-}
-
-extension NameComponents {
-    var dictionary: NSDictionary {
-        get {
-            let dict = NSMutableDictionary()
-            
-            dict["namePrefix"] = (self.namePrefix == nil ? "##nil##" : self.namePrefix!)
-            dict["givenName"] = (self.givenName == nil ? "##nil##" : self.givenName!)
-            dict["middleName"] = (self.middleName == nil ? "##nil##" : self.middleName!)
-            dict["familyName"] = (self.familyName == nil ? "##nil##" : self.familyName!)
-            dict["nameSuffix"] = (self.nameSuffix == nil ? "##nil##" : self.nameSuffix!)
-            dict["nickname"] = (self.nickname == nil ? "##nil##" : self.nickname!)
-            
-            return dict
-        }
-    }
-    
-    func setupFromDict(dictionary dict: NSDictionary) {
-        if let namePrefix = dict["namePrefix"] as? String, namePrefix != "##nil##" {
-            self.namePrefix = namePrefix
-        } else {
-            self.namePrefix = nil
-        }
-        if let givenName = dict["givenName"] as? String, givenName != "##nil##" {
-            self.givenName = givenName
-        } else {
-            self.givenName = nil
-        }
-        if let middleName = dict["middleName"] as? String, middleName != "##nil##" {
-            self.middleName = middleName
-        } else {
-            self.middleName = nil
-        }
-        if let familyName = dict["familyName"] as? String, familyName != "##nil##" {
-            self.familyName = familyName
-        } else {
-            self.familyName = nil
-        }
-        if let nameSuffix = dict["nameSuffix"] as? String, nameSuffix != "##nil##" {
-            self.nameSuffix = nameSuffix
-        } else {
-            self.nameSuffix = nil
-        }
-        if let nickname = dict["nickname"] as? String, nickname != "##nil##" {
-            self.nickname = nickname
-        } else {
-            self.nickname = nil
-        }
-    }
 }
 
 //MARK: - Dates
@@ -121,8 +35,8 @@ func <(m1: Month, m2: Month) -> Bool {
 }
 
 enum Month: String, Comparable {
-    case January = "January"
-    case February = "February"
+    case january = "January"
+    case february = "February"
     case March = "March"
     case April = "April"
     case May = "May"
@@ -135,19 +49,21 @@ enum Month: String, Comparable {
     case December = "December"
 }
 
-func ==(date1: Date, date2: Date) -> Bool {
-    return date1.day == date2.day && date1.month == date2.month && date1.year == date2.year
-}
-
-func <(date1: Date, date2: Date) -> Bool {
-    if date1.year == date2.year {
-        if date1.month == date2.month {
-            return date1.day ?? 0 < date2.day ?? 0
+extension Date {
+    public static func ==(date1: Date, date2: Date) -> Bool {
+        return date1.day == date2.day && date1.month == date2.month && date1.year == date2.year
+    }
+    
+    public static func <(date1: Date, date2: Date) -> Bool {
+        if date1.year == date2.year {
+            if date1.month == date2.month {
+                return date1.day ?? 0 < date2.day ?? 0
+            } else {
+                return date1.month ?? .january < date2.month ?? .january
+            }
         } else {
-            return date1.month ?? .January < date2.month ?? .January
+            return date1.year ?? 0 < date2.year ?? 0
         }
-    } else {
-        return date1.year ?? 0 < date2.year ?? 0
     }
 }
 
@@ -201,9 +117,9 @@ struct Date: CustomStringConvertible, Comparable {
 func monthFromFEString(month mo: String) -> Month? {
     switch mo {
     case "JAN":
-        return Month.January
+        return Month.january
     case "FEB":
-        return Month.February
+        return Month.february
     case "MAR":
         return Month.March
     case "APR":
@@ -231,9 +147,9 @@ func monthFromFEString(month mo: String) -> Month? {
 func monthFromRaw(month mo: String) -> Month? {
     switch mo {
     case "January":
-        return Month.January
+        return Month.january
     case "February":
-        return Month.February
+        return Month.february
     case "March":
         return Month.March
     case "April":
@@ -261,8 +177,8 @@ func monthFromRaw(month mo: String) -> Month? {
 extension Month {
     func toIndex() -> Int {
         switch self {
-        case .January: return 1
-        case .February: return 2
+        case .january: return 1
+        case .february: return 2
         case .March: return 3
         case .April: return 4
         case .May: return 5

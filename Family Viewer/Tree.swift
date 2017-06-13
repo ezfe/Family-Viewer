@@ -344,9 +344,9 @@ class Tree: CustomStringConvertible {
 
             if let sexString = pDict["sex"] as? String {
                 if sexString == "Male" {
-                    p.sex = Sex.Male
+                    p.sex = Sex.male
                 } else if sexString == "Female" {
-                    p.sex = Sex.Female
+                    p.sex = Sex.female
                 }
             }
             

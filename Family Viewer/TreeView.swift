@@ -39,7 +39,7 @@ class TreeView: NSView {
     
     func drawPerson(x: CGFloat, y: CGFloat, person: Person, level: Int, drawParents: Bool, drawChildren: Bool) {
         let path = NSBezierPath(rect: rectAround(centerX: x, centerY: y, width: 10, height: 10))
-        if person.sex == .Male {
+        if person.sex == .male {
             NSColor.blue.setFill()
         } else {
             NSColor.red.setFill()

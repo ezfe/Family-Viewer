@@ -22,6 +22,8 @@
 		6629607F1CBB1205006B54E3 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6629607E1CBB1205006B54E3 /* BrowserViewController.swift */; };
 		664F1BCC1EEC76D600443369 /* NotificationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664F1BCB1EEC76D600443369 /* NotificationTypes.swift */; };
 		669485BA1B9B9DDD002FB335 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669485B91B9B9DDD002FB335 /* Errors.swift */; };
+		66CF62111EEDD02C00AA48BA /* String+Subscripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF62101EEDD02C00AA48BA /* String+Subscripts.swift */; };
+		66CF62131EEDD04600AA48BA /* NSButton+IsChecked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF62121EEDD04600AA48BA /* NSButton+IsChecked.swift */; };
 		66E5A44F1B9B2E1500B492B5 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A44E1B9B2E1500B492B5 /* Tree.swift */; };
 		66E5A4521B9B2EF900B492B5 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A4511B9B2EF900B492B5 /* Person.swift */; };
 		66FADC401CBC3D6B00AEA7CC /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FADC3F1CBC3D6B00AEA7CC /* Relationship.swift */; };
@@ -45,6 +47,8 @@
 		6629607E1CBB1205006B54E3 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		664F1BCB1EEC76D600443369 /* NotificationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTypes.swift; sourceTree = "<group>"; };
 		669485B91B9B9DDD002FB335 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		66CF62101EEDD02C00AA48BA /* String+Subscripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Subscripts.swift"; sourceTree = "<group>"; };
+		66CF62121EEDD04600AA48BA /* NSButton+IsChecked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSButton+IsChecked.swift"; sourceTree = "<group>"; };
 		66E5A44E1B9B2E1500B492B5 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		66E5A4511B9B2EF900B492B5 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		66FADC3F1CBC3D6B00AEA7CC /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
@@ -84,6 +88,8 @@
 				6616711E1B2E64D100714530 /* AppDelegate.swift */,
 				661A2AFB1B9BE22E004A4FEF /* NameComponents.swift */,
 				661671301B2E6DC800714530 /* Utility.swift */,
+				66CF62121EEDD04600AA48BA /* NSButton+IsChecked.swift */,
+				66CF62101EEDD02C00AA48BA /* String+Subscripts.swift */,
 				669485B91B9B9DDD002FB335 /* Errors.swift */,
 				66E5A4531B9B32C800B492B5 /* Classes */,
 				66E5A4501B9B2E3900B492B5 /* View Controllers */,
@@ -219,6 +225,7 @@
 			files = (
 				66131AC91C0276F30069AE80 /* TreeViewController.swift in Sources */,
 				6629607F1CBB1205006B54E3 /* BrowserViewController.swift in Sources */,
+				66CF62131EEDD04600AA48BA /* NSButton+IsChecked.swift in Sources */,
 				661671311B2E6DC800714530 /* Utility.swift in Sources */,
 				661671211B2E64D100714530 /* PersonDetailViewController.swift in Sources */,
 				669485BA1B9B9DDD002FB335 /* Errors.swift in Sources */,
@@ -231,6 +238,7 @@
 				6616711F1B2E64D100714530 /* AppDelegate.swift in Sources */,
 				66223B721B30A050004132B6 /* EditNameViewController.swift in Sources */,
 				66131ACC1C027DE10069AE80 /* TreeView.swift in Sources */,
+				66CF62111EEDD02C00AA48BA /* String+Subscripts.swift in Sources */,
 				664F1BCC1EEC76D600443369 /* NotificationTypes.swift in Sources */,
 				66FADC401CBC3D6B00AEA7CC /* Relationship.swift in Sources */,
 			);

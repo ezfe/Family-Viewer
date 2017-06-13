@@ -53,10 +53,10 @@ class AddParentViewController: NSViewController {
         tree.people.append(newPerson)
         if self.A_B == "A" {
             parentTo.parentA = newPerson
-            newPerson.sex = .Female
+            newPerson.sex = .female
         } else if self.A_B == "B" {
             parentTo.parentB = newPerson
-            newPerson.sex = .Male
+            newPerson.sex = .male
         }
         NotificationCenter.default.post(name: .FVTreeDidUpdate, object: nil)
         NotificationCenter.default.post(name: .FVAddedParent, object: nil, userInfo: ["newPerson": newPerson, "parentTo": parentTo, "A_B": A_B])
